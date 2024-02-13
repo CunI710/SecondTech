@@ -22,8 +22,19 @@ builder.Services.AddDbContext<SecondTechDBContext>(
     );
 builder.Services.AddScoped<ICategoryService, CategoryService>();
 builder.Services.AddScoped<ICategorysRepository, CategoriesRepository>();
+
 builder.Services.AddScoped<IPackageContentService, PackageContentService>();
 builder.Services.AddScoped<IPackageContentRepository, PackageContentRepository>();
+
+builder.Services.AddScoped<IBrandService, BrandService>();
+builder.Services.AddScoped<IBrandRepository, BrandRepository>();
+
+builder.Services.AddScoped<IColorService, ColorService>();
+builder.Services.AddScoped<IColorRepository, ColorRepository>();
+
+builder.Services.AddScoped<IProductService, ProductService>();
+builder.Services.AddScoped<IProductRepository, ProductRepository>();
+
 builder.Services.AddAutoMapper(typeof(MappingProfile));
 
 var app = builder.Build();

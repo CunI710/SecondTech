@@ -14,9 +14,10 @@ namespace SecondTech.DataAccess.Entities
         public CategoryEntity? Category { get; set; }
         public string? Description { get; set; }
         public int Likes { get; set; }
+        public string? State { get; set; }
         public string? ImgUrl { get; set; }
-        public string? Color { get; set; }
-        public string? Brand { get; set; }
+        public ColorEntity? Color { get; set; }
+        public BrandEntity? Brand { get; set; }
         public string? Storage { get; set; }
         public string? Ram { get; set; }
         public string? Model { get; set; }

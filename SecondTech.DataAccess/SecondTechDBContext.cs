@@ -12,6 +12,8 @@ namespace SecondTech.DataAccess
     {
         public DbSet<ProductEntity> Products { get; set; } = null!;
         public DbSet<CategoryEntity> Categories { get; set; } = null!;
+        public DbSet<ColorEntity> Colors { get; set; } = null!;
+        public DbSet<BrandEntity> Brands { get; set; } = null!;
         public DbSet<CharacteristicEntity> Characteristics { get; set; } = null!;
         public DbSet<PackageContentEntity> PackageContents { get; set; } = null!;
 

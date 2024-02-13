@@ -43,9 +43,7 @@ namespace SecondTech.DataAccess.Repositories
         }
 
         public async Task<Category> Create(Category category)
-        {
-            //_context.Database.EnsureDeleted();
-            //_context.Database.EnsureCreated();
+        {   
             if (await _context.Categories.FirstOrDefaultAsync(c => c.Id == category.Id) != null)
                 return null!;
 

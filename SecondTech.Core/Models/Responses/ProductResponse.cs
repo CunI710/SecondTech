@@ -4,27 +4,27 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace SecondTech.Core.Models
+namespace SecondTech.Core.Models.Responses
 {
-    public class Product
+    public class ProductResponse
     {
         public Guid Id { get; set; }
         public string? Name { get; set; }
         public int Price { get; set; }
-        public Category? Category { get; set; }
+        public CategoryResponse? Category { get; set; }
         public string? Description { get; set; }
         public int Likes { get; set; }
         public string? State { get; set; }
         public string? ImgUrl { get; set; }
-        public Color? Color { get; set; }
-        public Brand? Brand { get; set; }
+        public ColorResponse? Color { get; set; }
+        public BrandResponse? Brand { get; set; }
         public string? Storage { get; set; }
         public string? Ram { get; set; }
         public string? Model { get; set; }
         public string? Processor { get; set; }
         public string? Battery { get; set; }
         public DateTime DateTime { get; set; }
-        public List<Characteristic>? Characteristics { get; set; }
-        public List<PackageContent>? PackageContents { get; set; }
+        public List<CharacteristicResponse>? Characteristics { get; set; }
+        public List<PackageContentResponse>? PackageContents { get; set; }
     }
 }

@@ -9,8 +9,6 @@ namespace SecondTech.API.Profiles
     public class MappingProfile : Profile
     {
         public MappingProfile() {
-            CreateMap<Product, ProductEntity>();
-            CreateMap<ProductEntity, Product>();
 
             CreateMap<Category, CategoryEntity>();
             CreateMap<CategoryEntity, Category>();
@@ -23,6 +21,14 @@ namespace SecondTech.API.Profiles
 
             CreateMap<PackageContentRequest, PackageContent>();
             CreateMap<PackageContent, PackageContentResponse>();
+
+            CreateMap<Product, ProductEntity>();
+            CreateMap<ProductEntity, Product>();
+
+            CreateMap<ProductRequest, Product>()
+                .ForMember(p=>p.DateTime, o => o.Ignore());
+            CreateMap<Product, ProductResponse>();
+        
         }
     }
 }

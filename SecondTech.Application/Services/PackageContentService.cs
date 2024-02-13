@@ -28,10 +28,10 @@ namespace SecondTech.Application.Services
             var contents = await _repos.GetAll();
 
             var responses = contents.Select(c => _mapper.Map<PackageContentResponse>(c)).ToList();
-            if (category == null)
-                return responses;
+            if (category != null)
+                responses = responses.Where(r => r.Category!.Name == category).ToList();
 
-            return responses.Where(r => r.Category!.Name == category).ToList();
+            return responses;
         }
 
         public async Task<PackageContentResponse> Get(Guid id)

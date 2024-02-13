@@ -56,7 +56,7 @@ namespace SecondTech.DataAccess.Repositories
 
             var contentEntity = _mapper.Map<PackageContentEntity>(content);
             CategoryEntity category = _context.Categories.FirstOrDefault(c=>c.Id == content.Category!.Id)!;
-            if(category != null)
+            if(category != null)    
                 contentEntity.Category = category;
             
             await _context.PackageContents.AddAsync(contentEntity);
@@ -73,13 +73,10 @@ namespace SecondTech.DataAccess.Repositories
 
             if (contentEntity == null)
                 return false;
+            contentEntity = _mapper.Map<PackageContentEntity>(content);
             CategoryEntity category = _context.Categories.FirstOrDefault(c => c.Id == content.Category!.Id)!;
-
-            contentEntity!.Content = content.Content;
             if (category != null)
                 contentEntity.Category = category;
-            else 
-                contentEntity.Category = _mapper.Map<CategoryEntity>(content.Category);
             await _context.SaveChangesAsync();
             return true;
         }

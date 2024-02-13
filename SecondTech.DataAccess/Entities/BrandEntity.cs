@@ -6,11 +6,10 @@ using System.Threading.Tasks;
 
 namespace SecondTech.DataAccess.Entities
 {
-    public class PackageContentEntity
+    public class BrandEntity
     {
         public Guid Id { get; set; }
-        public string? Content { get; set; }
-        public CategoryEntity? Category { get; set; }
+        public string? Name { get; set; }
         public List<ProductEntity>? Products { get; set; }
     }
 }
