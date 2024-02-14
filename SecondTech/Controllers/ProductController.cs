@@ -23,12 +23,13 @@ namespace SecondTech.API.Controllers
         }
 
         [HttpGet("getall")]
-        public async Task<ActionResult<List<ProductResponse>>> GetAll(ProductSearchRequest request)
+        public async Task<ActionResult<List<ProductResponse>>> GetAll(ProductSearchRequest? request)
         {
             var responses = await _service.GetAll();
-
-
-            return Ok(request.Validate(responses));
+            if (request != null) {
+                return Ok(request.Validate(responses));
+            }
+            return Ok(responses);
         }
 
         [HttpGet("get")]

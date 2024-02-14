@@ -28,6 +28,10 @@ namespace SecondTech.DataAccess.Repositories
         public async Task<List<Product>> GetAll()
         {
             List<ProductEntity> productEntities = await _context.Products
+                .Include(p=>p.Brand)
+                .Include(p=>p.Color)
+                .Include(p=>p.Characteristics)
+                .Include(p=>p.PackageContents)
                 .AsNoTracking()
                 .ToListAsync();
 
@@ -38,7 +42,12 @@ namespace SecondTech.DataAccess.Repositories
 
         public async Task<Product> Get(Guid id)
         {
-            ProductEntity? productEntity = await _context.Products.FirstOrDefaultAsync(p => p.Id == id);
+            ProductEntity? productEntity = await _context.Products
+                .Include(p => p.Brand)
+                .Include(p => p.Color)
+                .Include(p => p.Characteristics)
+                .Include(p => p.PackageContents)
+                .FirstOrDefaultAsync(p => p.Id == id);
 
             var product = _mapper.Map<Product>(productEntity);
 
@@ -65,23 +74,26 @@ namespace SecondTech.DataAccess.Repositories
             if (brand != null)
                 productEntity.Brand = brand;
 
-            List<CharacteristicEntity> characteristics = await _context.Characteristics.Where(c => product.Characteristics!.Any(t => t.Id == c.Id)).ToListAsync();
 
-            foreach (var c in productEntity.Characteristics!)
+            List<PackageContentEntity> contents = await _context.PackageContents.ToListAsync();
+
+            foreach(var content in contents)
             {
-                if (characteristics.Any(t => t.Id == c.Id))
-                    productEntity.Characteristics.Remove(c);
+                var c = productEntity.PackageContents!.FirstOrDefault(t=>t.Id== content.Id);
+                if(c != null)
+                {
+                    productEntity.PackageContents!.Remove(c);
+                    productEntity.PackageContents!.Add(content);
+                }
+            
             }
-            productEntity.Characteristics.AddRange(characteristics);
 
-            List<PackageContentEntity> contents = await _context.PackageContents.Where(p => product.PackageContents!.Any(t => t.Id == p.Id)).ToListAsync();
-
-            foreach (var c in productEntity.PackageContents!)
-            {
-                if (contents.Any(t => t.Id == c.Id))
-                    productEntity.PackageContents.Remove(c);
-            }
-            productEntity.PackageContents.AddRange(contents);
+            //foreach (var c in productEntity.PackageContents!)
+            //{
+            //    if (contents.Any(t => t.Id == c.Id))
+            //        productEntity.PackageContents.Remove(c);
+            //}
+            //productEntity.PackageContents.AddRange(contents);
 
 
             await _context.Products.AddAsync(productEntity);
@@ -97,9 +109,20 @@ namespace SecondTech.DataAccess.Repositories
 
             if (productEntity == null)
                 return false;
-            productEntity = _mapper.Map<ProductEntity>(product);
 
+            //productEntity = _mapper.Map<ProductEntity>(product);
 
+            productEntity.Name = product.Name;
+            productEntity.Description = product.Description;
+            productEntity.Processor = product.Processor;
+            productEntity.Ram = product.Ram;
+            productEntity.Price = product.Price;
+            productEntity.Battery = product.Battery;
+            productEntity.ImgUrl = product.ImgUrl;
+            productEntity.Likes = product.Likes;
+            productEntity.State = product.State;
+            productEntity.Model = product.Model;
+            productEntity.Storage = product.Storage;
 
             CategoryEntity category = _context.Categories.FirstOrDefault(c => c.Id == product.Category!.Id)!;
             if (category != null)
@@ -113,23 +136,32 @@ namespace SecondTech.DataAccess.Repositories
             if (brand != null)
                 productEntity.Brand = brand;
 
-            List<CharacteristicEntity> characteristics = await _context.Characteristics.Where(c => product.Characteristics!.Any(t => t.Id == c.Id)).ToListAsync();
 
-            foreach (var c in productEntity.Characteristics!)
+            List<CharacteristicEntity> charactiristics = await _context.Characteristics.ToListAsync();
+
+            foreach (var characteristic in charactiristics)
             {
-                if (characteristics.Any(t => t.Id == c.Id))
-                    productEntity.Characteristics.Remove(c);
+                var c = productEntity.Characteristics!.FirstOrDefault(t => t.Id == characteristic.Id);
+                if (c != null)
+                {
+                    productEntity.Characteristics!.Remove(c);
+                    productEntity.Characteristics!.Add(characteristic);
+                }
+
             }
-            productEntity.Characteristics.AddRange(characteristics);
 
-            List<PackageContentEntity> contents = await _context.PackageContents.Where(p => product.PackageContents!.Any(t => t.Id == p.Id)).ToListAsync();
+            List<PackageContentEntity> contents = await _context.PackageContents.ToListAsync();
 
-            foreach (var c in productEntity.PackageContents!)
+            foreach (var content in contents)
             {
-                if (contents.Any(t => t.Id == c.Id))
-                    productEntity.PackageContents.Remove(c);
+                var c = productEntity.PackageContents!.FirstOrDefault(t => t.Id == content.Id);
+                if (c != null)
+                {
+                    productEntity.PackageContents!.Remove(c);
+                    productEntity.PackageContents!.Add(content);
+                }
+
             }
-            productEntity.PackageContents.AddRange(contents);
 
             await _context.SaveChangesAsync();
             return true;
