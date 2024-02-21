@@ -1,5 +1,6 @@
 ﻿using Microsoft.AspNetCore.Mvc;
 using Newtonsoft.Json;
+using SecondTech.API.Helpers;
 using SecondTech.Application.Services;
 using SecondTech.Core.Interfaces;
 using SecondTech.Core.Models;
@@ -12,8 +13,6 @@ namespace SecondTech.API.Controllers
     [Route("api/[controller]")]
     public class ProductController : ControllerBase
     {
-        const string ClientId = "964450af4d8617c";
-        const string UploadUrl = "https://api.imgur.com/3/image";
 
         private IProductService _service;
 
@@ -22,11 +21,12 @@ namespace SecondTech.API.Controllers
             _service = service;
         }
 
-        [HttpGet("getall")]
+        [HttpPost("getall")]
         public async Task<ActionResult<List<ProductResponse>>> GetAll(ProductSearchRequest? request)
         {
             var responses = await _service.GetAll();
-            if (request != null) {
+            if (request != null)
+            {
                 return Ok(request.Validate(responses));
             }
             return Ok(responses);
@@ -44,32 +44,15 @@ namespace SecondTech.API.Controllers
         [HttpPost("create")]
         public async Task<ActionResult<ProductResponse>> Create(ProductRequest request)
         {
-
-            if (request.ImgUrl == null)
+            if (request.ImgUrl == null && request.Img != null)
             {
-                using (var httpClient = new HttpClient())
-                {
-                    httpClient.DefaultRequestHeaders.Add("Authorization", $"Client-ID {ClientId}");
-
-                    var imageMemoryStream = new MemoryStream();
-                    await request.Img!.CopyToAsync(imageMemoryStream);
-                    imageMemoryStream.Seek(0, SeekOrigin.Begin);
-
-                    var imageContent = new StreamContent(imageMemoryStream);
-                    imageContent.Headers.Add("Content-Type", "application/octet-stream");
-
-                    var imgResponse = await httpClient.PostAsync(UploadUrl, imageContent);
-                    imgResponse.EnsureSuccessStatusCode();
-
-                    var responseContent = await imgResponse.Content.ReadAsStringAsync();
-
-                    var imageResponse = JsonConvert.DeserializeObject<ImgResponse>(responseContent);
-                    request.ImgUrl = imageResponse!.Data!.Link;
-                }
+                request.ImgUrl = await ImgHelper.ImgSend(request.Img!);
             }
-
+            else if (request.ImgUrl == null && request.Img == null)
+            {
+                return BadRequest(new { message = "Вы не отправили фото" });
+            }
             var response = await _service.Create(request);
-
 
             if (response == null)
                 return BadRequest();
@@ -86,6 +69,14 @@ namespace SecondTech.API.Controllers
         [HttpPut("update")]
         public async Task<ActionResult> Update(ProductRequest request)
         {
+            if (request.ImgUrl == null && request.Img != null)
+            {
+                request.ImgUrl = await ImgHelper.ImgSend(request.Img!);
+            }
+            else if (request.ImgUrl == null && request.Img == null)
+            {
+                return BadRequest(new { message = "Вы не отправили фото" });
+            }
             if (await _service.Update(request))
                 return Ok();
             return BadRequest();

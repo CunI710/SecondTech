@@ -14,8 +14,9 @@ namespace SecondTech.DataAccess.Configurations
     {
         public void Configure(EntityTypeBuilder<CharacteristicEntity> builder)
         {
-            builder.Property(p => p.Name).IsRequired();
-            builder.Property(p => p.Value).IsRequired();
+            builder.HasOne(p => p.Product)
+                .WithMany(p => p.Characteristics)
+                .OnDelete(DeleteBehavior.Cascade);
         }
     }
 }

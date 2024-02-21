@@ -9,8 +9,8 @@ namespace SecondTech.DataAccess.Entities
     public class PackageContentEntity
     {
         public Guid Id { get; set; }
-        public string? Content { get; set; }
-        public CategoryEntity? Category { get; set; }
+        public required string Content { get; set; }
+        public required CategoryEntity Category { get; set; }
         public List<ProductEntity>? Products { get; set; }
     }
 }

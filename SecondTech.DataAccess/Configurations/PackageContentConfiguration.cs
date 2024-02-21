@@ -13,8 +13,6 @@ namespace SecondTech.DataAccess.Configurations
     {
         public void Configure(EntityTypeBuilder<PackageContentEntity> builder)
         {
-            builder.Property(p => p.Content).IsRequired();
-            builder.Property(p => p.Category).IsRequired();
         }
     }
 }

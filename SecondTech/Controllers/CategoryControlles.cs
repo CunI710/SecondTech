@@ -18,7 +18,7 @@ namespace SecondTech.API.Controllers
         }
 
         [HttpGet("refresh")]
-        public IActionResult Get(SecondTechDBContext db) { 
+        public IActionResult Get(SecondTechDBContext db) {
             db.Database.EnsureDeleted();
             db.Database.EnsureCreated();
             return Ok();

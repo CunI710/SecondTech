@@ -60,6 +60,7 @@ namespace SecondTech.API.Profiles
 
 /*
  {
+  "id": "8b323600-32d5-45db-8934-3b0e5daf3651",
   "name": "IPhone 213",
   "price": 20132,
   "category": {

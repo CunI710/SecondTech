@@ -9,7 +9,8 @@ namespace SecondTech.DataAccess.Entities
     public class CharacteristicEntity
     {
         public Guid Id { get; set; }
-        public string? Name { get; set; }
-        public string? Value { get; set; }
+        public required string Name { get; set; }
+        public required string Value { get; set; }  
+        public ProductEntity? Product { get; set; } 
     }
 }
