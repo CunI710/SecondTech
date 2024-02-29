@@ -11,7 +11,7 @@ using SecondTech.DataAccess;
 namespace SecondTech.DataAccess.Migrations
 {
     [DbContext(typeof(SecondTechDBContext))]
-    [Migration("20240229140651_addUserMigration")]
+    [Migration("20240229213739_addUserMigration")]
     partial class addUserMigration
     {
         /// <inheritdoc />
