@@ -11,6 +11,7 @@ namespace SecondTech.DataAccess.Entities
         public Guid Id { get; set; }
         public required string Name { get; set; }
         public required string Value { get; set; }  
-        public ProductEntity? Product { get; set; } 
+        public ProductEntity? Product { get; set; }
+        public SoldProductEntity? SoldProduct { get; set; }
     }
 }

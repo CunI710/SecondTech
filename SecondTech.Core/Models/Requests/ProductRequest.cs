@@ -15,7 +15,6 @@ namespace SecondTech.Core.Models.Requests
         public int Price { get; set; }
         public CategoryRequest? Category { get; set; }
         public string? Description { get; set; }
-        public int Likes { get; set; }
         public string? State { get; set; }
         public IFormFile? Img { get; set; }
         public string? ImgUrl { get; set; }

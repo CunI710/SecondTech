@@ -17,6 +17,11 @@ namespace SecondTech.DataAccess.Configurations
             builder.HasOne(p => p.Product)
                 .WithMany(p => p.Characteristics)
                 .OnDelete(DeleteBehavior.Cascade);
+
+            builder.HasOne(p => p.SoldProduct)
+                .WithMany(p => p.Characteristics)
+                .OnDelete(DeleteBehavior.Cascade);
+
         }
     }
 }

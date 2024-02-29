@@ -32,7 +32,7 @@ namespace SecondTech.DataAccess.Repositories
                 .Include(p=>p.Brand)
                 .Include(p=>p.Color)
                 .Include(p=>p.Characteristics)
-                .Include(p=>p.PackageContents)
+                .Include(p => p.PackageContents)
                 .AsNoTracking()
                 .ToListAsync();
 
@@ -119,17 +119,16 @@ namespace SecondTech.DataAccess.Repositories
 
             //productEntity = _mapper.Map<ProductEntity>(product);
 
-            productEntity.Name = product.Name;
-            productEntity.Description = product.Description;
-            productEntity.Processor = product.Processor;
-            productEntity.Ram = product.Ram;
+            productEntity.Name = product.Name!;
+            productEntity.Description = product.Description!;
+            productEntity.Processor = product.Processor!;
+            productEntity.Ram = product.Ram!;
             productEntity.Price = product.Price;
-            productEntity.Battery = product.Battery;
-            productEntity.ImgUrl = product.ImgUrl;
-            productEntity.Likes = product.Likes;
-            productEntity.State = product.State;
-            productEntity.Model = product.Model;
-            productEntity.Storage = product.Storage;
+            productEntity.Battery = product.Battery!;
+            productEntity.ImgUrl = product.ImgUrl!;
+            productEntity.State = product.State!;
+            productEntity.Model = product.Model!;
+            productEntity.Storage = product.Storage!;
 
             CategoryEntity category = _context.Categories.FirstOrDefault(c => c.Name == product.Category!.Name)!;
             if (category != null)
