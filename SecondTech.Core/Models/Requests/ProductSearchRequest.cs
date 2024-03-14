@@ -18,9 +18,9 @@ namespace SecondTech.Core.Models.Requests
         {
 
             if (Category != null)
-                responses = responses.Where(r => r.Category!.Name == Color).ToList();
+                responses = responses.Where(r => r.Category!.Name == Category).ToList();
             if (Brand != null)
-                responses = responses.Where(r => r.Brand!.Name == Color).ToList();
+                responses = responses.Where(r => r.Brand!.Name == Brand).ToList();
             if (Color != null)
                 responses = responses.Where(r => r.Color!.Name == Color).ToList();
             if (PriceFrom != null)

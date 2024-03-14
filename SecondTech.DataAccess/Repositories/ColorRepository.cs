@@ -25,7 +25,7 @@ namespace SecondTech.DataAccess.Repositories
 
         public async Task<Color> Create(Color color)
         {
-            if (await _context.Colors.FirstOrDefaultAsync(c => c.Id == color.Id) != null)
+            if (await _context.Colors.FirstOrDefaultAsync(c => c.Id == color.Id || c.Name == color.Name) != null)
                 return null!;
 
             var colorEntity = _mapper.Map<ColorEntity>(color);

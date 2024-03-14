@@ -1,4 +1,5 @@
 ﻿using Microsoft.EntityFrameworkCore;
+using SecondTech.DataAccess.Configurations;
 using SecondTech.DataAccess.Entities;
 using System;
 using System.Collections.Generic;
@@ -10,21 +11,32 @@ namespace SecondTech.DataAccess
 {
     public class SecondTechDBContext : DbContext
     {
-        public DbSet<ProductEntity> Products { get; set; } = null!;
         public DbSet<CategoryEntity> Categories { get; set; } = null!;
         public DbSet<ColorEntity> Colors { get; set; } = null!;
         public DbSet<BrandEntity> Brands { get; set; } = null!;
         public DbSet<CharacteristicEntity> Characteristics { get; set; } = null!;
         public DbSet<PackageContentEntity> PackageContents { get; set; } = null!;
-
+        public DbSet<ProductEntity> Products { get; set; } = null!;
+        public DbSet<SoldProductEntity> SoldProducts { get; set; } = null!;
+        public DbSet<UserEntity> Users { get; set; }
         public SecondTechDBContext(DbContextOptions<SecondTechDBContext> options)
             : base(options)
         { 
-            
         }
-    
-    
-    
-    
+
+
+        protected override void OnModelCreating(ModelBuilder modelBuilder)
+        {
+            base.OnModelCreating(modelBuilder);
+            modelBuilder.ApplyConfiguration(new BrandConfiguration());
+            modelBuilder.ApplyConfiguration(new CategoryConfiguration());
+            modelBuilder.ApplyConfiguration(new CharacteristicConfiguration());
+            modelBuilder.ApplyConfiguration(new ColorConfiguration());
+            modelBuilder.ApplyConfiguration(new UserConfiguration());
+            //modelBuilder.ApplyConfiguration(new PackageContentConfiguration());
+            //modelBuilder.ApplyConfiguration(new ProductConfiguration());
+        }
+
+
     }
 }

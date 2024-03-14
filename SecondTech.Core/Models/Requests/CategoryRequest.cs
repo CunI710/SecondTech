@@ -9,6 +9,6 @@ namespace SecondTech.Core.Models.Requests
     public class CategoryRequest
     {
         public Guid Id { get; set; }
-        public string? Name { get; set; }
+        public required string Name { get; set; }
     }
 }

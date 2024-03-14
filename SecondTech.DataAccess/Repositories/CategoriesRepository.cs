@@ -44,7 +44,7 @@ namespace SecondTech.DataAccess.Repositories
 
         public async Task<Category> Create(Category category)
         {   
-            if (await _context.Categories.FirstOrDefaultAsync(c => c.Id == category.Id) != null)
+            if (await _context.Categories.FirstOrDefaultAsync(c => c.Id == category.Id || c.Name == category.Name) != null)
                 return null!;
 
             var categoryEntity = _mapper.Map<CategoryEntity>(category);
@@ -79,3 +79,44 @@ namespace SecondTech.DataAccess.Repositories
 
     }
 }
+
+
+
+/*
+ {
+  "name": "string",
+  "price": 110,
+  "category": {
+    "name": "Телефон"
+  },
+  "description": "string",
+  "likes": 10,
+  "state": "string",
+  "imgUrl": "string",
+  "color": {
+    "name": "Чёрный"
+  },
+  "brand": {
+    "name": "Apple"
+  },
+  "storage": "string",
+  "ram": "string",
+  "model": "string",
+  "processor": "string",
+  "battery": "string",
+  "characteristics": [
+    {
+      "name": "Симка",
+      "value": "2"
+    }
+  ],
+  "packageContents": [
+    {
+      "content": "Зарядка",
+      "category": {
+        "name": "Телефон"
+      }
+    }
+  ]
+}
+ */

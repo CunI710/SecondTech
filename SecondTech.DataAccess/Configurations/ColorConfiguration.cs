@@ -13,7 +13,14 @@ namespace SecondTech.DataAccess.Configurations
     {
         public void Configure(EntityTypeBuilder<ColorEntity> builder)
         {
-            builder.Property(p => p.Name).IsRequired();
+            builder.HasMany(p => p.Products)
+                .WithOne(p => p.Color)
+                .OnDelete(DeleteBehavior.Cascade);
+
+            builder.HasMany(p => p.SoldProducts)
+                .WithOne(p => p.Color)
+                .OnDelete(DeleteBehavior.Cascade);
+
         }
     }
 }

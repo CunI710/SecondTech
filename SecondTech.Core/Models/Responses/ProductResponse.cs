@@ -13,7 +13,6 @@ namespace SecondTech.Core.Models.Responses
         public int Price { get; set; }
         public CategoryResponse? Category { get; set; }
         public string? Description { get; set; }
-        public int Likes { get; set; }
         public string? State { get; set; }
         public string? ImgUrl { get; set; }
         public ColorResponse? Color { get; set; }

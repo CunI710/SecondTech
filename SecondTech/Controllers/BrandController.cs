@@ -28,14 +28,15 @@ namespace SecondTech.API.Controllers
         public async Task<ActionResult<BrandResponse>> Get(Guid id)
         {
             var response = await _service.Get(id);
-            if (response == null)
+            if (response == null)   
                 return NotFound();
             return Ok(response);
         }
 
         [HttpPost("create")]
-        public async Task<ActionResult<BrandResponse>> Create(BrandRequest request)
+        public async Task<ActionResult<BrandResponse>> Create(string name)
         {
+            BrandRequest request = new BrandRequest { Name = name };
             var response = await _service.Create(request);
             if (response == null)
                 return BadRequest();

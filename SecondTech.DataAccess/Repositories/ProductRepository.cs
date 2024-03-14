@@ -28,6 +28,11 @@ namespace SecondTech.DataAccess.Repositories
         public async Task<List<Product>> GetAll()
         {
             List<ProductEntity> productEntities = await _context.Products
+                .Include(p=>p.Category)
+                .Include(p=>p.Brand)
+                .Include(p=>p.Color)
+                .Include(p=>p.Characteristics)
+                .Include(p => p.PackageContents)
                 .AsNoTracking()
                 .ToListAsync();
 
@@ -38,7 +43,13 @@ namespace SecondTech.DataAccess.Repositories
 
         public async Task<Product> Get(Guid id)
         {
-            ProductEntity? productEntity = await _context.Products.FirstOrDefaultAsync(p => p.Id == id);
+            ProductEntity? productEntity = await _context.Products
+                .Include(p => p.Category)
+                .Include(p => p.Brand)
+                .Include(p => p.Color)
+                .Include(p => p.Characteristics)
+                .Include(p => p.PackageContents)
+                .FirstOrDefaultAsync(p => p.Id == id);
 
             var product = _mapper.Map<Product>(productEntity);
 
@@ -53,35 +64,38 @@ namespace SecondTech.DataAccess.Repositories
             var productEntity = _mapper.Map<ProductEntity>(product);
             productEntity.DateTime = DateTime.Now;
 
-            CategoryEntity category = _context.Categories.FirstOrDefault(c => c.Id == product.Category!.Id)!;
-            if (category != null)
+            CategoryEntity category = _context.Categories.FirstOrDefault(c => c.Name == product.Category!.Name)!;
+            if (category != null)   
                 productEntity.Category = category;
-            
-            ColorEntity color = _context.Colors.FirstOrDefault(c => c.Id == product.Color!.Id)!;
+                
+            ColorEntity color = _context.Colors.FirstOrDefault(c => c.Name == product.Color!.Name)!;
             if (color != null)
                 productEntity.Color = color;
             
-            BrandEntity brand = _context.Brands.FirstOrDefault(b => b.Id == product.Brand!.Id)!;
+            BrandEntity brand = _context.Brands.FirstOrDefault(b => b.Name == product.Brand!.Name)!;
             if (brand != null)
                 productEntity.Brand = brand;
 
-            List<CharacteristicEntity> characteristics = await _context.Characteristics.Where(c => product.Characteristics!.Any(t => t.Id == c.Id)).ToListAsync();
 
-            foreach (var c in productEntity.Characteristics!)
+            List<PackageContentEntity> contents = await _context.PackageContents.ToListAsync();
+
+            foreach(var content in contents)
             {
-                if (characteristics.Any(t => t.Id == c.Id))
-                    productEntity.Characteristics.Remove(c);
+                var c = productEntity.PackageContents!.FirstOrDefault(t=>t.Content== content.Content);
+                if(c != null)
+                {
+                    productEntity.PackageContents!.Remove(c);
+                    productEntity.PackageContents!.Add(content);
+                }
+            
             }
-            productEntity.Characteristics.AddRange(characteristics);
 
-            List<PackageContentEntity> contents = await _context.PackageContents.Where(p => product.PackageContents!.Any(t => t.Id == p.Id)).ToListAsync();
-
-            foreach (var c in productEntity.PackageContents!)
-            {
-                if (contents.Any(t => t.Id == c.Id))
-                    productEntity.PackageContents.Remove(c);
-            }
-            productEntity.PackageContents.AddRange(contents);
+            //foreach (var c in productEntity.PackageContents!)
+            //{
+            //    if (contents.Any(t => t.Id == c.Id))
+            //        productEntity.PackageContents.Remove(c);
+            //}
+            //productEntity.PackageContents.AddRange(contents);
 
 
             await _context.Products.AddAsync(productEntity);
@@ -93,43 +107,67 @@ namespace SecondTech.DataAccess.Repositories
         public async Task<bool> Update(Product product)
         {
             var productEntity = await _context.Products
+                .Include(p => p.Category)
+                .Include(p => p.Brand)
+                .Include(p => p.Color)
+                .Include(p => p.Characteristics)
+                .Include(p => p.PackageContents)
                 .FirstOrDefaultAsync(p => p.Id == product.Id);
 
             if (productEntity == null)
                 return false;
-            productEntity = _mapper.Map<ProductEntity>(product);
 
+            //productEntity = _mapper.Map<ProductEntity>(product);
 
+            productEntity.Name = product.Name!;
+            productEntity.Description = product.Description!;
+            productEntity.Processor = product.Processor!;
+            productEntity.Ram = product.Ram!;
+            productEntity.Price = product.Price;
+            productEntity.Battery = product.Battery!;
+            productEntity.ImgUrl = product.ImgUrl!;
+            productEntity.State = product.State!;
+            productEntity.Model = product.Model!;
+            productEntity.Storage = product.Storage!;
 
-            CategoryEntity category = _context.Categories.FirstOrDefault(c => c.Id == product.Category!.Id)!;
+            CategoryEntity category = _context.Categories.FirstOrDefault(c => c.Name == product.Category!.Name)!;
             if (category != null)
                 productEntity.Category = category;
 
-            ColorEntity color = _context.Colors.FirstOrDefault(c => c.Id == product.Color!.Id)!;
+            ColorEntity color = _context.Colors.FirstOrDefault(c => c.Name == product.Color!.Name)!;
             if (color != null)
                 productEntity.Color = color;
 
-            BrandEntity brand = _context.Brands.FirstOrDefault(b => b.Id == product.Brand!.Id)!;
+            BrandEntity brand = _context.Brands.FirstOrDefault(b => b.Name == product.Brand!.Name)!;
             if (brand != null)
                 productEntity.Brand = brand;
 
-            List<CharacteristicEntity> characteristics = await _context.Characteristics.Where(c => product.Characteristics!.Any(t => t.Id == c.Id)).ToListAsync();
 
-            foreach (var c in productEntity.Characteristics!)
+            List<CharacteristicEntity> charactiristics = await _context.Characteristics.ToListAsync();
+
+            foreach (var characteristic in charactiristics)
             {
-                if (characteristics.Any(t => t.Id == c.Id))
-                    productEntity.Characteristics.Remove(c);
+                var c = productEntity.Characteristics!.FirstOrDefault(t => t.Id == characteristic.Id);
+                if (c != null)
+                {
+                    productEntity.Characteristics!.Remove(c);
+                    productEntity.Characteristics!.Add(characteristic);
+                }
+
             }
-            productEntity.Characteristics.AddRange(characteristics);
 
-            List<PackageContentEntity> contents = await _context.PackageContents.Where(p => product.PackageContents!.Any(t => t.Id == p.Id)).ToListAsync();
+            List<PackageContentEntity> contents = await _context.PackageContents.ToListAsync();
 
-            foreach (var c in productEntity.PackageContents!)
+            foreach (var content in contents)
             {
-                if (contents.Any(t => t.Id == c.Id))
-                    productEntity.PackageContents.Remove(c);
+                var c = productEntity.PackageContents!.FirstOrDefault(t => t.Content == content.Content);
+                if (c != null)
+                {
+                    productEntity.PackageContents!.Remove(c);
+                    productEntity.PackageContents!.Add(content);
+                }
+
             }
-            productEntity.PackageContents.AddRange(contents);
 
             await _context.SaveChangesAsync();
             return true;
@@ -137,6 +175,12 @@ namespace SecondTech.DataAccess.Repositories
         public async Task<bool> Delete(Guid id)
         {
             var productEntity = await _context.Products
+                .Include(p => p.Category)
+                .Include(p => p.Brand)
+                .Include(p => p.Brand)
+                .Include(p => p.Color)
+                .Include(p => p.Characteristics)
+                .Include(p => p.PackageContents)
                 .FirstOrDefaultAsync(p => p.Id == id);
             if (productEntity == null)
                 return false;

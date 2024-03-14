@@ -55,7 +55,7 @@ namespace SecondTech.DataAccess.Repositories
 
 
             var contentEntity = _mapper.Map<PackageContentEntity>(content);
-            CategoryEntity category = _context.Categories.FirstOrDefault(c=>c.Id == content.Category!.Id)!;
+            CategoryEntity category = _context.Categories.FirstOrDefault(c=>c.Name == content.Category!.Name)!;
             if(category != null)    
                 contentEntity.Category = category;
             

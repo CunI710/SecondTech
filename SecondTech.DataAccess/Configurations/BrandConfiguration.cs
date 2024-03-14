@@ -13,7 +13,13 @@ namespace SecondTech.DataAccess.Configurations
     {
         public void Configure(EntityTypeBuilder<BrandEntity> builder)
         {
-            builder.Property(p => p.Name).IsRequired();
+            builder.HasMany(p => p.Products)
+                .WithOne(p => p.Brand)
+                .OnDelete(DeleteBehavior.Cascade);
+
+            builder.HasMany(p => p.SoldProducts)
+                .WithOne(p => p.Brand)
+                .OnDelete(DeleteBehavior.Cascade);
         }
     }
 }

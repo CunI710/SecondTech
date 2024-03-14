@@ -9,10 +9,14 @@ using System.Threading.Tasks;
 
 namespace SecondTech.DataAccess.Configurations
 {
-    public class UserConfiguration : IEntityTypeConfiguration<ProductEntity>
+    public class UserConfiguration : IEntityTypeConfiguration<UserEntity>
     {
-        public void Configure(EntityTypeBuilder<ProductEntity> builder)
+        public void Configure(EntityTypeBuilder<UserEntity> builder)
         {
+
+            builder.HasMany(p => p.SoldProducts)
+                .WithOne(p => p.User)
+                .OnDelete(DeleteBehavior.Cascade);
             //throw new NotImplementedException();
         }
     }

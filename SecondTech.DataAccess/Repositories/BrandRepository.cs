@@ -25,6 +25,7 @@ namespace SecondTech.DataAccess.Repositories
 
         public async Task<List<Brand>> GetAll()
         {
+
             List<BrandEntity> brandEntities = await _context.Brands
                 .AsNoTracking()
                 .ToListAsync();
@@ -45,7 +46,7 @@ namespace SecondTech.DataAccess.Repositories
 
         public async Task<Brand> Create(Brand brand)
         {
-            if (await _context.Brands.FirstOrDefaultAsync(b => b.Id == brand.Id) != null)
+            if (await _context.Brands.FirstOrDefaultAsync(b => b.Id == brand.Id || b.Name == brand.Name) != null)
                 return null!;
 
             var brandEntity = _mapper.Map<BrandEntity>(brand);
@@ -62,7 +63,7 @@ namespace SecondTech.DataAccess.Repositories
 
             if (brandEntity == null)
                 return false;
-            brandEntity!.Name = brands.Name;
+            brandEntity!.Name = brands.Name!;
             await _context.SaveChangesAsync();
             return true;
         }
