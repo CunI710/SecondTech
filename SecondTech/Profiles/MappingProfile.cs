@@ -51,7 +51,33 @@ namespace SecondTech.API.Profiles
 
             CreateMap<ProductRequest, Product>()
                 .ForMember(p=>p.DateTime, o => o.Ignore());
+
             CreateMap<Product, ProductResponse>();
+
+
+            CreateMap<User, UserEntity>()
+                .ForMember(p => p.Verified, o => o.Ignore())
+                .ForMember(p => p.SoldProducts, o => o.Ignore());
+            CreateMap<UserEntity, User>();
+
+            CreateMap<UserRegisterRequest, User>()
+                .ForMember(p => p.Id, o => o.Ignore())
+                .ForMember(p => p.PasswordHash, o => o.Ignore())
+                .ForMember(p => p.Role, o => o.Ignore())
+                .ForMember(p => p.DateTime, o => o.Ignore())
+                .ForMember(p => p.Code, o => o.Ignore());
+            CreateMap<UserLoginRequest, User>()
+                .ForMember(p => p.Id, o => o.Ignore())
+                .ForMember(p => p.UserName, o => o.Ignore())
+                .ForMember(p => p.PasswordHash, o => o.Ignore())
+                .ForMember(p => p.Number, o => o.Ignore())
+                .ForMember(p => p.City, o => o.Ignore())
+                .ForMember(p => p.Address, o => o.Ignore())
+                .ForMember(p => p.Role, o => o.Ignore())
+                .ForMember(p => p.DateTime, o => o.Ignore())
+                .ForMember(p => p.Code, o => o.Ignore());
+
+            CreateMap<User, UserInfoResponse>();
         
         }
     }

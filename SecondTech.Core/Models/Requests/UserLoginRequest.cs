@@ -5,10 +5,11 @@ using System.Text;
 using System.Threading.Tasks;
 
 namespace SecondTech.Core.Models.Requests
-{ 
-    public class CategoryRequest
+{
+    public class UserLoginRequest
     {
-        public Guid Id { get; set; }
-        public required string Name { get; set; }
+        public required string Email { get; set; }
+        public required string Password { get; set; }
+
     }
 }

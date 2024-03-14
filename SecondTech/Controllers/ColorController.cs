@@ -35,8 +35,10 @@ namespace SecondTech.API.Controllers
         }
 
         [HttpPost("create")]
-        public async Task<ActionResult<ColorResponse>> Create(ColorRequest request)
+        public async Task<ActionResult<ColorResponse>> Create(string name)
         {
+    
+            ColorRequest request = new ColorRequest() { Name = name };
             var response = await _service.Create(request);
             if (response == null)
                 return BadRequest();

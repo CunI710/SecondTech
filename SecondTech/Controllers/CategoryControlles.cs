@@ -41,8 +41,9 @@ namespace SecondTech.API.Controllers
         }
 
         [HttpPost("create")]
-        public async Task<ActionResult<CategoryResponse>> Create(CategoryRequest request)
+        public async Task<ActionResult<CategoryResponse>> Create(string name)
         {
+            CategoryRequest request = new CategoryRequest() { Name = name};
             var response = await _service.Create(request);
             if(response == null)
                 return BadRequest();

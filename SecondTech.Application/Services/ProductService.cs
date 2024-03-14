@@ -3,11 +3,6 @@ using SecondTech.Core.Interfaces;
 using SecondTech.Core.Models.Requests;
 using SecondTech.Core.Models.Responses;
 using SecondTech.Core.Models;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 
 namespace SecondTech.Application.Services
 {

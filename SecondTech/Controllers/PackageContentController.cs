@@ -33,8 +33,11 @@ namespace SecondTech.API.Controllers
         }
 
         [HttpPost("create")]
-        public async Task<ActionResult<PackageContentResponse>> Create(PackageContentRequest request)
+        public async Task<ActionResult<PackageContentResponse>> Create(string content, string categoryName)
         {
+
+            PackageContentRequest request = new PackageContentRequest() { Content = content , 
+                                                                          Category = new CategoryRequest() { Name = categoryName } };
             var response = await _service.Create(request);
             if (response == null)
                 return BadRequest();

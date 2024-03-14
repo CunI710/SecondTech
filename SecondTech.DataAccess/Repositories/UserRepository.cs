@@ -2,6 +2,7 @@
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Logging;
 using SecondTech.Core.Helpers;
+using SecondTech.Core.Interfaces;
 using SecondTech.Core.Models;
 using SecondTech.DataAccess.Entities;
 using System;
@@ -12,7 +13,7 @@ using System.Threading.Tasks;
 
 namespace SecondTech.DataAccess.Repositories
 {
-    public class UserRepository
+    public class UserRepository : IUserRepository
     {
 
         private readonly IMapper _mapper;
@@ -30,6 +31,7 @@ namespace SecondTech.DataAccess.Repositories
                 return null!;
 
             var userEntity = _mapper.Map<UserEntity>(user);
+            userEntity.Role = "User";
             await _context.Users.AddAsync(userEntity);
             await _context.SaveChangesAsync();
 
@@ -46,10 +48,37 @@ namespace SecondTech.DataAccess.Repositories
             await _context.SaveChangesAsync();
             return true;
         }
+        public async Task<User> Verify(Guid id, string code)
+        {
+            UserEntity? userEntity = await _context.Users.FirstOrDefaultAsync(c => c.Id == id);
+            if (userEntity == null || userEntity.Verified || userEntity.Code != code)
+            {
+                return null!;
+            }
+            userEntity.Code = null;
+            userEntity.Verified = true;
+            await _context.SaveChangesAsync();
+            return _mapper.Map<User>(userEntity);
+
+        }
 
         public async Task<User> Get(Guid id)
         {
             UserEntity? userEntity = await _context.Users.FirstOrDefaultAsync(c => c.Id == id);
+
+            var user = _mapper.Map<User>(userEntity);
+
+            return user;
+        }
+
+        public async Task<User> GetByEmail(string email)
+        {
+            UserEntity? userEntity = await _context.Users.FirstOrDefaultAsync(c => c.Email == email);
+            
+            if(userEntity==null || !userEntity.Verified)
+            {
+                return null!;
+            }
 
             var user = _mapper.Map<User>(userEntity);
 
@@ -76,12 +105,6 @@ namespace SecondTech.DataAccess.Repositories
                 return false;
             userEntity!.UserName = user.UserName;
             userEntity!.PasswordHash = user.PasswordHash;
-            userEntity!.Number = user.Number;
-            userEntity!.City = user.City;
-            userEntity!.Address = user.Address;
-            userEntity!.Role = user.Role;
-            userEntity!.Code = user.Code;
-            userEntity!.Verified = user.Verified;
             await _context.SaveChangesAsync();
             return true;
         }
