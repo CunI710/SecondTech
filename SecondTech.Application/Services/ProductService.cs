@@ -66,11 +66,13 @@ namespace SecondTech.Application.Services
         public async Task<bool> ConfirmSale(PurchaseRequest request)
         {
             var product = await _repos.Get(request.ProductId);
-            if (await _repos.Delete(product.Id))
-                return false;
             Purchase purchasee = new Purchase(request, product);
-            return await purchaseRepos.Create(purchasee);
-
+            if (await purchaseRepos.Create(purchasee) && await _repos.Delete(product.Id))
+            {
+                return true;
+            }
+            return false;
+            
         }
         public async Task<List<PurchaseResponse>> Purchases()
         {

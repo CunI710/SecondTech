@@ -41,9 +41,8 @@ namespace SecondTech.API.Extensions
                             return Task.CompletedTask;
                         }
                     };
-                
-                });
 
+                });
             services.AddAuthorization();
         }
     }

@@ -72,8 +72,12 @@ namespace SecondTech.API.Profiles
             CreateMap<User, UserInfoResponse>();
 
 
-            CreateMap<Purchase, PurchaseEntity>();
-            CreateMap<PurchaseEntity, Purchase>();
+            CreateMap<Purchase, PurchaseEntity>()
+                .ForMember(p=> p.UserPhone, o=>o.MapFrom(t=>t.UserNumber));
+            CreateMap<PurchaseEntity, Purchase>()
+                .ForMember(p=> p.UserNumber, o=>o.MapFrom(t=>t.UserPhone))
+                .ForMember(p=> p.ImgUrls, o=>o.Ignore());
+
             CreateMap<Purchase, PurchaseResponse>();
         
         }

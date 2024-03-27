@@ -43,9 +43,9 @@ namespace SecondTech.Application.Services
                              $"UserCity: {purchase.UserCity}<br>" +
                              $"UserAddress: {purchase.UserAddress}<br>" +
                              $"<br><br>Чтобы одобрить попупку, перейдите по этой ссылке:<br>" +
-                             $"http://localhost:5183/api/Product/confirmSale?productId={purchase.ProductId}" +
+                             $"<a href=\"http://localhost:5183/api/Product/confirmSale?productId={purchase.ProductId}" +
                              $"&email={purchase.UserEmail}&firstName={purchase.UserFirstName}&lastName={purchase.UserLastName}" +
-                             $"&city={purchase.UserCity}&address={purchase.UserAddress}&number={purchase.UserNumber}\n";
+                             $"&city={purchase.UserCity}&address={purchase.UserAddress}&number={purchase.UserNumber}\"><button>Одобрить<button/><a/>\n";
 
             await SendMessage(email, message, subject);
 

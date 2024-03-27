@@ -27,8 +27,8 @@ namespace SecondTech.API.Controllers
             this.sender = sender;
         }
 
-        [HttpPost("getall")]
-        public async Task<ActionResult<List<ProductResponse>>> GetAll(ProductSearchRequest? request)
+        [HttpGet("getall")]
+        public async Task<ActionResult<List<ProductResponse>>> GetAll([FromQuery] ProductSearchRequest? request)
         {
             var responses = await _service.GetAll();
             if (request != null)
@@ -92,14 +92,15 @@ namespace SecondTech.API.Controllers
         }
         [Authorize(Roles = "Admin")]
         [HttpGet("confirmSale")]
-        public async Task<ActionResult> ConfirmSale([FromHeader]PurchaseRequest request)
+        public async Task<ActionResult> ConfirmSale([FromQuery] PurchaseRequest request)
         {
             ProductResponse product = await _service.Get(request.ProductId);
             if (product != null)
             {
-                await _service.ConfirmSale(request);
                 await sender.SendConfirmMessage(product.Name!, "Спасибо за Покупку", request.Email);
-                return Ok();
+    
+                if(await _service.ConfirmSale(request))
+                    return Ok();
             }
             return BadRequest();
         }

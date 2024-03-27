@@ -9,6 +9,7 @@ namespace SecondTech.Core.Models
 {
     public class Purchase
     {
+        public Purchase() { }
         public Purchase(PurchaseRequest request, Product product)
         {
             ProductId = product.Id;
