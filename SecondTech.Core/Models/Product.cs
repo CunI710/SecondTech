@@ -14,7 +14,7 @@ namespace SecondTech.Core.Models
         public Category? Category { get; set; }
         public string? Description { get; set; }
         public string? State { get; set; }
-        public string? ImgUrl { get; set; }
+        public List<ImgUrl>? ImgUrls { get; set; }
         public Color? Color { get; set; }
         public Brand? Brand { get; set; }
         public string? Storage { get; set; }

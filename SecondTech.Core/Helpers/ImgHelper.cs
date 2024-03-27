@@ -1,5 +1,6 @@
 ﻿using Microsoft.AspNetCore.Http;
 using Newtonsoft.Json;
+using SecondTech.Core.Models;
 using SecondTech.Core.Models.Responses;
 
 namespace SecondTech.Core.Helpers
@@ -8,7 +9,18 @@ namespace SecondTech.Core.Helpers
     {
         const string ClientId = "964450af4d8617c";
         const string UploadUrl = "https://api.imgur.com/3/image";
-        public static async Task<string> ImgSend(IFormFile img)
+
+        public static async Task<List<ImgUrl>> ImgSendRange(List<IFormFile> imgs)
+        {
+            List<ImgUrl> imgUrls = new List<ImgUrl>();
+            foreach(var img in imgs)
+            {
+                imgUrls.Add(await ImgSend(img));
+            }
+            return imgUrls;
+        
+        }
+        public static async Task<ImgUrl> ImgSend(IFormFile img)
         {
 
             using (var httpClient = new HttpClient())
@@ -28,7 +40,7 @@ namespace SecondTech.Core.Helpers
                 var responseContent = await imgResponse.Content.ReadAsStringAsync();
 
                 var imageResponse = JsonConvert.DeserializeObject<ImgResponse>(responseContent);
-                return imageResponse!.Data!.Link!;
+                return new ImgUrl() { Url = imageResponse!.Data!.Link!};
             }
         }
     }

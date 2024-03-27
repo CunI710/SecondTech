@@ -54,30 +54,27 @@ namespace SecondTech.API.Profiles
 
             CreateMap<Product, ProductResponse>();
 
+            CreateMap<ImgUrl, ImgUrlEntity>();
+            CreateMap<ImgUrlEntity, ImgUrl>();
 
-            CreateMap<User, UserEntity>()
-                .ForMember(p => p.Verified, o => o.Ignore())
-                .ForMember(p => p.SoldProducts, o => o.Ignore());
+
+            CreateMap<User, UserEntity>();
+
             CreateMap<UserEntity, User>();
 
             CreateMap<UserRegisterRequest, User>()
                 .ForMember(p => p.Id, o => o.Ignore())
                 .ForMember(p => p.PasswordHash, o => o.Ignore())
-                .ForMember(p => p.Role, o => o.Ignore())
-                .ForMember(p => p.DateTime, o => o.Ignore())
-                .ForMember(p => p.Code, o => o.Ignore());
+                .ForMember(p => p.Role, o => o.Ignore());
             CreateMap<UserLoginRequest, User>()
-                .ForMember(p => p.Id, o => o.Ignore())
-                .ForMember(p => p.UserName, o => o.Ignore())
-                .ForMember(p => p.PasswordHash, o => o.Ignore())
-                .ForMember(p => p.Number, o => o.Ignore())
-                .ForMember(p => p.City, o => o.Ignore())
-                .ForMember(p => p.Address, o => o.Ignore())
-                .ForMember(p => p.Role, o => o.Ignore())
-                .ForMember(p => p.DateTime, o => o.Ignore())
-                .ForMember(p => p.Code, o => o.Ignore());
+                .ForMember(p => p.Id, o => o.Ignore());
 
             CreateMap<User, UserInfoResponse>();
+
+
+            CreateMap<Purchase, PurchaseEntity>();
+            CreateMap<PurchaseEntity, Purchase>();
+            CreateMap<Purchase, PurchaseResponse>();
         
         }
     }

@@ -17,8 +17,8 @@ namespace SecondTech.DataAccess
         public DbSet<CharacteristicEntity> Characteristics { get; set; } = null!;
         public DbSet<PackageContentEntity> PackageContents { get; set; } = null!;
         public DbSet<ProductEntity> Products { get; set; } = null!;
-        public DbSet<SoldProductEntity> SoldProducts { get; set; } = null!;
         public DbSet<UserEntity> Users { get; set; }
+        public DbSet<PurchaseEntity> Purchases { get; set; }
         public SecondTechDBContext(DbContextOptions<SecondTechDBContext> options)
             : base(options)
         { 

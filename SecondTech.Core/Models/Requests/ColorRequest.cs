@@ -8,7 +8,6 @@ namespace SecondTech.Core.Models.Requests
 {
     public class ColorRequest
     {
-        public Guid Id { get; set; }
         public required string Name { get; set; }
     }
 }

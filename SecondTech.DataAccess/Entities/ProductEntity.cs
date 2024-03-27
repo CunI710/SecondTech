@@ -14,7 +14,7 @@ namespace SecondTech.DataAccess.Entities
             public required CategoryEntity Category { get; set; }
             public required string Description { get; set; }
             public required string State { get; set; }
-            public required string ImgUrl { get; set; }
+            public List<ImgUrlEntity>? ImgUrls { get; set; }
             public required ColorEntity Color { get; set; }
             public required BrandEntity Brand { get; set; }
             public required string Storage { get; set; }

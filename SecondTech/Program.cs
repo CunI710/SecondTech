@@ -12,13 +12,17 @@ using SecondTech.Infrastructure;
 using System.Text;
 using SecondTech.API.Extensions;
 using Microsoft.AspNetCore.CookiePolicy;
+using SecondTech.Core.Settings;
 
 var builder = WebApplication.CreateBuilder(args);
 
 // Add services to the container.
 
 
+//builder.Logging.AddFile(Path.Combine(Directory.GetCurrentDirectory(), "logger.txt"));
+
 builder.Services.Configure<JwtOptions>(builder.Configuration.GetSection(nameof(JwtOptions)));
+builder.Services.Configure<EmailSendSettings>(builder.Configuration.GetSection(nameof(EmailSendSettings)));
 
 builder.Services.AddControllers();
 // Learn more about configuring Swagger/OpenAPI at https://aka.ms/aspnetcore/swashbuckle
@@ -34,25 +38,26 @@ builder.Services.AddDbContext<SecondTechDBContext>(
 );
 
 builder.Services.AddApiAuthentication(builder.Configuration);
+builder.Services.AddLogging(b =>
+{
+    b.AddFile("logger.txt");
+    b.AddConsole();
+
+});
 
 builder.Services.AddScoped<IJwtProvider, JwtProvider>();
+builder.Services.AddScoped<IMessageSenderProvider, EmailSenderProvider>();
 
-builder.Services.AddScoped<ICategoryService, CategoryService>();
-builder.Services.AddScoped<ICategorysRepository, CategoriesRepository>();
 
-builder.Services.AddScoped<IPackageContentService, PackageContentService>();
-builder.Services.AddScoped<IPackageContentRepository, PackageContentRepository>();
-
-builder.Services.AddScoped<IBrandService, BrandService>();
-builder.Services.AddScoped<IBrandRepository, BrandRepository>();
-
-builder.Services.AddScoped<IColorService, ColorService>();
-builder.Services.AddScoped<IColorRepository, ColorRepository>();
-
+builder.Services.AddScoped<IAttributeService, AttributeService>();
 builder.Services.AddScoped<IProductService, ProductService>();
-builder.Services.AddScoped<IProductRepository, ProductRepository>();
-
 builder.Services.AddScoped<IUserService, UserService>();
+builder.Services.AddScoped<IMessageSenderService, EmailSenderService>();
+
+
+builder.Services.AddScoped<IAttributeRepository, AttributeRepository>();
+builder.Services.AddScoped<IPurchaseRepository, PurchaseRepository>();
+builder.Services.AddScoped<IProductRepository, ProductRepository>();
 builder.Services.AddScoped<IUserRepository, UserRepository>();
 
 builder.Services.AddAutoMapper(typeof(MappingProfile));

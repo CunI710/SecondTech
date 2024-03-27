@@ -8,7 +8,6 @@ namespace SecondTech.Core.Models.Requests
 {
     public class CharacteristicRequest
     {
-        public Guid Id { get; set; }
         public required string Name { get; set; }
         public required string Value { get; set; }
     }

@@ -1,4 +1,5 @@
-﻿using SecondTech.Core.Models.Requests;
+﻿using SecondTech.Core.Models;
+using SecondTech.Core.Models.Requests;
 using SecondTech.Core.Models.Responses;
 using System;
 using System.Collections.Generic;
@@ -15,5 +16,8 @@ namespace SecondTech.Core.Interfaces
         Task<ProductResponse> Get(Guid id);
         Task<List<ProductResponse>> GetAll();
         Task<bool> Update(ProductRequest request);
+        Task RequestSale(PurchaseRequest request);
+        public Task<bool> ConfirmSale(PurchaseRequest request);
+        public Task<List<PurchaseResponse>> Purchases();
     }
 }

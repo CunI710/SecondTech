@@ -8,8 +8,7 @@ namespace SecondTech.Core.Interfaces
         Task<bool> Delete(Guid id);
         Task<User> Get(Guid id);
         Task<List<User>> GetAll();
-        Task<User> GetByEmail(string email);
+        Task<User> GetByUserName(string userName);
         Task<bool> Update(User user);
-        Task<User> Verify(Guid id, string code);
     }
 }

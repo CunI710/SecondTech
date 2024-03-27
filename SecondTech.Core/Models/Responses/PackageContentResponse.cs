@@ -10,6 +10,5 @@ namespace SecondTech.Core.Models.Responses
     {
         public Guid Id { get; set; }
         public string? Content { get; set; }
-        public CategoryResponse? Category { get; set; }
     }
 }

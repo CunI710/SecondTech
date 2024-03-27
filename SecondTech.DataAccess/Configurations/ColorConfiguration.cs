@@ -17,9 +17,6 @@ namespace SecondTech.DataAccess.Configurations
                 .WithOne(p => p.Color)
                 .OnDelete(DeleteBehavior.Cascade);
 
-            builder.HasMany(p => p.SoldProducts)
-                .WithOne(p => p.Color)
-                .OnDelete(DeleteBehavior.Cascade);
 
         }
     }

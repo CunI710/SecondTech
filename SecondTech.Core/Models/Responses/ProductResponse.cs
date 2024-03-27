@@ -14,7 +14,7 @@ namespace SecondTech.Core.Models.Responses
         public CategoryResponse? Category { get; set; }
         public string? Description { get; set; }
         public string? State { get; set; }
-        public string? ImgUrl { get; set; }
+        public List<ImgUrl>? ImgUrls { get; set; }
         public ColorResponse? Color { get; set; }
         public BrandResponse? Brand { get; set; }
         public string? Storage { get; set; }

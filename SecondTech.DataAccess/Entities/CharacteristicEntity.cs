@@ -12,6 +12,5 @@ namespace SecondTech.DataAccess.Entities
         public required string Name { get; set; }
         public required string Value { get; set; }  
         public ProductEntity? Product { get; set; }
-        public SoldProductEntity? SoldProduct { get; set; }
     }
 }

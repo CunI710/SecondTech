@@ -16,8 +16,8 @@ namespace SecondTech.Core.Models.Requests
         public required CategoryRequest Category { get; set; }
         public required string Description { get; set; }
         public required string State { get; set; }
-        public IFormFile? Img { get; set; }
-        public string? ImgUrl { get; set; }
+        public List<IFormFile>? Imgs { get; set; }
+        public List<ImgUrl>? ImgUrls { get; set; }
         public required ColorRequest Color { get; set; }
         public required BrandRequest Brand { get; set; }
         public required string Storage { get; set; }

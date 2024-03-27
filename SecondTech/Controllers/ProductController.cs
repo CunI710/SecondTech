@@ -1,7 +1,9 @@
-﻿using Microsoft.AspNetCore.Mvc;
+﻿using Microsoft.AspNetCore.Authorization;
+using Microsoft.AspNetCore.Mvc;
+using Microsoft.IdentityModel.Tokens;
 using Newtonsoft.Json;
-using SecondTech.API.Helpers;
 using SecondTech.Application.Services;
+using SecondTech.Core.Helpers;
 using SecondTech.Core.Interfaces;
 using SecondTech.Core.Models;
 using SecondTech.Core.Models.Requests;
@@ -15,10 +17,14 @@ namespace SecondTech.API.Controllers
     {
 
         private IProductService _service;
+        private readonly ILogger logger;
+        private readonly IMessageSenderService sender;
 
-        public ProductController(IProductService service)
+        public ProductController(IProductService service, ILogger<ProductController> logger, IMessageSenderService sender)
         {
             _service = service;
+            this.logger = logger;
+            this.sender = sender;
         }
 
         [HttpPost("getall")]
@@ -44,11 +50,11 @@ namespace SecondTech.API.Controllers
         [HttpPost("create")]
         public async Task<ActionResult<ProductResponse>> Create(ProductRequest request)
         {
-            if (request.ImgUrl == null && request.Img != null)
+            if (request.ImgUrls.IsNullOrEmpty() && !request.Imgs.IsNullOrEmpty())
             {
-                request.ImgUrl = await ImgHelper.ImgSend(request.Img!);
+                request.ImgUrls = await ImgHelper.ImgSendRange(request.Imgs!);
             }
-            else if (request.ImgUrl == null && request.Img == null)
+            else if (request.ImgUrls.IsNullOrEmpty() && request.Imgs.IsNullOrEmpty())
             {
                 return BadRequest(new { message = "Вы не отправили фото" });
             }
@@ -69,42 +75,41 @@ namespace SecondTech.API.Controllers
         [HttpPut("update")]
         public async Task<ActionResult> Update(ProductRequest request)
         {
-            if (request.ImgUrl == null && request.Img != null)
+            if (!request.Imgs.IsNullOrEmpty())
             {
-                request.ImgUrl = await ImgHelper.ImgSend(request.Img!);
-            }
-            else if (request.ImgUrl == null && request.Img == null)
-            {
-                return BadRequest(new { message = "Вы не отправили фото" });
+                request.ImgUrls?.AddRange(await ImgHelper.ImgSendRange(request.Imgs!));
             }
             if (await _service.Update(request))
                 return Ok();
             return BadRequest();
         }
-        /*
-         
-            Product product = _mapper.Map<Product>(request);
 
-
-            using (var httpClient = new HttpClient())
+        [HttpPost("requestSale")]
+        public async Task<ActionResult> RequestSale(PurchaseRequest request)
+        {
+            await _service.RequestSale(request);
+            return Ok();
+        }
+        [Authorize(Roles = "Admin")]
+        [HttpGet("confirmSale")]
+        public async Task<ActionResult> ConfirmSale([FromHeader]PurchaseRequest request)
+        {
+            ProductResponse product = await _service.Get(request.ProductId);
+            if (product != null)
             {
-                httpClient.DefaultRequestHeaders.Add("Authorization", $"Client-ID {ClientId}");
-
-                var imageMemoryStream = new MemoryStream();
-                await request.Img!.CopyToAsync(imageMemoryStream);
-                imageMemoryStream.Seek(0, SeekOrigin.Begin);
-
-                var imageContent = new StreamContent(imageMemoryStream);
-                imageContent.Headers.Add("Content-Type", "application/octet-stream");
-
-                var response = await httpClient.PostAsync(UploadUrl, imageContent);
-                response.EnsureSuccessStatusCode();
-
-                var responseContent = await response.Content.ReadAsStringAsync();
-
-                var imageResponse = JsonConvert.DeserializeObject<ImgResponse>(responseContent);
-                product.ImgUrl = imageResponse!.Data!.Link;
+                await _service.ConfirmSale(request);
+                await sender.SendConfirmMessage(product.Name!, "Спасибо за Покупку", request.Email);
+                return Ok();
             }
-         */
+            return BadRequest();
+        }
+        [Authorize(Roles = "Admin")]
+        [HttpGet("purchases")]
+        public async Task<ActionResult<List<PurchaseResponse>>> Purchases()
+        {
+
+            var responses = await _service.Purchases();
+            return Ok(responses);
+        }
     }
 }

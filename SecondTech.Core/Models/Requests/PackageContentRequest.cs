@@ -9,8 +9,6 @@ namespace SecondTech.Core.Models.Requests
 {
     public class PackageContentRequest
     {
-        public Guid Id { get; set; }
         public required string Content { get; set; }
-        public CategoryRequest? Category { get; set; }
     }
 }

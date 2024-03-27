@@ -14,9 +14,6 @@ namespace SecondTech.DataAccess.Configurations
         public void Configure(EntityTypeBuilder<UserEntity> builder)
         {
 
-            builder.HasMany(p => p.SoldProducts)
-                .WithOne(p => p.User)
-                .OnDelete(DeleteBehavior.Cascade);
             //throw new NotImplementedException();
         }
     }

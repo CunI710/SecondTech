@@ -45,16 +45,6 @@ namespace SecondTech.API.Controllers
             return Ok(response);
         }
 
-        [HttpGet("verify")]
-        public async Task<ActionResult<UserInfoResponse>> Verify(Guid id, string code)
-        {
-            var response = await _service.Verify(id, code);
-            if (response == null)
-                return BadRequest();
-            HttpContext.Response.Cookies.Append("test-some-cookie", response.JWT!);
-            return Ok(response.UserInfo);
-        }
-
         [HttpPost("login")]
         public async Task<ActionResult<UserInfoResponse>> Login(UserLoginRequest request)
         {

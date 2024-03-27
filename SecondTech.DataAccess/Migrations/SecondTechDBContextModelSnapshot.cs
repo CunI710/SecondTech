@@ -32,21 +32,6 @@ namespace SecondTech.DataAccess.Migrations
                     b.ToTable("PackageContentEntityProductEntity");
                 });
 
-            modelBuilder.Entity("PackageContentEntitySoldProductEntity", b =>
-                {
-                    b.Property<Guid>("PackageContentsId")
-                        .HasColumnType("TEXT");
-
-                    b.Property<Guid>("SoldProductsId")
-                        .HasColumnType("TEXT");
-
-                    b.HasKey("PackageContentsId", "SoldProductsId");
-
-                    b.HasIndex("SoldProductsId");
-
-                    b.ToTable("PackageContentEntitySoldProductEntity");
-                });
-
             modelBuilder.Entity("SecondTech.DataAccess.Entities.BrandEntity", b =>
                 {
                     b.Property<Guid>("Id")
@@ -90,9 +75,6 @@ namespace SecondTech.DataAccess.Migrations
                     b.Property<Guid?>("ProductId")
                         .HasColumnType("TEXT");
 
-                    b.Property<Guid?>("SoldProductId")
-                        .HasColumnType("TEXT");
-
                     b.Property<string>("Value")
                         .IsRequired()
                         .HasColumnType("TEXT");
@@ -100,8 +82,6 @@ namespace SecondTech.DataAccess.Migrations
                     b.HasKey("Id");
 
                     b.HasIndex("ProductId");
-
-                    b.HasIndex("SoldProductId");
 
                     b.ToTable("Characteristics");
                 });
@@ -120,13 +100,30 @@ namespace SecondTech.DataAccess.Migrations
                     b.ToTable("Colors");
                 });
 
-            modelBuilder.Entity("SecondTech.DataAccess.Entities.PackageContentEntity", b =>
+            modelBuilder.Entity("SecondTech.DataAccess.Entities.ImgUrlEntity", b =>
                 {
                     b.Property<Guid>("Id")
                         .ValueGeneratedOnAdd()
                         .HasColumnType("TEXT");
 
-                    b.Property<Guid>("CategoryId")
+                    b.Property<Guid?>("ProductEntityId")
+                        .HasColumnType("TEXT");
+
+                    b.Property<string>("Url")
+                        .IsRequired()
+                        .HasColumnType("TEXT");
+
+                    b.HasKey("Id");
+
+                    b.HasIndex("ProductEntityId");
+
+                    b.ToTable("ImgUrlEntity");
+                });
+
+            modelBuilder.Entity("SecondTech.DataAccess.Entities.PackageContentEntity", b =>
+                {
+                    b.Property<Guid>("Id")
+                        .ValueGeneratedOnAdd()
                         .HasColumnType("TEXT");
 
                     b.Property<string>("Content")
@@ -134,8 +131,6 @@ namespace SecondTech.DataAccess.Migrations
                         .HasColumnType("TEXT");
 
                     b.HasKey("Id");
-
-                    b.HasIndex("CategoryId");
 
                     b.ToTable("PackageContents");
                 });
@@ -163,10 +158,6 @@ namespace SecondTech.DataAccess.Migrations
                         .HasColumnType("TEXT");
 
                     b.Property<string>("Description")
-                        .IsRequired()
-                        .HasColumnType("TEXT");
-
-                    b.Property<string>("ImgUrl")
                         .IsRequired()
                         .HasColumnType("TEXT");
 
@@ -208,108 +199,58 @@ namespace SecondTech.DataAccess.Migrations
                     b.ToTable("Products");
                 });
 
-            modelBuilder.Entity("SecondTech.DataAccess.Entities.SoldProductEntity", b =>
+            modelBuilder.Entity("SecondTech.DataAccess.Entities.PurchaseEntity", b =>
                 {
                     b.Property<Guid>("Id")
                         .ValueGeneratedOnAdd()
                         .HasColumnType("TEXT");
 
-                    b.Property<string>("Battery")
+                    b.Property<Guid>("ProductId")
+                        .HasColumnType("TEXT");
+
+                    b.Property<string>("ProductName")
                         .IsRequired()
                         .HasColumnType("TEXT");
 
-                    b.Property<Guid>("BrandId")
-                        .HasColumnType("TEXT");
-
-                    b.Property<Guid>("CategoryId")
-                        .HasColumnType("TEXT");
-
-                    b.Property<Guid>("ColorId")
-                        .HasColumnType("TEXT");
-
-                    b.Property<DateTime>("DateTime")
-                        .HasColumnType("TEXT");
-
-                    b.Property<string>("Description")
-                        .IsRequired()
-                        .HasColumnType("TEXT");
-
-                    b.Property<string>("ImgUrl")
-                        .IsRequired()
-                        .HasColumnType("TEXT");
-
-                    b.Property<string>("Model")
-                        .IsRequired()
-                        .HasColumnType("TEXT");
-
-                    b.Property<string>("Name")
-                        .IsRequired()
-                        .HasColumnType("TEXT");
-
-                    b.Property<int>("Price")
+                    b.Property<int>("ProductPrice")
                         .HasColumnType("INTEGER");
 
-                    b.Property<string>("Processor")
+                    b.Property<DateTime>("SoldDateTime")
+                        .HasColumnType("TEXT");
+
+                    b.Property<string>("UserAddress")
                         .IsRequired()
                         .HasColumnType("TEXT");
 
-                    b.Property<string>("Ram")
+                    b.Property<string>("UserCity")
                         .IsRequired()
                         .HasColumnType("TEXT");
 
-                    b.Property<DateTime>("SaleTime")
-                        .HasColumnType("TEXT");
-
-                    b.Property<string>("State")
+                    b.Property<string>("UserEmail")
                         .IsRequired()
                         .HasColumnType("TEXT");
 
-                    b.Property<string>("Storage")
+                    b.Property<string>("UserFirstName")
                         .IsRequired()
                         .HasColumnType("TEXT");
 
-                    b.Property<Guid>("UserId")
+                    b.Property<string>("UserLastName")
+                        .IsRequired()
+                        .HasColumnType("TEXT");
+
+                    b.Property<string>("UserPhone")
+                        .IsRequired()
                         .HasColumnType("TEXT");
 
                     b.HasKey("Id");
 
-                    b.HasIndex("BrandId");
-
-                    b.HasIndex("CategoryId");
-
-                    b.HasIndex("ColorId");
-
-                    b.HasIndex("UserId");
-
-                    b.ToTable("SoldProducts");
+                    b.ToTable("Purchases");
                 });
 
             modelBuilder.Entity("SecondTech.DataAccess.Entities.UserEntity", b =>
                 {
                     b.Property<Guid>("Id")
                         .ValueGeneratedOnAdd()
-                        .HasColumnType("TEXT");
-
-                    b.Property<string>("Address")
-                        .IsRequired()
-                        .HasColumnType("TEXT");
-
-                    b.Property<string>("City")
-                        .IsRequired()
-                        .HasColumnType("TEXT");
-
-                    b.Property<string>("Code")
-                        .HasColumnType("TEXT");
-
-                    b.Property<DateTime>("DateTime")
-                        .HasColumnType("TEXT");
-
-                    b.Property<string>("Email")
-                        .IsRequired()
-                        .HasColumnType("TEXT");
-
-                    b.Property<string>("Number")
-                        .IsRequired()
                         .HasColumnType("TEXT");
 
                     b.Property<string>("PasswordHash")
@@ -323,9 +264,6 @@ namespace SecondTech.DataAccess.Migrations
                     b.Property<string>("UserName")
                         .IsRequired()
                         .HasColumnType("TEXT");
-
-                    b.Property<bool>("Verified")
-                        .HasColumnType("INTEGER");
 
                     b.HasKey("Id");
 
@@ -347,21 +285,6 @@ namespace SecondTech.DataAccess.Migrations
                         .IsRequired();
                 });
 
-            modelBuilder.Entity("PackageContentEntitySoldProductEntity", b =>
-                {
-                    b.HasOne("SecondTech.DataAccess.Entities.PackageContentEntity", null)
-                        .WithMany()
-                        .HasForeignKey("PackageContentsId")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
-
-                    b.HasOne("SecondTech.DataAccess.Entities.SoldProductEntity", null)
-                        .WithMany()
-                        .HasForeignKey("SoldProductsId")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
-                });
-
             modelBuilder.Entity("SecondTech.DataAccess.Entities.CharacteristicEntity", b =>
                 {
                     b.HasOne("SecondTech.DataAccess.Entities.ProductEntity", "Product")
@@ -369,25 +292,14 @@ namespace SecondTech.DataAccess.Migrations
                         .HasForeignKey("ProductId")
                         .OnDelete(DeleteBehavior.Cascade);
 
-                    b.HasOne("SecondTech.DataAccess.Entities.SoldProductEntity", "SoldProduct")
-                        .WithMany("Characteristics")
-                        .HasForeignKey("SoldProductId")
-                        .OnDelete(DeleteBehavior.Cascade);
-
                     b.Navigation("Product");
-
-                    b.Navigation("SoldProduct");
                 });
 
-            modelBuilder.Entity("SecondTech.DataAccess.Entities.PackageContentEntity", b =>
+            modelBuilder.Entity("SecondTech.DataAccess.Entities.ImgUrlEntity", b =>
                 {
-                    b.HasOne("SecondTech.DataAccess.Entities.CategoryEntity", "Category")
-                        .WithMany("PackageContents")
-                        .HasForeignKey("CategoryId")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
-
-                    b.Navigation("Category");
+                    b.HasOne("SecondTech.DataAccess.Entities.ProductEntity", null)
+                        .WithMany("ImgUrls")
+                        .HasForeignKey("ProductEntityId");
                 });
 
             modelBuilder.Entity("SecondTech.DataAccess.Entities.ProductEntity", b =>
@@ -415,79 +327,28 @@ namespace SecondTech.DataAccess.Migrations
                     b.Navigation("Category");
 
                     b.Navigation("Color");
-                });
-
-            modelBuilder.Entity("SecondTech.DataAccess.Entities.SoldProductEntity", b =>
-                {
-                    b.HasOne("SecondTech.DataAccess.Entities.BrandEntity", "Brand")
-                        .WithMany("SoldProducts")
-                        .HasForeignKey("BrandId")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
-
-                    b.HasOne("SecondTech.DataAccess.Entities.CategoryEntity", "Category")
-                        .WithMany("SoldProducts")
-                        .HasForeignKey("CategoryId")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
-
-                    b.HasOne("SecondTech.DataAccess.Entities.ColorEntity", "Color")
-                        .WithMany("SoldProducts")
-                        .HasForeignKey("ColorId")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
-
-                    b.HasOne("SecondTech.DataAccess.Entities.UserEntity", "User")
-                        .WithMany("SoldProducts")
-                        .HasForeignKey("UserId")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
-
-                    b.Navigation("Brand");
-
-                    b.Navigation("Category");
-
-                    b.Navigation("Color");
-
-                    b.Navigation("User");
                 });
 
             modelBuilder.Entity("SecondTech.DataAccess.Entities.BrandEntity", b =>
                 {
                     b.Navigation("Products");
-
-                    b.Navigation("SoldProducts");
                 });
 
             modelBuilder.Entity("SecondTech.DataAccess.Entities.CategoryEntity", b =>
                 {
-                    b.Navigation("PackageContents");
-
                     b.Navigation("Products");
-
-                    b.Navigation("SoldProducts");
                 });
 
             modelBuilder.Entity("SecondTech.DataAccess.Entities.ColorEntity", b =>
                 {
                     b.Navigation("Products");
-
-                    b.Navigation("SoldProducts");
                 });
 
             modelBuilder.Entity("SecondTech.DataAccess.Entities.ProductEntity", b =>
                 {
                     b.Navigation("Characteristics");
-                });
 
-            modelBuilder.Entity("SecondTech.DataAccess.Entities.SoldProductEntity", b =>
-                {
-                    b.Navigation("Characteristics");
-                });
-
-            modelBuilder.Entity("SecondTech.DataAccess.Entities.UserEntity", b =>
-                {
-                    b.Navigation("SoldProducts");
+                    b.Navigation("ImgUrls");
                 });
 #pragma warning restore 612, 618
         }

@@ -27,11 +27,10 @@ namespace SecondTech.DataAccess.Repositories
 
         public async Task<User> Create(User user)
         {
-            if (await _context.Users.FirstOrDefaultAsync(c => c.Id == user.Id || c.Email == user.Email || c.UserName == user.UserName || c.Number == user.Number) != null)
+            if (await _context.Users.FirstOrDefaultAsync(c => c.Id == user.Id) != null)
                 return null!;
 
             var userEntity = _mapper.Map<UserEntity>(user);
-            userEntity.Role = "User";
             await _context.Users.AddAsync(userEntity);
             await _context.SaveChangesAsync();
 
@@ -48,37 +47,10 @@ namespace SecondTech.DataAccess.Repositories
             await _context.SaveChangesAsync();
             return true;
         }
-        public async Task<User> Verify(Guid id, string code)
-        {
-            UserEntity? userEntity = await _context.Users.FirstOrDefaultAsync(c => c.Id == id);
-            if (userEntity == null || userEntity.Verified || userEntity.Code != code)
-            {
-                return null!;
-            }
-            userEntity.Code = null;
-            userEntity.Verified = true;
-            await _context.SaveChangesAsync();
-            return _mapper.Map<User>(userEntity);
-
-        }
 
         public async Task<User> Get(Guid id)
         {
             UserEntity? userEntity = await _context.Users.FirstOrDefaultAsync(c => c.Id == id);
-
-            var user = _mapper.Map<User>(userEntity);
-
-            return user;
-        }
-
-        public async Task<User> GetByEmail(string email)
-        {
-            UserEntity? userEntity = await _context.Users.FirstOrDefaultAsync(c => c.Email == email);
-            
-            if(userEntity==null || !userEntity.Verified)
-            {
-                return null!;
-            }
 
             var user = _mapper.Map<User>(userEntity);
 
@@ -96,6 +68,12 @@ namespace SecondTech.DataAccess.Repositories
             return users;
         }
 
+        public async Task<User> GetByUserName(string userName)
+        {
+            var userEntity = await _context.Users.FirstOrDefaultAsync(u => u.UserName == userName);
+            return _mapper.Map<User>(userEntity);
+        }
+
         public async Task<bool> Update(User user)
         {
             var userEntity = await _context.Users
@@ -103,7 +81,6 @@ namespace SecondTech.DataAccess.Repositories
 
             if (userEntity == null)
                 return false;
-            userEntity!.UserName = user.UserName;
             userEntity!.PasswordHash = user.PasswordHash;
             await _context.SaveChangesAsync();
             return true;

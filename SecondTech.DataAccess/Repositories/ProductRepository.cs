@@ -24,15 +24,15 @@ namespace SecondTech.DataAccess.Repositories
             _mapper = mapper;
         }
 
-
         public async Task<List<Product>> GetAll()
         {
             List<ProductEntity> productEntities = await _context.Products
-                .Include(p=>p.Category)
-                .Include(p=>p.Brand)
-                .Include(p=>p.Color)
-                .Include(p=>p.Characteristics)
+                .Include(p => p.Category)
+                .Include(p => p.Brand)
+                .Include(p => p.Color)
+                .Include(p => p.Characteristics)
                 .Include(p => p.PackageContents)
+                .Include(p => p.ImgUrls)
                 .AsNoTracking()
                 .ToListAsync();
 
@@ -49,6 +49,7 @@ namespace SecondTech.DataAccess.Repositories
                 .Include(p => p.Color)
                 .Include(p => p.Characteristics)
                 .Include(p => p.PackageContents)
+                .Include(p => p.ImgUrls)
                 .FirstOrDefaultAsync(p => p.Id == id);
 
             var product = _mapper.Map<Product>(productEntity);
@@ -65,13 +66,13 @@ namespace SecondTech.DataAccess.Repositories
             productEntity.DateTime = DateTime.Now;
 
             CategoryEntity category = _context.Categories.FirstOrDefault(c => c.Name == product.Category!.Name)!;
-            if (category != null)   
+            if (category != null)
                 productEntity.Category = category;
-                
+
             ColorEntity color = _context.Colors.FirstOrDefault(c => c.Name == product.Color!.Name)!;
             if (color != null)
                 productEntity.Color = color;
-            
+
             BrandEntity brand = _context.Brands.FirstOrDefault(b => b.Name == product.Brand!.Name)!;
             if (brand != null)
                 productEntity.Brand = brand;
@@ -79,15 +80,15 @@ namespace SecondTech.DataAccess.Repositories
 
             List<PackageContentEntity> contents = await _context.PackageContents.ToListAsync();
 
-            foreach(var content in contents)
+            foreach (var content in contents)
             {
-                var c = productEntity.PackageContents!.FirstOrDefault(t=>t.Content== content.Content);
-                if(c != null)
+                var c = productEntity.PackageContents!.FirstOrDefault(t => t.Content == content.Content);
+                if (c != null)
                 {
                     productEntity.PackageContents!.Remove(c);
                     productEntity.PackageContents!.Add(content);
                 }
-            
+
             }
 
             //foreach (var c in productEntity.PackageContents!)
@@ -111,6 +112,7 @@ namespace SecondTech.DataAccess.Repositories
                 .Include(p => p.Brand)
                 .Include(p => p.Color)
                 .Include(p => p.Characteristics)
+                .Include(p => p.ImgUrls)
                 .Include(p => p.PackageContents)
                 .FirstOrDefaultAsync(p => p.Id == product.Id);
 
@@ -125,7 +127,7 @@ namespace SecondTech.DataAccess.Repositories
             productEntity.Ram = product.Ram!;
             productEntity.Price = product.Price;
             productEntity.Battery = product.Battery!;
-            productEntity.ImgUrl = product.ImgUrl!;
+            productEntity.ImgUrls = product.ImgUrls!.Select(i => _mapper.Map<ImgUrlEntity>(i)).ToList();
             productEntity.State = product.State!;
             productEntity.Model = product.Model!;
             productEntity.Storage = product.Storage!;
@@ -181,6 +183,7 @@ namespace SecondTech.DataAccess.Repositories
                 .Include(p => p.Color)
                 .Include(p => p.Characteristics)
                 .Include(p => p.PackageContents)
+                .Include(p => p.ImgUrls)
                 .FirstOrDefaultAsync(p => p.Id == id);
             if (productEntity == null)
                 return false;

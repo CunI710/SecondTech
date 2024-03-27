@@ -3,6 +3,7 @@ using SecondTech.Core.Interfaces;
 using SecondTech.Core.Models.Requests;
 using SecondTech.Core.Models.Responses;
 using SecondTech.Core.Models;
+using System.Reflection;
 
 namespace SecondTech.Application.Services
 {
@@ -10,11 +11,15 @@ namespace SecondTech.Application.Services
     {
 
         private readonly IMapper _mapper;
+        private readonly IMessageSenderService sender;
+        private readonly IPurchaseRepository purchaseRepos;
         private readonly IProductRepository _repos;
 
-        public ProductService(IProductRepository repos, IMapper  mapper)
+        public ProductService(IProductRepository repos, IMapper mapper, IMessageSenderService sender,IPurchaseRepository purchaseRepos)
         {
             _mapper = mapper;
+            this.sender = sender;
+            this.purchaseRepos = purchaseRepos;
             _repos = repos;
         }
 
@@ -23,7 +28,7 @@ namespace SecondTech.Application.Services
             var product = await _repos.GetAll();
 
             var responses = product.Select(c => _mapper.Map<ProductResponse>(c)).ToList();
-            
+
             return responses;
         }
 
@@ -50,5 +55,31 @@ namespace SecondTech.Application.Services
         {
             return await _repos.Delete(id);
         }
+        public async Task RequestSale(PurchaseRequest request)
+        {
+            var product = await _repos.Get(request.ProductId);
+            if (product == null)
+                throw new Exception("Не найдено");
+            Purchase purchase = new Purchase(request, product);
+            await sender.SendPurchaseMessage(purchase, "gokinpoty@gmail.com", "hello"); 
+        }
+        public async Task<bool> ConfirmSale(PurchaseRequest request)
+        {
+            var product = await _repos.Get(request.ProductId);
+            if (await _repos.Delete(product.Id))
+                return false;
+            Purchase purchasee = new Purchase(request, product);
+            return await purchaseRepos.Create(purchasee);
+
+        }
+        public async Task<List<PurchaseResponse>> Purchases()
+        {
+            var purchase = await purchaseRepos.GetAll();
+
+            var responses = purchase.Select(c => _mapper.Map<PurchaseResponse>(c)).ToList();
+
+            return responses;
+        }
+       
     }
 }

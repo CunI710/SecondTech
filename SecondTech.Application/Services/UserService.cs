@@ -46,38 +46,24 @@ namespace SecondTech.Application.Services
             return response;
         }
 
-        public async Task<string> Register(UserRegisterRequest register)
+        public async Task<bool> Register(UserRegisterRequest register)
         {
             User registerUser = _mapper.Map<User>(register);
             registerUser.PasswordHash = HashHelper.Generate(register.Password);
-            registerUser.Code = Guid.NewGuid().ToString();
+            registerUser.Role = "User";
             User user = await _repos.Create(_mapper.Map<User>(registerUser));
-            if (user == null) return null!;
+            if (user == null) return false;
 
-            Console.WriteLine($"http://localhost:5183/api/User/verify?id={user.Id}&code={user.Code}"); ;
-
-
-            return $"http://localhost:5183/api/User/verify?id={user.Id}&code={user.Code}";
+            return true;
 
         }
 
         public async Task<UserResponse> Login(UserLoginRequest login)
         {
-            User user = await _repos.GetByEmail(login.Email);
+            User user = await _repos.GetByUserName(login.Email);
             if (user == null || !HashHelper.HashVerify(user.PasswordHash!, login.Password))
                 return null!;
 
-            var token = _provider.GenerateToken(user);
-            UserResponse response = new UserResponse() { UserInfo = _mapper.Map<UserInfoResponse>(user), JWT = token };
-
-            return response;
-        }
-
-        public async Task<UserResponse> Verify(Guid id, string code)
-        {
-            User user = await _repos.Verify(id, code);
-            if(user==null)
-                return null!;
             var token = _provider.GenerateToken(user);
             UserResponse response = new UserResponse() { UserInfo = _mapper.Map<UserInfoResponse>(user), JWT = token };
 

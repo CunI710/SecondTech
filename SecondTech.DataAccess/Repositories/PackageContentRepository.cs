@@ -26,7 +26,6 @@ namespace SecondTech.DataAccess.Repositories
         public async Task<List<PackageContent>> GetAll()
         {
             List<PackageContentEntity> contentEntities = await _context.PackageContents
-                .Include(p => p.Category)
                 .AsNoTracking()
                 .ToListAsync();
 
@@ -38,7 +37,6 @@ namespace SecondTech.DataAccess.Repositories
         public async Task<PackageContent> Get(Guid id)
         {
             PackageContentEntity? contentEntity = await _context.PackageContents
-                .Include(p => p.Category)
                 .FirstOrDefaultAsync(c => c.Id == id);
 
             var content = _mapper.Map<PackageContent>(contentEntity);
@@ -55,10 +53,7 @@ namespace SecondTech.DataAccess.Repositories
 
 
             var contentEntity = _mapper.Map<PackageContentEntity>(content);
-            CategoryEntity category = _context.Categories.FirstOrDefault(c=>c.Name == content.Category!.Name)!;
-            if(category != null)    
-                contentEntity.Category = category;
-            
+
             await _context.PackageContents.AddAsync(contentEntity);
             await _context.SaveChangesAsync();
 
@@ -68,15 +63,12 @@ namespace SecondTech.DataAccess.Repositories
         public async Task<bool> Update(PackageContent content)
         {
             var contentEntity = await _context.PackageContents
-                .Include(p => p.Category)
                 .FirstOrDefaultAsync(p => p.Id == content.Id);
 
             if (contentEntity == null)
                 return false;
             contentEntity = _mapper.Map<PackageContentEntity>(content);
-            CategoryEntity category = _context.Categories.FirstOrDefault(c => c.Id == content.Category!.Id)!;
-            if (category != null)
-                contentEntity.Category = category;
+
             await _context.SaveChangesAsync();
             return true;
         }

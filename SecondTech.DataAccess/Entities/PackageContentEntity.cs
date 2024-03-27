@@ -10,8 +10,6 @@ namespace SecondTech.DataAccess.Entities
     {
         public Guid Id { get; set; }
         public required string Content { get; set; }
-        public required CategoryEntity Category { get; set; }
         public List<ProductEntity>? Products { get; set; }
-        public List<SoldProductEntity>? SoldProducts { get; set; }
     }
 }
