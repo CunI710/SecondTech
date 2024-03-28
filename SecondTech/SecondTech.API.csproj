@@ -27,4 +27,8 @@
     <ProjectReference Include="..\SecondTech.Infrastructure\SecondTech.Infrastructure.csproj" />
   </ItemGroup>
 
+  <ItemGroup>
+    <Folder Include="wwwroot\" />
+  </ItemGroup>
+
 </Project>
