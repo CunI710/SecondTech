@@ -25,6 +25,21 @@ namespace SecondTech.Core.Models
             UserCity = request.City;
             UserAddress = request.Address;
         }
+        public Purchase(PurchaseRequestList request, Product product)
+        {
+            ProductId = product.Id;
+            ProductName = product.Name;
+            ProductPrice = product.Price;
+            ImgUrls = product.ImgUrls;
+            SoldDateTime = DateTime.Now;
+            
+            UserFirstName = request.FirstName;
+            UserLastName = request.LastName;
+            UserEmail = request.Email;
+            UserNumber = request.Number;
+            UserCity = request.City;
+            UserAddress = request.Address;
+        }
         public Guid ProductId { get; set; }
         public string? ProductName { get; set; }
         public int ProductPrice { get; set; }

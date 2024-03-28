@@ -27,10 +27,20 @@ namespace SecondTech.API.Controllers
             this.sender = sender;
         }
 
-        [HttpGet("getall")]
-        public async Task<ActionResult<List<ProductResponse>>> GetAll([FromQuery] ProductSearchRequest? request)
+
+
+        [HttpGet("search")]
+        public async Task<ActionResult<List<ProductResponse>>> Search([FromQuery]string request, [FromQuery]int page=1)
         {
-            var responses = await _service.GetAll();
+            var responses = (await _service.GetAllByPage(page)).Where(p => p.Name!.Contains(request)).ToList();
+
+            return responses;
+        }
+
+        [HttpGet("getall")]
+        public async Task<ActionResult<List<ProductResponse>>> GetAll([FromQuery] ProductFiltrationRequest? request, [FromQuery]int page = 1)
+        {
+            var responses = await _service.GetAllByPage(page);
             if (request != null)
             {
                 return Ok(request.Validate(responses));
@@ -72,6 +82,8 @@ namespace SecondTech.API.Controllers
                 return Ok();
             return BadRequest();
         }
+
+        [Authorize(Roles = "Admin")]
         [HttpPut("update")]
         public async Task<ActionResult> Update(ProductRequest request)
         {
@@ -85,10 +97,14 @@ namespace SecondTech.API.Controllers
         }
 
         [HttpPost("requestSale")]
-        public async Task<ActionResult> RequestSale(PurchaseRequest request)
+        public async Task<ActionResult> RequestSale(PurchaseRequestList request)
         {
-            await _service.RequestSale(request);
-            return Ok();
+            if (request.ValidateEmail())
+            {
+                await _service.RequestSale(request);
+                return Ok();
+            }
+            return BadRequest();
         }
         [Authorize(Roles = "Admin")]
         [HttpGet("confirmSale")]
@@ -98,8 +114,8 @@ namespace SecondTech.API.Controllers
             if (product != null)
             {
                 await sender.SendConfirmMessage(product.Name!, "Спасибо за Покупку", request.Email);
-    
-                if(await _service.ConfirmSale(request))
+
+                if (await _service.ConfirmSale(request))
                     return Ok();
             }
             return BadRequest();

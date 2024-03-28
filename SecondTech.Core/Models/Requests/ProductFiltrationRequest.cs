@@ -7,7 +7,7 @@ using System.Threading.Tasks;
 
 namespace SecondTech.Core.Models.Requests
 {
-    public class ProductSearchRequest
+    public class ProductFiltrationRequest
     {
         public List<string>? Category { get; set; }
         public List<string>? Brand { get; set; }

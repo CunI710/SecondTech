@@ -46,21 +46,24 @@ namespace SecondTech.Application.Services
             return response;
         }
 
-        public async Task<bool> Register(UserRegisterRequest register)
+        public async Task<UserResponse> Register(UserRegisterRequest register)
         {
             User registerUser = _mapper.Map<User>(register);
             registerUser.PasswordHash = HashHelper.Generate(register.Password);
             registerUser.Role = "User";
             User user = await _repos.Create(_mapper.Map<User>(registerUser));
-            if (user == null) return false;
+            if (user == null) return null;
 
-            return true;
+            var token = _provider.GenerateToken(user);
+            UserResponse response = new UserResponse() { UserInfo = _mapper.Map<UserInfoResponse>(user), JWT = token };
+
+            return response;
 
         }
 
         public async Task<UserResponse> Login(UserLoginRequest login)
         {
-            User user = await _repos.GetByUserName(login.Email);
+            User user = await _repos.GetByUserName(login.UserName);
             if (user == null || !HashHelper.HashVerify(user.PasswordHash!, login.Password))
                 return null!;
 

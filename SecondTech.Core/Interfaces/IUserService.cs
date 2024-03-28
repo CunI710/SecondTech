@@ -9,7 +9,7 @@ namespace SecondTech.Core.Interfaces
         Task<UserInfoResponse> GetInfo(Guid id);
         Task<List<UserInfoResponse>> GetInfoAll();
         Task<UserResponse> Login(UserLoginRequest login);
-        Task<bool> Register(UserRegisterRequest register);
+        Task<UserResponse> Register(UserRegisterRequest register);
         Task<bool> Update(UserChangeRequest request);
     }
 }

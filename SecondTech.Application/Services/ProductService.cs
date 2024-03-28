@@ -15,7 +15,7 @@ namespace SecondTech.Application.Services
         private readonly IPurchaseRepository purchaseRepos;
         private readonly IProductRepository _repos;
 
-        public ProductService(IProductRepository repos, IMapper mapper, IMessageSenderService sender,IPurchaseRepository purchaseRepos)
+        public ProductService(IProductRepository repos, IMapper mapper, IMessageSenderService sender, IPurchaseRepository purchaseRepos)
         {
             _mapper = mapper;
             this.sender = sender;
@@ -31,7 +31,14 @@ namespace SecondTech.Application.Services
 
             return responses;
         }
+        public async Task<List<ProductResponse>> GetAllByPage(int page, int pageSize = 16)
+        {
+            var product = await _repos.GetAllByPage(page,pageSize);
 
+            var responses = product.Select(c => _mapper.Map<ProductResponse>(c)).ToList();
+
+            return responses;
+        }
         public async Task<ProductResponse> Get(Guid id)
         {
             var product = await _repos.Get(id);
@@ -55,13 +62,17 @@ namespace SecondTech.Application.Services
         {
             return await _repos.Delete(id);
         }
-        public async Task RequestSale(PurchaseRequest request)
+        public async Task RequestSale(PurchaseRequestList request)
         {
-            var product = await _repos.Get(request.ProductId);
-            if (product == null)
-                throw new Exception("Не найдено");
-            Purchase purchase = new Purchase(request, product);
-            await sender.SendPurchaseMessage(purchase, "gokinpoty@gmail.com", "hello"); 
+            foreach (var item in request.ProductId)
+            {
+
+                var product = await _repos.Get(item);
+                if (product == null)
+                    throw new Exception("Не найдено");
+                Purchase purchase = new Purchase(request, product);
+                await sender.SendPurchaseMessage(purchase, "gokinpoty@gmail.com", "Новый заказ");
+            }
         }
         public async Task<bool> ConfirmSale(PurchaseRequest request)
         {
@@ -72,7 +83,7 @@ namespace SecondTech.Application.Services
                 return true;
             }
             return false;
-            
+
         }
         public async Task<List<PurchaseResponse>> Purchases()
         {
@@ -82,6 +93,6 @@ namespace SecondTech.Application.Services
 
             return responses;
         }
-       
+
     }
 }

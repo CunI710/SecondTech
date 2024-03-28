@@ -15,8 +15,9 @@ namespace SecondTech.Core.Interfaces
         Task<bool> Delete(Guid id);
         Task<ProductResponse> Get(Guid id);
         Task<List<ProductResponse>> GetAll();
+        Task<List<ProductResponse>> GetAllByPage(int page, int pageSize = 16);
         Task<bool> Update(ProductRequest request);
-        Task RequestSale(PurchaseRequest request);
+        Task RequestSale(PurchaseRequestList request);
         public Task<bool> ConfirmSale(PurchaseRequest request);
         public Task<List<PurchaseResponse>> Purchases();
     }

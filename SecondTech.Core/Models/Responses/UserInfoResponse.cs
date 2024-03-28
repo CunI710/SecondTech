@@ -8,11 +8,7 @@ namespace SecondTech.Core.Models.Responses
 {
     public class UserInfoResponse
     {
-        public required string UserName { get; set; }
-        public required string Email { get; set; }
-        public required string Number { get; set; }
-        public required string City { get; set; }
-        public required string Address { get; set; }
+        public string? Username { get; set; }
         public DateTime DateTime { get; set; }
     }
 }

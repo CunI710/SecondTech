@@ -81,7 +81,7 @@ namespace SecondTech.DataAccess.Repositories
 
             if (userEntity == null)
                 return false;
-            userEntity!.PasswordHash = user.PasswordHash;
+            userEntity!.PasswordHash = user.PasswordHash!;
             await _context.SaveChangesAsync();
             return true;
         }

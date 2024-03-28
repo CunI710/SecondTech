@@ -41,6 +41,25 @@ namespace SecondTech.DataAccess.Repositories
             return products;
         }
 
+        public async Task<List<Product>> GetAllByPage(int page, int pageSize)
+        {
+            List<ProductEntity> productEntities = await _context.Products
+                .Include(p => p.Category)
+                .Include(p => p.Brand)
+                .Include(p => p.Color)
+                .Include(p => p.Characteristics)
+                .Include(p => p.PackageContents)
+                .Include(p => p.ImgUrls)
+                .AsNoTracking()
+                .Skip((page - 1) * pageSize)
+                .Take(pageSize)
+                .ToListAsync();
+
+            var users = productEntities.Select(u => _mapper.Map<Product>(u)).ToList();
+
+            return users;
+        }
+
         public async Task<Product> Get(Guid id)
         {
             ProductEntity? productEntity = await _context.Products
@@ -87,6 +106,19 @@ namespace SecondTech.DataAccess.Repositories
                 {
                     productEntity.PackageContents!.Remove(c);
                     productEntity.PackageContents!.Add(content);
+                }
+
+            }
+
+            List<ImgUrlEntity> imgUrlEntities = await _context.ImgUrls.ToListAsync();
+
+            foreach (var imgUrl in imgUrlEntities)
+            {
+                var i = productEntity.ImgUrls!.FirstOrDefault(t => t.Url == imgUrl.Url);
+                if (i != null)
+                {
+                    productEntity.ImgUrls!.Remove(i);
+                    productEntity.ImgUrls!.Add(imgUrl);
                 }
 
             }

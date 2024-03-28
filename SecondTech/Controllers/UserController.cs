@@ -1,4 +1,5 @@
-﻿using Microsoft.AspNetCore.Authorization;
+﻿using Azure;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using Newtonsoft.Json.Linq;
 using SecondTech.Core.Interfaces;
@@ -23,19 +24,21 @@ namespace SecondTech.API.Controllers
         [HttpPost("register")]
         public async Task<ActionResult<string>> Register(UserRegisterRequest request)
         {
-            var responses = await _service.Register(request);
-            if (responses == null)
+            var response = await _service.Register(request);
+            if (response == null)
             {
                 return BadRequest("Не получилось зарегистрироваться");
             }
-            return Ok(responses);
+
+            HttpContext.Response.Cookies.Append("test-some-cookie", response.JWT!);
+            return Ok(response.UserInfo);
         }
 
-        [Authorize(Roles = "User")]
+        [Authorize(Roles = "Admin, User")]
         [HttpGet("getInfo")]
         public async Task<ActionResult<UserInfoResponse>> GetInfo()
         {
-            string jwt = HttpContext.Request.Cookies["test-some-cookie"]!.Replace("Bearer ","");
+            string jwt = HttpContext.Request.Cookies["test-some-cookie"]!.Replace("Bearer ", "");
             var jsonToken = new JwtSecurityTokenHandler().ReadToken(jwt) as JwtSecurityToken;
             string id = jsonToken!.Payload["userId"].ToString()!;
 
@@ -51,10 +54,11 @@ namespace SecondTech.API.Controllers
             var response = await _service.Login(request);
             if (response == null)
                 return BadRequest();
-           HttpContext.Response.Cookies.Append("test-some-cookie", response.JWT!);
+            HttpContext.Response.Cookies.Append("test-some-cookie", response.JWT!);
             return Ok(response.UserInfo);
         }
 
+        [Authorize(Roles = "Admin, User")]
         [HttpPost("delete")]
         public async Task<ActionResult> Delete(Guid id)
         {

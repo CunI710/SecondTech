@@ -8,7 +8,6 @@ namespace SecondTech.Core.Models
 {
     public class ImgUrl
     {
-        public Guid Id { get; set; }
         public string? Url { get; set; }
     }
 }
