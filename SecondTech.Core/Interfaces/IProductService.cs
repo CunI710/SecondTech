@@ -10,12 +10,15 @@ using System.Threading.Tasks;
 namespace SecondTech.Core.Interfaces
 {
     public interface IProductService
-    {   
+    {
         Task<ProductResponse> Create(ProductRequest request);
         Task<bool> Delete(Guid id);
         Task<ProductResponse> Get(Guid id);
         Task<List<ProductResponse>> GetAll();
-        Task<List<ProductResponse>> GetAllByPage(int page, int pageSize = 16);
+        Task<List<ProductResponse>> GetAllByPage(int page);
+        Task<List<ProductResponse>> GetFiltrationByPage(int page, ProductFiltrationRequest filtrRequest);
+
+        Task<List<ProductResponse>> GetSearchByPage(int page, string request);
         Task<bool> Update(ProductRequest request);
         Task RequestSale(PurchaseRequestList request);
         public Task<bool> ConfirmSale(PurchaseRequest request);

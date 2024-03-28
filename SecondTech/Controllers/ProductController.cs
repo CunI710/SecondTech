@@ -30,21 +30,26 @@ namespace SecondTech.API.Controllers
 
 
         [HttpGet("search")]
-        public async Task<ActionResult<List<ProductResponse>>> Search([FromQuery]string request, [FromQuery]int page=1)
+        public async Task<ActionResult<List<ProductResponse>>> GetBySearch([FromQuery]string request, [FromQuery]int page=1)
         {
-            var responses = (await _service.GetAllByPage(page)).Where(p => p.Name!.Contains(request)).ToList();
+            var responses = await _service.GetSearchByPage(page, request);
 
             return responses;
         }
 
-        [HttpGet("getall")]
-        public async Task<ActionResult<List<ProductResponse>>> GetAll([FromQuery] ProductFiltrationRequest? request, [FromQuery]int page = 1)
+        [HttpGet("filtr")]
+        public async Task<ActionResult<List<ProductResponse>>> GetByFiltration([FromQuery] ProductFiltrationRequest? request, [FromQuery] int page = 1)
         {
-            var responses = await _service.GetAllByPage(page);
-            if (request != null)
-            {
-                return Ok(request.Validate(responses));
-            }
+            var responses = await _service.GetFiltrationByPage(page,request!);
+
+            return Ok(responses);
+        }
+
+        [HttpGet("getall")]
+        public async Task<ActionResult<List<ProductResponse>>> GetAll()
+        {
+            var responses = await _service.GetAll();
+
             return Ok(responses);
         }
 

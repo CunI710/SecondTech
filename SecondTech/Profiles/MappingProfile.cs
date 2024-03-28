@@ -79,6 +79,7 @@ namespace SecondTech.API.Profiles
                 .ForMember(p=> p.ImgUrls, o=>o.Ignore());
 
             CreateMap<Purchase, PurchaseResponse>();
+
         
         }
     }

@@ -13,6 +13,11 @@ namespace SecondTech.Core.Interfaces
         Task<bool> Delete(Guid Id);
         Task<Product> Get(Guid id);
         Task<List<Product>> GetAll();
+
+        Task<List<Product>> GetFiltrationByPage(int page, int pageSize, ProductFiltration filtr);
+        Task<List<Product>> GetSearchByPage(int page, int pageSize, string request);
+
+
         Task<List<Product>> GetAllByPage(int page, int pageSize);
         Task<bool> Update(Product product);
     }

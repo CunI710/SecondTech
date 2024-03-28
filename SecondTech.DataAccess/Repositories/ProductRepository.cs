@@ -41,6 +41,45 @@ namespace SecondTech.DataAccess.Repositories
             return products;
         }
 
+        public async Task<List<Product>> GetFiltrationByPage(int page, int pageSize, ProductFiltration filtr)
+        {
+            List<ProductEntity> productEntities = await _context.Products
+                .Include(p => p.Category)
+                .Include(p => p.Brand)
+                .Include(p => p.Color)
+                .Include(p => p.Characteristics)
+                .Include(p => p.PackageContents)
+                .Include(p => p.ImgUrls)
+                .AsNoTracking()
+                .ToListAsync();
+            
+
+            List<Product> products = productEntities.Select(p => _mapper.Map<Product>(p)).ToList();
+
+            return filtr.Filter(products, page, pageSize);
+
+        }
+
+        public async Task<List<Product>> GetSearchByPage(int page, int pageSize, string request)
+        {
+
+            List<ProductEntity> productEntities = await _context.Products
+                .Include(p => p.Category)
+                .Include(p => p.Brand)
+                .Include(p => p.Color)
+                .Include(p => p.Characteristics)
+                .Include(p => p.PackageContents)
+                .Include(p => p.ImgUrls)
+                .Where(p => p.Name.Contains(request))
+                .Skip((page - 1) * pageSize)
+                .Take(pageSize)
+                .AsNoTracking()
+                .ToListAsync();
+
+            List<Product> products = productEntities.Select(p => _mapper.Map<Product>(p)).ToList();
+
+            return products;
+        }
         public async Task<List<Product>> GetAllByPage(int page, int pageSize)
         {
             List<ProductEntity> productEntities = await _context.Products
@@ -110,18 +149,18 @@ namespace SecondTech.DataAccess.Repositories
 
             }
 
-            List<ImgUrlEntity> imgUrlEntities = await _context.ImgUrls.ToListAsync();
+            //List<ImgUrlEntity> imgUrlEntities = await _context.ImgUrls.ToListAsync();
 
-            foreach (var imgUrl in imgUrlEntities)
-            {
-                var i = productEntity.ImgUrls!.FirstOrDefault(t => t.Url == imgUrl.Url);
-                if (i != null)
-                {
-                    productEntity.ImgUrls!.Remove(i);
-                    productEntity.ImgUrls!.Add(imgUrl);
-                }
+            //foreach (var imgUrl in imgUrlEntities)
+            //{
+            //    var i = productEntity.ImgUrls!.FirstOrDefault(t => t.Url == imgUrl.Url);
+            //    if (i != null)
+            //    {
+            //        productEntity.ImgUrls!.Remove(i);
+            //        productEntity.ImgUrls!.Add(imgUrl);
+            //    }
 
-            }
+            //}
 
             //foreach (var c in productEntity.PackageContents!)
             //{

@@ -31,8 +31,32 @@ namespace SecondTech.Application.Services
 
             return responses;
         }
-        public async Task<List<ProductResponse>> GetAllByPage(int page, int pageSize = 16)
+
+        public async Task<List<ProductResponse>> GetFiltrationByPage(int page, ProductFiltrationRequest filtrRequest)
         {
+            int pageSize = 16;
+            ProductFiltration filtr = new(filtrRequest);
+
+
+            var products = await _repos.GetFiltrationByPage(page, pageSize, filtr);
+            var responses = products.Select(c => _mapper.Map<ProductResponse>(c)).ToList();
+            
+            return responses;
+        }
+
+        public async Task<List<ProductResponse>> GetSearchByPage(int page, string request)
+        {
+            int pageSize = 16;
+            var products = await _repos.GetSearchByPage(page, pageSize, request);
+            var responses = products.Select(c => _mapper.Map<ProductResponse>(c)).ToList();
+
+            return responses;
+
+        }
+
+        public async Task<List<ProductResponse>> GetAllByPage(int page)
+        {
+            int pageSize = 16;
             var product = await _repos.GetAllByPage(page,pageSize);
 
             var responses = product.Select(c => _mapper.Map<ProductResponse>(c)).ToList();
