@@ -35,6 +35,17 @@ namespace SecondTech.API.Controllers
         }
 
         [Authorize(Roles = "Admin, User")]
+        [HttpGet("update")]
+        public async Task<ActionResult<UserInfoResponse>> Update(UserChangeRequest request)
+        {
+            if (await _service.Update(request))
+            {
+                return await Login(new() { UserName = request.UserName, Password = request.Password });
+            }
+            return BadRequest();
+        }
+
+        [Authorize(Roles = "Admin, User")]
         [HttpGet("getInfo")]
         public async Task<ActionResult<UserInfoResponse>> GetInfo()
         {

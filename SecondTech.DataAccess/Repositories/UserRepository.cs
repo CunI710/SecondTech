@@ -27,7 +27,7 @@ namespace SecondTech.DataAccess.Repositories
 
         public async Task<User> Create(User user)
         {
-            if (await _context.Users.FirstOrDefaultAsync(c => c.Id == user.Id) != null)
+            if (await _context.Users.FirstOrDefaultAsync(c => c.UserName == user.UserName) != null)
                 return null!;
 
             var userEntity = _mapper.Map<UserEntity>(user);
@@ -77,7 +77,7 @@ namespace SecondTech.DataAccess.Repositories
         public async Task<bool> Update(User user)
         {
             var userEntity = await _context.Users
-                .FirstOrDefaultAsync(c => c.Id == user.Id);
+                .FirstOrDefaultAsync(c => c.UserName == user.UserName);
 
             if (userEntity == null)
                 return false;

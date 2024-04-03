@@ -4309,3 +4309,247 @@ Executed DbCommand (0ms) [Parameters=[@p0='?' (DbType = Guid)], CommandType='Tex
 DELETE FROM "Products"
 WHERE "Id" = @p0
 RETURNING 1;
+Now listening on: http://localhost:5183
+Application started. Press Ctrl+C to shut down.
+Hosting environment: Development
+Content root path: C:\Users\Asel\source\repos\SecondTech\SecondTech
+Failed to determine the https port for redirect.
+Now listening on: http://localhost:5183
+Application started. Press Ctrl+C to shut down.
+Hosting environment: Development
+Content root path: C:\Users\Asel\source\repos\SecondTech\SecondTech
+Failed to determine the https port for redirect.
+Now listening on: http://localhost:5183
+Application started. Press Ctrl+C to shut down.
+Hosting environment: Development
+Content root path: C:\Users\Asel\source\repos\SecondTech\SecondTech
+Failed to determine the https port for redirect.
+Now listening on: http://localhost:5183
+Application started. Press Ctrl+C to shut down.
+Hosting environment: Development
+Content root path: C:\Users\Asel\source\repos\SecondTech\SecondTech
+Failed to determine the https port for redirect.
+Now listening on: http://localhost:5183
+Application started. Press Ctrl+C to shut down.
+Hosting environment: Development
+Content root path: C:\Users\Asel\source\repos\SecondTech\SecondTech
+Failed to determine the https port for redirect.
+Now listening on: http://localhost:5183
+Application started. Press Ctrl+C to shut down.
+Hosting environment: Development
+Content root path: C:\Users\Asel\source\repos\SecondTech\SecondTech
+Failed to determine the https port for redirect.
+Executed DbCommand (37ms) [Parameters=[@__user_UserName_0='?' (Size = 6)], CommandType='Text', CommandTimeout='30']
+SELECT "u"."Id", "u"."PasswordHash", "u"."Role", "u"."UserName"
+FROM "Users" AS "u"
+WHERE "u"."UserName" = @__user_UserName_0
+LIMIT 1
+Executed DbCommand (1ms) [Parameters=[@__user_UserName_0='?' (Size = 7)], CommandType='Text', CommandTimeout='30']
+SELECT "u"."Id", "u"."PasswordHash", "u"."Role", "u"."UserName"
+FROM "Users" AS "u"
+WHERE "u"."UserName" = @__user_UserName_0
+LIMIT 1
+Executed DbCommand (13ms) [Parameters=[@p0='?' (DbType = Guid), @p1='?' (Size = 24), @p2='?' (Size = 4), @p3='?' (Size = 7)], CommandType='Text', CommandTimeout='30']
+INSERT INTO "Users" ("Id", "PasswordHash", "Role", "UserName")
+VALUES (@p0, @p1, @p2, @p3);
+An unhandled exception has occurred while executing the request.
+Now listening on: http://localhost:5183
+Application started. Press Ctrl+C to shut down.
+Hosting environment: Development
+Content root path: C:\Users\Asel\source\repos\SecondTech\SecondTech
+Failed to determine the https port for redirect.
+Executed DbCommand (37ms) [Parameters=[@__userName_0='?' (Size = 6)], CommandType='Text', CommandTimeout='30']
+SELECT "u"."Id", "u"."PasswordHash", "u"."Role", "u"."UserName"
+FROM "Users" AS "u"
+WHERE "u"."UserName" = @__userName_0
+LIMIT 1
+An unhandled exception has occurred while executing the request.
+Now listening on: http://localhost:5183
+Application started. Press Ctrl+C to shut down.
+Hosting environment: Development
+Content root path: C:\Users\Asel\source\repos\SecondTech\SecondTech
+Failed to determine the https port for redirect.
+An unhandled exception has occurred while executing the request.
+Now listening on: http://localhost:5183
+Application started. Press Ctrl+C to shut down.
+Hosting environment: Development
+Content root path: C:\Users\Asel\source\repos\SecondTech\SecondTech
+Failed to determine the https port for redirect.
+Executed DbCommand (37ms) [Parameters=[@__userName_0='?' (Size = 6)], CommandType='Text', CommandTimeout='30']
+SELECT "u"."Id", "u"."PasswordHash", "u"."Role", "u"."UserName"
+FROM "Users" AS "u"
+WHERE "u"."UserName" = @__userName_0
+LIMIT 1
+An unhandled exception has occurred while executing the request.
+Now listening on: http://localhost:5183
+Application started. Press Ctrl+C to shut down.
+Hosting environment: Development
+Content root path: C:\Users\Asel\source\repos\SecondTech\SecondTech
+Now listening on: http://localhost:5183
+Application started. Press Ctrl+C to shut down.
+Hosting environment: Development
+Content root path: C:\Users\Asel\source\repos\SecondTech\SecondTech
+Failed to determine the https port for redirect.
+Executed DbCommand (28ms) [Parameters=[@__userName_0='?' (Size = 6)], CommandType='Text', CommandTimeout='30']
+SELECT "u"."Id", "u"."PasswordHash", "u"."Role", "u"."UserName"
+FROM "Users" AS "u"
+WHERE "u"."UserName" = @__userName_0
+LIMIT 1
+An unhandled exception has occurred while executing the request.
+Now listening on: http://localhost:5183
+Application started. Press Ctrl+C to shut down.
+Hosting environment: Development
+Content root path: C:\Users\Asel\source\repos\SecondTech\SecondTech
+An unhandled exception has occurred while executing the request.
+Now listening on: http://localhost:5183
+Application started. Press Ctrl+C to shut down.
+Hosting environment: Development
+Content root path: C:\Users\Asel\source\repos\SecondTech\SecondTech
+Failed to determine the https port for redirect.
+Now listening on: http://localhost:5183
+Application started. Press Ctrl+C to shut down.
+Hosting environment: Development
+Content root path: C:\Users\Asel\source\repos\SecondTech\SecondTech
+Failed to determine the https port for redirect.
+Executed DbCommand (39ms) [Parameters=[@__userName_0='?' (Size = 6)], CommandType='Text', CommandTimeout='30']
+SELECT "u"."Id", "u"."PasswordHash", "u"."Role", "u"."UserName"
+FROM "Users" AS "u"
+WHERE "u"."UserName" = @__userName_0
+LIMIT 1
+Executed DbCommand (1ms) [Parameters=[@__userName_0='?' (Size = 6)], CommandType='Text', CommandTimeout='30']
+SELECT "u"."Id", "u"."PasswordHash", "u"."Role", "u"."UserName"
+FROM "Users" AS "u"
+WHERE "u"."UserName" = @__userName_0
+LIMIT 1
+Executed DbCommand (0ms) [Parameters=[@__userName_0='?' (Size = 6)], CommandType='Text', CommandTimeout='30']
+SELECT "u"."Id", "u"."PasswordHash", "u"."Role", "u"."UserName"
+FROM "Users" AS "u"
+WHERE "u"."UserName" = @__userName_0
+LIMIT 1
+Executed DbCommand (0ms) [Parameters=[@__userName_0='?' (Size = 6)], CommandType='Text', CommandTimeout='30']
+SELECT "u"."Id", "u"."PasswordHash", "u"."Role", "u"."UserName"
+FROM "Users" AS "u"
+WHERE "u"."UserName" = @__userName_0
+LIMIT 1
+Now listening on: http://localhost:5183
+Application started. Press Ctrl+C to shut down.
+Hosting environment: Development
+Content root path: C:\Users\Asel\source\repos\SecondTech\SecondTech
+Failed to determine the https port for redirect.
+Executed DbCommand (30ms) [Parameters=[@__userName_0='?' (Size = 6)], CommandType='Text', CommandTimeout='30']
+SELECT "u"."Id", "u"."PasswordHash", "u"."Role", "u"."UserName"
+FROM "Users" AS "u"
+WHERE "u"."UserName" = @__userName_0
+LIMIT 1
+Executed DbCommand (1ms) [Parameters=[@__userName_0='?' (Size = 6)], CommandType='Text', CommandTimeout='30']
+SELECT "u"."Id", "u"."PasswordHash", "u"."Role", "u"."UserName"
+FROM "Users" AS "u"
+WHERE "u"."UserName" = @__userName_0
+LIMIT 1
+Now listening on: http://localhost:5183
+Application started. Press Ctrl+C to shut down.
+Hosting environment: Development
+Content root path: C:\Users\Asel\source\repos\SecondTech\SecondTech
+Executed DbCommand (30ms) [Parameters=[@__userName_0='?' (Size = 6)], CommandType='Text', CommandTimeout='30']
+SELECT "u"."Id", "u"."PasswordHash", "u"."Role", "u"."UserName"
+FROM "Users" AS "u"
+WHERE "u"."UserName" = @__userName_0
+LIMIT 1
+Now listening on: http://localhost:5183
+Application started. Press Ctrl+C to shut down.
+Hosting environment: Development
+Content root path: C:\Users\Asel\source\repos\SecondTech\SecondTech
+Now listening on: http://localhost:5183
+Application started. Press Ctrl+C to shut down.
+Hosting environment: Development
+Content root path: C:\Users\Asel\source\repos\SecondTech\SecondTech
+Executed DbCommand (30ms) [Parameters=[@__id_0='?' (DbType = Guid)], CommandType='Text', CommandTimeout='30']
+SELECT "u"."Id", "u"."PasswordHash", "u"."Role", "u"."UserName"
+FROM "Users" AS "u"
+WHERE "u"."Id" = @__id_0
+LIMIT 1
+Now listening on: http://localhost:5183
+Application started. Press Ctrl+C to shut down.
+Hosting environment: Development
+Content root path: C:\Users\Asel\source\repos\SecondTech\SecondTech
+Now listening on: http://localhost:5183
+Application started. Press Ctrl+C to shut down.
+Hosting environment: Development
+Content root path: C:\Users\Asel\source\repos\SecondTech\SecondTech
+Failed to determine the https port for redirect.
+Now listening on: http://localhost:5183
+Application started. Press Ctrl+C to shut down.
+Hosting environment: Development
+Content root path: C:\Users\Asel\source\repos\SecondTech\SecondTech
+Failed to determine the https port for redirect.
+Now listening on: http://localhost:5183
+Application started. Press Ctrl+C to shut down.
+Hosting environment: Development
+Content root path: C:\Users\Asel\source\repos\SecondTech\SecondTech
+Failed to determine the https port for redirect.
+Now listening on: http://localhost:5183
+Application started. Press Ctrl+C to shut down.
+Hosting environment: Development
+Content root path: C:\Users\Asel\source\repos\SecondTech\SecondTech
+Connection id "0HN2JOHHM6GTR", Request id "0HN2JOHHM6GTR:00000001": An unhandled exception was thrown by the application.
+Now listening on: http://localhost:5183
+Application started. Press Ctrl+C to shut down.
+Hosting environment: Development
+Content root path: C:\Users\Asel\source\repos\SecondTech\SecondTech
+Now listening on: http://localhost:5183
+Application started. Press Ctrl+C to shut down.
+Hosting environment: Development
+Content root path: C:\Users\Asel\source\repos\SecondTech\SecondTech
+Connection id "0HN2JOTBE90OL", Request id "0HN2JOTBE90OL:00000001": An unhandled exception was thrown by the application.
+The ASP.NET Core developer certificate is not trusted. For information about trusting the ASP.NET Core developer certificate, see https://aka.ms/aspnet/https-trust-dev-cert.
+Now listening on: https://localhost:7079
+Now listening on: http://localhost:5225
+Application started. Press Ctrl+C to shut down.
+Hosting environment: Development
+Content root path: C:\Users\Asel\source\repos\SecondTech\SecondTech
+Connection id "0HN2JOUEC7OEL", Request id "0HN2JOUEC7OEL:00000001": An unhandled exception was thrown by the application.
+The ASP.NET Core developer certificate is not trusted. For information about trusting the ASP.NET Core developer certificate, see https://aka.ms/aspnet/https-trust-dev-cert.
+Now listening on: https://localhost:7079
+Now listening on: http://localhost:5225
+Application started. Press Ctrl+C to shut down.
+Hosting environment: Development
+Content root path: C:\Users\Asel\source\repos\SecondTech\SecondTech
+Connection id "0HN2JOUIVDV3E", Request id "0HN2JOUIVDV3E:00000001": An unhandled exception was thrown by the application.
+Now listening on: http://localhost:5183
+Application started. Press Ctrl+C to shut down.
+Hosting environment: Development
+Content root path: C:\Users\Asel\source\repos\SecondTech\SecondTech
+Connection id "0HN2JOVM82LKU", Request id "0HN2JOVM82LKU:00000001": An unhandled exception was thrown by the application.
+Now listening on: http://localhost:5183
+Application started. Press Ctrl+C to shut down.
+Hosting environment: Development
+Content root path: C:\Users\Asel\source\repos\SecondTech\SecondTech
+Failed to determine the https port for redirect.
+Now listening on: http://localhost:5183
+Application started. Press Ctrl+C to shut down.
+Hosting environment: Development
+Content root path: C:\Users\Asel\source\repos\SecondTech\SecondTech
+Failed to determine the https port for redirect.
+Now listening on: http://localhost:5183
+Application started. Press Ctrl+C to shut down.
+Hosting environment: Development
+Content root path: C:\Users\Asel\source\repos\SecondTech\SecondTech
+Failed to determine the https port for redirect.
+Now listening on: http://localhost:5183
+Application started. Press Ctrl+C to shut down.
+Hosting environment: Development
+Content root path: C:\Users\Asel\source\repos\SecondTech\SecondTech
+Now listening on: http://localhost:5183
+Application started. Press Ctrl+C to shut down.
+Hosting environment: Development
+Content root path: C:\Users\Asel\source\repos\SecondTech\SecondTech
+Failed to determine the https port for redirect.
+Executed DbCommand (12ms) [Parameters=[], CommandType='Text', CommandTimeout='30']
+SELECT "b"."Id", "b"."Name"
+FROM "Brands" AS "b"
+Executed DbCommand (3ms) [Parameters=[@__userName_0='?' (Size = 6)], CommandType='Text', CommandTimeout='30']
+SELECT "u"."Id", "u"."PasswordHash", "u"."Role", "u"."UserName"
+FROM "Users" AS "u"
+WHERE "u"."UserName" = @__userName_0
+LIMIT 1
+An unhandled exception has occurred while executing the request.
