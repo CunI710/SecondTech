@@ -30,7 +30,6 @@ builder.Services.AddEndpointsApiExplorer();
 builder.Services.AddSwaggerGen();
 builder.Services.AddCors();
 
-builder.Services.AddControllersWithViews();
 
 builder.Services.AddDbContext<SecondTechDBContext>(
         options =>
@@ -42,7 +41,7 @@ builder.Services.AddDbContext<SecondTechDBContext>(
 builder.Services.AddApiAuthentication(builder.Configuration);
 builder.Services.AddLogging(b =>
 {
-    b.AddFile("logger.txt");    
+    b.AddFile("logger.txt");
     b.AddConsole();
 
 });
@@ -66,23 +65,28 @@ builder.Services.AddAutoMapper(typeof(MappingProfile));
 
 var app = builder.Build();
 
-//app.UseCors(builder => {
-//    builder.AllowAnyOrigin();
-//    builder.AllowAnyHeader();
-//    builder.AllowAnyMethod();
-//    builder.AllowCredentials();
-//});
 
-app.UseCors("AllowAll");
+if (!app.Environment.IsDevelopment())
+{
+    // The default HSTS value is 30 days. You may want to change this for production scenarios, see https://aka.ms/aspnetcore-hsts.
+    app.UseHsts();
+}
+
+
+app.UseCors(builder => {
+    builder.AllowAnyOrigin();
+    builder.AllowAnyHeader();
+    builder.AllowAnyMethod();
+});
 
 // Configure the HTTP request pipeline.
 if (app.Environment.IsDevelopment())
 {
     app.UseSwagger();
-app.UseSwaggerUI();
+    app.UseSwaggerUI();
 }
 
-app.UseAuthentication();
+app.UseAuthorization();
 app.UseAuthorization();
 
 app.UseCookiePolicy(new CookiePolicyOptions
@@ -93,16 +97,5 @@ app.UseCookiePolicy(new CookiePolicyOptions
 });
 
 app.MapControllers();
-
-app.UseHttpsRedirection();
-app.UseStaticFiles();
-app.UseRouting();
-
-
-app.MapControllerRoute(
-    name: "default",
-    pattern: "{controller}/{action=Index}/{id?}");
-
-app.MapFallbackToFile("index.html");
 
 app.Run();

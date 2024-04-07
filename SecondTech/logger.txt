@@ -4553,3 +4553,175 @@ FROM "Users" AS "u"
 WHERE "u"."UserName" = @__userName_0
 LIMIT 1
 An unhandled exception has occurred while executing the request.
+Now listening on: http://localhost:5183
+Application started. Press Ctrl+C to shut down.
+Hosting environment: Development
+Content root path: C:\Users\Asel\source\repos\SecondTech\SecondTech
+Executed DbCommand (17ms) [Parameters=[@__userName_0='?' (Size = 6)], CommandType='Text', CommandTimeout='30']
+SELECT "u"."Id", "u"."PasswordHash", "u"."Role", "u"."UserName"
+FROM "Users" AS "u"
+WHERE "u"."UserName" = @__userName_0
+LIMIT 1
+Executed DbCommand (0ms) [Parameters=[@__id_0='?' (DbType = Guid)], CommandType='Text', CommandTimeout='30']
+SELECT "u"."Id", "u"."PasswordHash", "u"."Role", "u"."UserName"
+FROM "Users" AS "u"
+WHERE "u"."Id" = @__id_0
+LIMIT 1
+Executed DbCommand (0ms) [Parameters=[@__id_0='?' (DbType = Guid)], CommandType='Text', CommandTimeout='30']
+SELECT "u"."Id", "u"."PasswordHash", "u"."Role", "u"."UserName"
+FROM "Users" AS "u"
+WHERE "u"."Id" = @__id_0
+LIMIT 1
+Now listening on: http://localhost:5183
+Application started. Press Ctrl+C to shut down.
+Hosting environment: Development
+Content root path: C:\Users\Asel\source\repos\SecondTech\SecondTech
+Now listening on: http://localhost:5183
+Application started. Press Ctrl+C to shut down.
+Hosting environment: Development
+Content root path: C:\Users\Asel\source\repos\SecondTech\SecondTech
+Now listening on: http://localhost:5183
+Application started. Press Ctrl+C to shut down.
+Hosting environment: Development
+Content root path: C:\Users\Asel\source\repos\SecondTech\SecondTech
+Now listening on: http://localhost:5183
+Application started. Press Ctrl+C to shut down.
+Hosting environment: Development
+Content root path: C:\Users\Asel\source\repos\SecondTech\SecondTech
+Now listening on: http://localhost:5183
+Application started. Press Ctrl+C to shut down.
+Hosting environment: Development
+Content root path: C:\Users\Asel\source\repos\SecondTech\SecondTech
+Now listening on: http://localhost:5183
+Application started. Press Ctrl+C to shut down.
+Hosting environment: Development
+Content root path: C:\Users\Asel\source\repos\SecondTech\SecondTech
+Now listening on: http://localhost:5183
+Application started. Press Ctrl+C to shut down.
+Hosting environment: Development
+Content root path: C:\Users\Asel\source\repos\SecondTech\SecondTech
+Now listening on: http://localhost:5183
+Application started. Press Ctrl+C to shut down.
+Hosting environment: Development
+Content root path: C:\Users\Asel\source\repos\SecondTech\SecondTech
+Executed DbCommand (30ms) [Parameters=[], CommandType='Text', CommandTimeout='30']
+SELECT "b"."Id", "b"."Name"
+FROM "Brands" AS "b"
+Compiling a query which loads related collections for more than one collection navigation, either via 'Include' or through projection, but no 'QuerySplittingBehavior' has been configured. By default, Entity Framework will use 'QuerySplittingBehavior.SingleQuery', which can potentially result in slow query performance. See https://go.microsoft.com/fwlink/?linkid=2134277 for more information. To identify the query that's triggering this warning call 'ConfigureWarnings(w => w.Throw(RelationalEventId.MultipleCollectionIncludeWarning))'.
+Executed DbCommand (4ms) [Parameters=[], CommandType='Text', CommandTimeout='30']
+SELECT "p"."Id", "p"."Battery", "p"."BrandId", "p"."CategoryId", "p"."ColorId", "p"."DateTime", "p"."Description", "p"."Model", "p"."Name", "p"."Price", "p"."Processor", "p"."Ram", "p"."State", "p"."Storage", "c"."Id", "c"."Name", "b"."Id", "b"."Name", "c0"."Id", "c0"."Name", "c1"."Id", "c1"."Name", "c1"."ProductId", "c1"."Value", "t"."Id", "t"."Content", "t"."PackageContentsId", "t"."ProductsId", "i"."Id", "i"."ProductEntityId", "i"."Url"
+FROM "Products" AS "p"
+INNER JOIN "Categories" AS "c" ON "p"."CategoryId" = "c"."Id"
+INNER JOIN "Brands" AS "b" ON "p"."BrandId" = "b"."Id"
+INNER JOIN "Colors" AS "c0" ON "p"."ColorId" = "c0"."Id"
+LEFT JOIN "Characteristics" AS "c1" ON "p"."Id" = "c1"."ProductId"
+LEFT JOIN (
+    SELECT "p1"."Id", "p1"."Content", "p0"."PackageContentsId", "p0"."ProductsId"
+    FROM "PackageContentEntityProductEntity" AS "p0"
+    INNER JOIN "PackageContents" AS "p1" ON "p0"."PackageContentsId" = "p1"."Id"
+) AS "t" ON "p"."Id" = "t"."ProductsId"
+LEFT JOIN "ImgUrls" AS "i" ON "p"."Id" = "i"."ProductEntityId"
+ORDER BY "p"."Id", "c"."Id", "b"."Id", "c0"."Id", "c1"."Id", "t"."PackageContentsId", "t"."ProductsId", "t"."Id"
+Executed DbCommand (1ms) [Parameters=[], CommandType='Text', CommandTimeout='30']
+SELECT "p"."Id", "p"."Battery", "p"."BrandId", "p"."CategoryId", "p"."ColorId", "p"."DateTime", "p"."Description", "p"."Model", "p"."Name", "p"."Price", "p"."Processor", "p"."Ram", "p"."State", "p"."Storage", "c"."Id", "c"."Name", "b"."Id", "b"."Name", "c0"."Id", "c0"."Name", "c1"."Id", "c1"."Name", "c1"."ProductId", "c1"."Value", "t"."Id", "t"."Content", "t"."PackageContentsId", "t"."ProductsId", "i"."Id", "i"."ProductEntityId", "i"."Url"
+FROM "Products" AS "p"
+INNER JOIN "Categories" AS "c" ON "p"."CategoryId" = "c"."Id"
+INNER JOIN "Brands" AS "b" ON "p"."BrandId" = "b"."Id"
+INNER JOIN "Colors" AS "c0" ON "p"."ColorId" = "c0"."Id"
+LEFT JOIN "Characteristics" AS "c1" ON "p"."Id" = "c1"."ProductId"
+LEFT JOIN (
+    SELECT "p1"."Id", "p1"."Content", "p0"."PackageContentsId", "p0"."ProductsId"
+    FROM "PackageContentEntityProductEntity" AS "p0"
+    INNER JOIN "PackageContents" AS "p1" ON "p0"."PackageContentsId" = "p1"."Id"
+) AS "t" ON "p"."Id" = "t"."ProductsId"
+LEFT JOIN "ImgUrls" AS "i" ON "p"."Id" = "i"."ProductEntityId"
+ORDER BY "p"."Id", "c"."Id", "b"."Id", "c0"."Id", "c1"."Id", "t"."PackageContentsId", "t"."ProductsId", "t"."Id"
+Executed DbCommand (1ms) [Parameters=[], CommandType='Text', CommandTimeout='30']
+SELECT "p"."Id", "p"."Battery", "p"."BrandId", "p"."CategoryId", "p"."ColorId", "p"."DateTime", "p"."Description", "p"."Model", "p"."Name", "p"."Price", "p"."Processor", "p"."Ram", "p"."State", "p"."Storage", "c"."Id", "c"."Name", "b"."Id", "b"."Name", "c0"."Id", "c0"."Name", "c1"."Id", "c1"."Name", "c1"."ProductId", "c1"."Value", "t"."Id", "t"."Content", "t"."PackageContentsId", "t"."ProductsId", "i"."Id", "i"."ProductEntityId", "i"."Url"
+FROM "Products" AS "p"
+INNER JOIN "Categories" AS "c" ON "p"."CategoryId" = "c"."Id"
+INNER JOIN "Brands" AS "b" ON "p"."BrandId" = "b"."Id"
+INNER JOIN "Colors" AS "c0" ON "p"."ColorId" = "c0"."Id"
+LEFT JOIN "Characteristics" AS "c1" ON "p"."Id" = "c1"."ProductId"
+LEFT JOIN (
+    SELECT "p1"."Id", "p1"."Content", "p0"."PackageContentsId", "p0"."ProductsId"
+    FROM "PackageContentEntityProductEntity" AS "p0"
+    INNER JOIN "PackageContents" AS "p1" ON "p0"."PackageContentsId" = "p1"."Id"
+) AS "t" ON "p"."Id" = "t"."ProductsId"
+LEFT JOIN "ImgUrls" AS "i" ON "p"."Id" = "i"."ProductEntityId"
+ORDER BY "p"."Id", "c"."Id", "b"."Id", "c0"."Id", "c1"."Id", "t"."PackageContentsId", "t"."ProductsId", "t"."Id"
+Executed DbCommand (1ms) [Parameters=[], CommandType='Text', CommandTimeout='30']
+SELECT "p"."Id", "p"."Battery", "p"."BrandId", "p"."CategoryId", "p"."ColorId", "p"."DateTime", "p"."Description", "p"."Model", "p"."Name", "p"."Price", "p"."Processor", "p"."Ram", "p"."State", "p"."Storage", "c"."Id", "c"."Name", "b"."Id", "b"."Name", "c0"."Id", "c0"."Name", "c1"."Id", "c1"."Name", "c1"."ProductId", "c1"."Value", "t"."Id", "t"."Content", "t"."PackageContentsId", "t"."ProductsId", "i"."Id", "i"."ProductEntityId", "i"."Url"
+FROM "Products" AS "p"
+INNER JOIN "Categories" AS "c" ON "p"."CategoryId" = "c"."Id"
+INNER JOIN "Brands" AS "b" ON "p"."BrandId" = "b"."Id"
+INNER JOIN "Colors" AS "c0" ON "p"."ColorId" = "c0"."Id"
+LEFT JOIN "Characteristics" AS "c1" ON "p"."Id" = "c1"."ProductId"
+LEFT JOIN (
+    SELECT "p1"."Id", "p1"."Content", "p0"."PackageContentsId", "p0"."ProductsId"
+    FROM "PackageContentEntityProductEntity" AS "p0"
+    INNER JOIN "PackageContents" AS "p1" ON "p0"."PackageContentsId" = "p1"."Id"
+) AS "t" ON "p"."Id" = "t"."ProductsId"
+LEFT JOIN "ImgUrls" AS "i" ON "p"."Id" = "i"."ProductEntityId"
+ORDER BY "p"."Id", "c"."Id", "b"."Id", "c0"."Id", "c1"."Id", "t"."PackageContentsId", "t"."ProductsId", "t"."Id"
+Executed DbCommand (1ms) [Parameters=[], CommandType='Text', CommandTimeout='30']
+SELECT "p"."Id", "p"."Battery", "p"."BrandId", "p"."CategoryId", "p"."ColorId", "p"."DateTime", "p"."Description", "p"."Model", "p"."Name", "p"."Price", "p"."Processor", "p"."Ram", "p"."State", "p"."Storage", "c"."Id", "c"."Name", "b"."Id", "b"."Name", "c0"."Id", "c0"."Name", "c1"."Id", "c1"."Name", "c1"."ProductId", "c1"."Value", "t"."Id", "t"."Content", "t"."PackageContentsId", "t"."ProductsId", "i"."Id", "i"."ProductEntityId", "i"."Url"
+FROM "Products" AS "p"
+INNER JOIN "Categories" AS "c" ON "p"."CategoryId" = "c"."Id"
+INNER JOIN "Brands" AS "b" ON "p"."BrandId" = "b"."Id"
+INNER JOIN "Colors" AS "c0" ON "p"."ColorId" = "c0"."Id"
+LEFT JOIN "Characteristics" AS "c1" ON "p"."Id" = "c1"."ProductId"
+LEFT JOIN (
+    SELECT "p1"."Id", "p1"."Content", "p0"."PackageContentsId", "p0"."ProductsId"
+    FROM "PackageContentEntityProductEntity" AS "p0"
+    INNER JOIN "PackageContents" AS "p1" ON "p0"."PackageContentsId" = "p1"."Id"
+) AS "t" ON "p"."Id" = "t"."ProductsId"
+LEFT JOIN "ImgUrls" AS "i" ON "p"."Id" = "i"."ProductEntityId"
+ORDER BY "p"."Id", "c"."Id", "b"."Id", "c0"."Id", "c1"."Id", "t"."PackageContentsId", "t"."ProductsId", "t"."Id"
+Now listening on: http://localhost:5183
+Application started. Press Ctrl+C to shut down.
+Hosting environment: Development
+Content root path: C:\Users\Asel\source\repos\SecondTech\SecondTech
+Compiling a query which loads related collections for more than one collection navigation, either via 'Include' or through projection, but no 'QuerySplittingBehavior' has been configured. By default, Entity Framework will use 'QuerySplittingBehavior.SingleQuery', which can potentially result in slow query performance. See https://go.microsoft.com/fwlink/?linkid=2134277 for more information. To identify the query that's triggering this warning call 'ConfigureWarnings(w => w.Throw(RelationalEventId.MultipleCollectionIncludeWarning))'.
+Executed DbCommand (20ms) [Parameters=[], CommandType='Text', CommandTimeout='30']
+SELECT "p"."Id", "p"."Battery", "p"."BrandId", "p"."CategoryId", "p"."ColorId", "p"."DateTime", "p"."Description", "p"."Model", "p"."Name", "p"."Price", "p"."Processor", "p"."Ram", "p"."State", "p"."Storage", "c"."Id", "c"."Name", "b"."Id", "b"."Name", "c0"."Id", "c0"."Name", "c1"."Id", "c1"."Name", "c1"."ProductId", "c1"."Value", "t"."Id", "t"."Content", "t"."PackageContentsId", "t"."ProductsId", "i"."Id", "i"."ProductEntityId", "i"."Url"
+FROM "Products" AS "p"
+INNER JOIN "Categories" AS "c" ON "p"."CategoryId" = "c"."Id"
+INNER JOIN "Brands" AS "b" ON "p"."BrandId" = "b"."Id"
+INNER JOIN "Colors" AS "c0" ON "p"."ColorId" = "c0"."Id"
+LEFT JOIN "Characteristics" AS "c1" ON "p"."Id" = "c1"."ProductId"
+LEFT JOIN (
+    SELECT "p1"."Id", "p1"."Content", "p0"."PackageContentsId", "p0"."ProductsId"
+    FROM "PackageContentEntityProductEntity" AS "p0"
+    INNER JOIN "PackageContents" AS "p1" ON "p0"."PackageContentsId" = "p1"."Id"
+) AS "t" ON "p"."Id" = "t"."ProductsId"
+LEFT JOIN "ImgUrls" AS "i" ON "p"."Id" = "i"."ProductEntityId"
+ORDER BY "p"."Id", "c"."Id", "b"."Id", "c0"."Id", "c1"."Id", "t"."PackageContentsId", "t"."ProductsId", "t"."Id"
+Executed DbCommand (1ms) [Parameters=[], CommandType='Text', CommandTimeout='30']
+SELECT "p"."Id", "p"."Battery", "p"."BrandId", "p"."CategoryId", "p"."ColorId", "p"."DateTime", "p"."Description", "p"."Model", "p"."Name", "p"."Price", "p"."Processor", "p"."Ram", "p"."State", "p"."Storage", "c"."Id", "c"."Name", "b"."Id", "b"."Name", "c0"."Id", "c0"."Name", "c1"."Id", "c1"."Name", "c1"."ProductId", "c1"."Value", "t"."Id", "t"."Content", "t"."PackageContentsId", "t"."ProductsId", "i"."Id", "i"."ProductEntityId", "i"."Url"
+FROM "Products" AS "p"
+INNER JOIN "Categories" AS "c" ON "p"."CategoryId" = "c"."Id"
+INNER JOIN "Brands" AS "b" ON "p"."BrandId" = "b"."Id"
+INNER JOIN "Colors" AS "c0" ON "p"."ColorId" = "c0"."Id"
+LEFT JOIN "Characteristics" AS "c1" ON "p"."Id" = "c1"."ProductId"
+LEFT JOIN (
+    SELECT "p1"."Id", "p1"."Content", "p0"."PackageContentsId", "p0"."ProductsId"
+    FROM "PackageContentEntityProductEntity" AS "p0"
+    INNER JOIN "PackageContents" AS "p1" ON "p0"."PackageContentsId" = "p1"."Id"
+) AS "t" ON "p"."Id" = "t"."ProductsId"
+LEFT JOIN "ImgUrls" AS "i" ON "p"."Id" = "i"."ProductEntityId"
+ORDER BY "p"."Id", "c"."Id", "b"."Id", "c0"."Id", "c1"."Id", "t"."PackageContentsId", "t"."ProductsId", "t"."Id"
+Executed DbCommand (1ms) [Parameters=[], CommandType='Text', CommandTimeout='30']
+SELECT "p"."Id", "p"."Battery", "p"."BrandId", "p"."CategoryId", "p"."ColorId", "p"."DateTime", "p"."Description", "p"."Model", "p"."Name", "p"."Price", "p"."Processor", "p"."Ram", "p"."State", "p"."Storage", "c"."Id", "c"."Name", "b"."Id", "b"."Name", "c0"."Id", "c0"."Name", "c1"."Id", "c1"."Name", "c1"."ProductId", "c1"."Value", "t"."Id", "t"."Content", "t"."PackageContentsId", "t"."ProductsId", "i"."Id", "i"."ProductEntityId", "i"."Url"
+FROM "Products" AS "p"
+INNER JOIN "Categories" AS "c" ON "p"."CategoryId" = "c"."Id"
+INNER JOIN "Brands" AS "b" ON "p"."BrandId" = "b"."Id"
+INNER JOIN "Colors" AS "c0" ON "p"."ColorId" = "c0"."Id"
+LEFT JOIN "Characteristics" AS "c1" ON "p"."Id" = "c1"."ProductId"
+LEFT JOIN (
+    SELECT "p1"."Id", "p1"."Content", "p0"."PackageContentsId", "p0"."ProductsId"
+    FROM "PackageContentEntityProductEntity" AS "p0"
+    INNER JOIN "PackageContents" AS "p1" ON "p0"."PackageContentsId" = "p1"."Id"
+) AS "t" ON "p"."Id" = "t"."ProductsId"
+LEFT JOIN "ImgUrls" AS "i" ON "p"."Id" = "i"."ProductEntityId"
+ORDER BY "p"."Id", "c"."Id", "b"."Id", "c0"."Id", "c1"."Id", "t"."PackageContentsId", "t"."ProductsId", "t"."Id"
