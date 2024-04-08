@@ -1,6 +1,18 @@
-import { createSlice } from '@reduxjs/toolkit';
+import { createAsyncThunk, createSlice } from '@reduxjs/toolkit';
 
-const initialState = { cart: [], isLoading: true, total: 0, count: 0 };
+export const requestSale = createAsyncThunk('products/requestSale', async (values) => {
+  const { data } = await axios.post(`${BASE_URL}/Product/requestSale`, values);
+  return data;
+});
+
+const initialState = {
+  cart: [],
+  openCart: false,
+  total: 0,
+  count: 0,
+  isLoading: true,
+  checkout: [],
+};
 export const cartSlice = createSlice({
   name: 'cart',
   initialState,
@@ -19,9 +31,29 @@ export const cartSlice = createSlice({
     setCount: (state, action) => {
       state.count += action.payload;
     },
+    setOpenCart: (state, action) => {
+      state.openCart = action.payload;
+    },
+  },
+  extraReducers: (builder) => {
+    builder.addCase(requestSale.pending, (state) => {
+      state.isLoading = true;
+      console.log('pending');
+    });
+
+    builder.addCase(requestSale.fulfilled, (state, action) => {
+      state.checkout = action.payload;
+      state.isLoading = false;
+      console.log('succes');
+    });
+
+    builder.addCase(requestSale.rejected, (state) => {
+      state.isLoading = false;
+      console.log('rejected');
+    });
   },
 });
 
-export const { setCart, setTotal, setCount, deleteCart } = cartSlice.actions;
+export const { setCart, setTotal, setCount, deleteCart, setOpenCart } = cartSlice.actions;
 
 export default cartSlice.reducer;

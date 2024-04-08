@@ -7,6 +7,11 @@ import phoneBg from './assets/background/SmartphoneBanner.png';
 import ProductInfo from './components/productComponents/ProductInfo';
 import Footer from './Layouts/Footer';
 import { useEffect } from 'react';
+import NotFound from './pages/NotFound';
+import Order from './pages/Order';
+import SearchResult from './pages/SearchResult';
+import Login from './pages/Login';
+import Signup from './pages/Signup';
 function App() {
   useEffect(() => {
     const beforeUnloadHandler = (e) => {
@@ -22,7 +27,6 @@ function App() {
     };
   }, []);
 
-  
   return (
     <>
       <Header />
@@ -42,6 +46,11 @@ function App() {
         />
         <Route path="/smartphone/:id" element={<ProductInfo />} />
         <Route path="/laptop/:id" element={<ProductInfo />} />
+        <Route path="/order" element={<Order />} />
+        <Route path="/searchresult" element={<SearchResult />} />
+        <Route path="/login" element={<Login />} />
+        <Route path="/signup" element={<Signup />} />
+        <Route path="*" element={<NotFound />} />
       </Routes>
       <Footer />
     </>

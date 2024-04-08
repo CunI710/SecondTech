@@ -1,6 +1,22 @@
 import React from 'react';
+import { useDispatch, useSelector } from 'react-redux';
+import { setCart, setCount, setOpenCart, setTotal } from '../../redux/slices/cartSlice';
 
-const ProductDescription = ({ brand, name, color, price, storage, description }) => {
+const ProductDescription = ({ item }) => {
+  const { name, color, price, brand, description, imgUrls, id, storage } = item;
+  const dispatch = useDispatch();
+  const { cart, openCart } = useSelector((state) => state.cart);
+
+  const addCart = (item) => {
+    if (!cart.some((cartItem) => cartItem.id === item.id)) {
+      dispatch(setCart(item));
+      dispatch(setTotal(item.price));
+      dispatch(setCount(1));
+      dispatch(setOpenCart(!openCart));
+    } else {
+      dispatch(setOpenCart(!openCart));
+    }
+  };
   return (
     <div className="py-16 flex flex-col gap-5 text-[#000]">
       <div className="flex flex-col gap-1">
@@ -21,7 +37,10 @@ const ProductDescription = ({ brand, name, color, price, storage, description })
         </div>
       </div>
       <div className="flex">
-        <button className="bg-first py-3 px-[40px] rounded-[30px] text-[12px] font-bold text-white">
+        <button
+          onClick={() => addCart(item)}
+          className="bg-first py-3 px-[40px] rounded-[30px] text-[12px] font-bold text-white"
+        >
           В корзину
         </button>
       </div>

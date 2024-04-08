@@ -1,14 +1,16 @@
 import React, { useEffect, useState } from 'react';
-import ProductSlider from './ProductSlider';
-import productImg from '../../assets/product/iphone12.png';
-import productImg2 from '../../assets/product/iphone13.png';
-import ProductDescription from './ProductDescription';
 import { useDispatch, useSelector } from 'react-redux';
+
+import ProductDescription from './ProductDescription';
 import { getProductById } from '../../redux/slices/productsSlice';
+import ProductSlider from './ProductSlider';
 import Characteristics from './Tabs/Characteristics';
 import Checkout from './Tabs/Checkout';
 import Payment from './Tabs/Payment';
 import Delivery from './Tabs/Delivery';
+import Header from '../../Layouts/Header';
+import Footer from '../../Layouts/Footer';
+
 const ProductInfo = () => {
   const [active, setActive] = useState('Характеристики');
   const [activeTab, setActiveTab] = useState(0);
@@ -17,6 +19,7 @@ const ProductInfo = () => {
   useEffect(() => {
     const id = localStorage.getItem('productId');
     dispatch(getProductById(id));
+    window.scrollTo(0, 0);
   }, []);
 
   const navLink = [
@@ -48,45 +51,48 @@ const ProductInfo = () => {
   };
 
   return (
-    <div className="w-[80%] m-auto my-[100px]">
-      <div className="flex gap-5">
-        <div className="flex-1">
-          <ProductSlider />
-        </div>
-        <div className="flex-1">
-          {item.length !== 0 ? <ProductDescription {...item} /> : <p>Загружаю данные</p>}
-        </div>
-      </div>
-      <div>
-        <div className="flex bg-[#FAFAFA] py-7 px-5 justify-between uppercase font-normal ">
-          {navLink.map((item, i) => (
-            <button
-              key={i}
-              className="uppercase"
-              onClick={() => handleClick(item.title, item.link)}
-            >
-              <p
-                className={`cursor-pointer hover:text-first duration-300 ${
-                  active === item.title ? 'text-first' : ''
-                }`}
-              >
-                {item.title}
-              </p>
-            </button>
-          ))}
+    <>
+      <Header />
+      <div className="w-[80%] m-auto my-[50px]">
+        <div className="flex gap-5">
+          <div className="flex-1">
+            {item.length !== 0 ? <ProductSlider imgUrls={item.imgUrls} /> : <p>Загружаю данные</p>}
+          </div>
+          <div className="flex-1 mt-4">
+            {item.length !== 0 ? <ProductDescription item={item} /> : <p>Загружаю данные</p>}
+          </div>
         </div>
         <div>
-          <div className="w-[90%] m-auto my-[50px]">
-            {activeTab === 0 && <Characteristics item={item} />}
-            {activeTab === 1 && <Checkout />}
-            {activeTab === 2 && <Payment />}
-            {activeTab === 3 && <Delivery />}
-            {activeTab === 4 && <p>4</p>}
-            {activeTab === 5 && <p>5</p>}
+          <div className="flex bg-[#FAFAFA] py-7 px-5 justify-between uppercase font-normal ">
+            {navLink.map((item, i) => (
+              <button
+                key={i}
+                className="uppercase"
+                onClick={() => handleClick(item.title, item.link)}
+              >
+                <p
+                  className={`cursor-pointer hover:text-first duration-300 ${
+                    active === item.title ? 'text-first' : ''
+                  }`}
+                >
+                  {item.title}
+                </p>
+              </button>
+            ))}
+          </div>
+          <div>
+            <div className="w-[90%] m-auto my-[50px]">
+              {activeTab === 0 && <Characteristics item={item} />}
+              {activeTab === 1 && <Checkout />}
+              {activeTab === 2 && <Payment />}
+              {activeTab === 3 && <Delivery />}
+              {activeTab === 4 && <p>4</p>}
+            </div>
           </div>
         </div>
       </div>
-    </div>
+      <Footer />
+    </>
   );
 };
 
