@@ -1,20 +1,43 @@
-import React from 'react';
-import homeBg from '../../assets/background/home-bg.png';
-import { Link } from 'react-router-dom';
+import React, { useState } from 'react';
+import First from './Banner/First';
+import Second from './Banner/Second';
+import Third from './Banner/Third';
+import nextIcon from '../../assets/icons/arrow-right.svg';
+
 const Banner = () => {
+  const [next, setNext] = useState(0);
+
+  const handlePrev = () => {
+    if (next === 0) {
+      setNext(2);
+    } else if (next > 0) {
+      setNext(next - 1);
+    } else {
+      setNext(0);
+    }
+  };
+
+  const handleNext = () => {
+    if (next < 2) {
+      console.log('fewfw');
+      setNext(next + 1);
+    } else {
+      setNext(0);
+    }
+  };
   return (
-    <div className="relative mt-16 min-h-[600px] bg-black flex justify-center items-center">
-      <img src={homeBg} alt="img" className="w-screen absolute top-0 left-0 z-0 h-[100%]" />
-      <div className="text-white relative z-10 flex flex-col gap-3 items-center py-[10%]">
-        <h1 className="font-mont text-4xl font-semibold">iPhone 15 Pro</h1>
-        <p className="font-mont text-[18px] font-light">Доступен в рассрочку</p>
-        <Link
-          to=""
-          className="bg-first  py-3 px-[60px] rounded-[30px] duration-[0.3s] hover:bg-opacity-50 "
-        >
-          Купить
-        </Link>
-      </div>
+    <div className="relative mt-16 min-h-[600px] justify-center flex items-center">
+      <button className="relative z-10 mx-4" onClick={handlePrev}>
+        <img src={nextIcon} alt="icon prev" className="rotate-180" />
+      </button>
+
+      {next === 0 && <First />}
+      {next === 1 && <Second />}
+      {next === 2 && <Third />}
+
+      <button className="relative z-10 mx-4 " onClick={handleNext}>
+        <img src={nextIcon} alt="icon next" />
+      </button>
     </div>
   );
 };

@@ -1,76 +1,66 @@
-import React, { useState } from 'react';
+import React, { useEffect, useState } from 'react';
+import { Link } from 'react-router-dom';
+import { useDispatch, useSelector } from 'react-redux';
 import logo from '../assets/icons/logo.png';
 import searchIcon from '../assets/icons/search.svg';
 import phoneIcon from '../assets/icons/phone.svg';
 import cartIcon from '../assets/icons/photo.svg';
-import { Link } from 'react-router-dom';
-import close from '../assets/icons/close.png';
+import login from '../assets/icons/login.png';
 import Cart from '../components/Cart/Cart';
-import { useSelector } from 'react-redux';
+import Search from '../components/SearchComponents/Search';
+import { getUser } from '../redux/slices/authSlice';
+import { setOpenCart } from '../redux/slices/cartSlice';
+
+const navLinks = [
+  {
+    id: 1,
+    value: 'Home',
+    path: '/',
+  },
+  {
+    id: 2,
+    value: 'Смартфоны',
+    path: '/smartphone',
+  },
+  {
+    id: 3,
+    value: 'Ноутбуки',
+    path: '/laptop',
+  },
+  {
+    id: 4,
+    value: 'Планшеты',
+    path: '/product',
+  },
+  {
+    id: 5,
+    value: 'Продать',
+    path: '/blalbla',
+  },
+];
 const Header = () => {
-  const navLinks = [
-    {
-      id: 1,
-      value: 'Home',
-      path: '/',
-    },
-    {
-      id: 2,
-      value: 'Смартфоны',
-      path: '/smartphone',
-    },
-    {
-      id: 3,
-      value: 'Ноутбуки',
-      path: '/laptop',
-    },
-    {
-      id: 4,
-      value: 'Планшеты',
-      path: '/blabla',
-    },
-    {
-      id: 5,
-      value: 'Продать',
-      path: '/blalbla',
-    },
-  ];
-
   const [isSearchOpen, setIsSearchOpen] = useState(false);
-  const [cartOpen, setCartOpen] = useState(false);
-  const { count, total } = useSelector((state) => state.cart);
+  const { count } = useSelector((state) => state.cart);
+  const dispatch = useDispatch();
+  const { user } = useSelector((state) => state.auth);
+  const { openCart } = useSelector((state) => state.cart);
 
-  console.log(count);
-  console.log(total);
-
-  const toggleSearch = (e) => {
-    e.preventDefault();
+  const toggleSearch = () => {
     setIsSearchOpen(!isSearchOpen);
   };
 
   const toggleCart = () => {
-    setCartOpen(!cartOpen);
+    dispatch(setOpenCart(!openCart));
   };
 
   return (
     <header className="bg-black mb-5 fixed top-0 right-0 w-full z-50 text-[#fff]">
       <div
-        className={`absolute  left-0 z-50 bg-white w-full overflow-hidden text-center py-20 transition-all duration-700 ${
+        className={`absolute  left-0 z-50 bg-white w-full overflow-hidden text-center py-10 transition-all shadow-lg duration-700 ${
           isSearchOpen ? 'top-0' : '-top-80 opacity-5'
         }`}
       >
-        <form className="flex justify-center gap-5">
-          <input
-            type="text"
-            name=""
-            id=""
-            placeholder="Iphone 15 pro ..."
-            className="bg-[#f5f6ff] py-5 px-5 w-[50%] rounded-full  text-[#c3c3c5] focus:outline-none focus:ring-0"
-          />
-          <button onClick={(e) => toggleSearch(e)}>
-            <img src={close} alt="icon" className="w-7" />
-          </button>
-        </form>
+        <Search toggleSearch={toggleSearch} />
       </div>
 
       <nav className="flex px-11 py-4 justify-between font-mont ">
@@ -85,9 +75,12 @@ const Header = () => {
           ))}
         </ul>
         <div className="flex gap-4 items-center">
-          <button onClick={toggleSearch}>
+          <Link to="/login" className="w-[18px]">
+            <img src={login} alt="image" />
+          </Link>
+          <Link onClick={toggleSearch}>
             <img src={searchIcon} alt="icon" />
-          </button>
+          </Link>
           <Link to="">
             <img src={phoneIcon} alt="icon" />
           </Link>
@@ -102,7 +95,7 @@ const Header = () => {
         </div>
       </nav>
 
-      <Cart cartOpen={cartOpen} setCartOpen={setCartOpen} />
+      <Cart />
     </header>
   );
 };
