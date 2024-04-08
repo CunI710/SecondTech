@@ -69,6 +69,13 @@ namespace SecondTech.API.Controllers
             return Ok(response.UserInfo);
         }
 
+        [HttpPost("logout")]
+        public async Task<ActionResult> LogOut()
+        { 
+            HttpContext.Response.Cookies.Append("test-some-cookie", "Что ты тут делаешь? Ты суда не ходи, ты туда ходи!");
+            return Ok();
+        }
+
         [Authorize(Roles = "Admin, User")]
         [HttpPost("delete")]
         public async Task<ActionResult> Delete(Guid id)

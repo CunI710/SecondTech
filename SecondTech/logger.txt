@@ -4725,3 +4725,45 @@ LEFT JOIN (
 ) AS "t" ON "p"."Id" = "t"."ProductsId"
 LEFT JOIN "ImgUrls" AS "i" ON "p"."Id" = "i"."ProductEntityId"
 ORDER BY "p"."Id", "c"."Id", "b"."Id", "c0"."Id", "c1"."Id", "t"."PackageContentsId", "t"."ProductsId", "t"."Id"
+Now listening on: http://localhost:5183
+Application started. Press Ctrl+C to shut down.
+Hosting environment: Development
+Content root path: C:\Users\Asel\source\repos\SecondTech\SecondTech
+Executed DbCommand (40ms) [Parameters=[@__userName_0='?' (Size = 6)], CommandType='Text', CommandTimeout='30']
+SELECT "u"."Id", "u"."PasswordHash", "u"."Role", "u"."UserName"
+FROM "Users" AS "u"
+WHERE "u"."UserName" = @__userName_0
+LIMIT 1
+Executed DbCommand (2ms) [Parameters=[@__id_0='?' (DbType = Guid)], CommandType='Text', CommandTimeout='30']
+SELECT "u"."Id", "u"."PasswordHash", "u"."Role", "u"."UserName"
+FROM "Users" AS "u"
+WHERE "u"."Id" = @__id_0
+LIMIT 1
+Now listening on: http://localhost:5183
+Application started. Press Ctrl+C to shut down.
+Hosting environment: Development
+Content root path: C:\Users\Asel\source\repos\SecondTech\SecondTech
+Executed DbCommand (27ms) [Parameters=[@__userName_0='?' (Size = 6)], CommandType='Text', CommandTimeout='30']
+SELECT "u"."Id", "u"."PasswordHash", "u"."Role", "u"."UserName"
+FROM "Users" AS "u"
+WHERE "u"."UserName" = @__userName_0
+LIMIT 1
+Executed DbCommand (2ms) [Parameters=[@__id_0='?' (DbType = Guid)], CommandType='Text', CommandTimeout='30']
+SELECT "u"."Id", "u"."PasswordHash", "u"."Role", "u"."UserName"
+FROM "Users" AS "u"
+WHERE "u"."Id" = @__id_0
+LIMIT 1
+Now listening on: http://localhost:5183
+Application started. Press Ctrl+C to shut down.
+Hosting environment: Development
+Content root path: C:\Users\Asel\source\repos\SecondTech\SecondTech
+Executed DbCommand (26ms) [Parameters=[@__userName_0='?' (Size = 6)], CommandType='Text', CommandTimeout='30']
+SELECT "u"."Id", "u"."PasswordHash", "u"."Role", "u"."UserName"
+FROM "Users" AS "u"
+WHERE "u"."UserName" = @__userName_0
+LIMIT 1
+Executed DbCommand (1ms) [Parameters=[@__id_0='?' (DbType = Guid)], CommandType='Text', CommandTimeout='30']
+SELECT "u"."Id", "u"."PasswordHash", "u"."Role", "u"."UserName"
+FROM "Users" AS "u"
+WHERE "u"."Id" = @__id_0
+LIMIT 1

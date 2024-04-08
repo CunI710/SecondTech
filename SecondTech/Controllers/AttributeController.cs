@@ -22,7 +22,7 @@ namespace SecondTech.API.Controllers
         {
             var responses = await _service.GetBrands();
             return Ok(responses);
-        }
+        }   
 
         [HttpGet("categories")]
         public async Task<ActionResult<List<CategoryResponse>>> Categories()
