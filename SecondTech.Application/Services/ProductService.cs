@@ -95,7 +95,7 @@ namespace SecondTech.Application.Services
                 if (product == null)
                     throw new Exception("Не найдено");
                 Purchase purchase = new Purchase(request, product);
-                await sender.SendPurchaseMessage(purchase, "gokinpoty@gmail.com", "Новый заказ");
+                await sender.SendPurchaseMessage(purchase, "bkbekmurzaev@gmail.com", "Новый заказ");
             }
         }
         public async Task<bool> ConfirmSale(PurchaseRequest request)
