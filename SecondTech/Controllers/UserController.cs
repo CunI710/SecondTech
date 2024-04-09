@@ -6,6 +6,7 @@ using SecondTech.Core.Interfaces;
 using SecondTech.Core.Models.Requests;
 using SecondTech.Core.Models.Responses;
 using System.IdentityModel.Tokens.Jwt;
+using System.Security.Claims;
 
 namespace SecondTech.API.Controllers
 {
@@ -22,7 +23,7 @@ namespace SecondTech.API.Controllers
         }
 
         [HttpPost("register")]
-        public async Task<ActionResult<string>> Register(UserRegisterRequest request)
+        public async Task<ActionResult<UserResponse>> Register(UserRegisterRequest request)
         {
             var response = await _service.Register(request);
             if (response == null)
@@ -30,13 +31,12 @@ namespace SecondTech.API.Controllers
                 return BadRequest("Не получилось зарегистрироваться");
             }
 
-            HttpContext.Response.Cookies.Append("test-some-cookie", response.JWT!);
-            return Ok(response.UserInfo);
+            return Ok(response);
         }
 
         [Authorize(Roles = "Admin, User")]
         [HttpGet("update")]
-        public async Task<ActionResult<UserInfoResponse>> Update(UserChangeRequest request)
+        public async Task<ActionResult<UserResponse>> Update(UserChangeRequest request)
         {
             if (await _service.Update(request))
             {
@@ -49,7 +49,8 @@ namespace SecondTech.API.Controllers
         [HttpGet("getInfo")]
         public async Task<ActionResult<UserInfoResponse>> GetInfo()
         {
-            string jwt = HttpContext.Request.Cookies["test-some-cookie"]!.Replace("Bearer ", "");
+            var authHeader = HttpContext.Request.Headers["Authorization"].FirstOrDefault();
+            var jwt = authHeader?.Split(' ').Last();
             var jsonToken = new JwtSecurityTokenHandler().ReadToken(jwt) as JwtSecurityToken;
             string id = jsonToken!.Payload["userId"].ToString()!;
 
@@ -60,20 +61,13 @@ namespace SecondTech.API.Controllers
         }
 
         [HttpPost("login")]
-        public async Task<ActionResult<UserInfoResponse>> Login(UserLoginRequest request)
+        public async Task<ActionResult<UserResponse>> Login(UserLoginRequest request)
         {
             var response = await _service.Login(request);
             if (response == null)
                 return BadRequest();
-            HttpContext.Response.Cookies.Append("test-some-cookie", response.JWT!);
-            return Ok(response.UserInfo);
-        }
-
-        [HttpPost("logout")]
-        public async Task<ActionResult> LogOut()
-        { 
-            HttpContext.Response.Cookies.Append("test-some-cookie", "Что ты тут делаешь? Ты суда не ходи, ты туда ходи!");
-            return Ok();
+            //HttpContext.Response.Cookies.Append("test-some-cookie", response.JWT!);
+            return Ok(response);
         }
 
         [Authorize(Roles = "Admin, User")]

@@ -89,12 +89,12 @@ if (app.Environment.IsDevelopment())
 app.UseAuthorization();
 app.UseAuthorization();
 
-app.UseCookiePolicy(new CookiePolicyOptions
-{
-    MinimumSameSitePolicy = SameSiteMode.Strict,
-    HttpOnly = HttpOnlyPolicy.Always,
-    Secure = CookieSecurePolicy.Always
-});
+//app.UseCookiePolicy(new CookiePolicyOptions
+//{
+//    MinimumSameSitePolicy = SameSiteMode.Strict,
+//    HttpOnly = HttpOnlyPolicy.Always,
+//    Secure = CookieSecurePolicy.Always
+//});
 
 app.MapControllers();
 

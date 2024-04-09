@@ -33,14 +33,14 @@ namespace SecondTech.API.Extensions
                         // валидация ключа безопасности
                     };
 
-                    options.Events = new JwtBearerEvents
-                    {
-                        OnMessageReceived = context =>
-                        {
-                            context.Token = context.Request.Cookies["test-some-cookie"];
-                            return Task.CompletedTask;
-                        }
-                    };
+                    //options.Events = new JwtBearerEvents
+                    //{
+                    //    OnMessageReceived = context =>
+                    //    {
+                    //        context.Token = context.Request.Cookies["test-some-cookie"];
+                    //        return Task.CompletedTask;
+                    //    }
+                    //};
 
                 });
             services.AddAuthorization();
