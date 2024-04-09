@@ -5,6 +5,7 @@ import Advantages from '../components/homeComponents/Advantages';
 import About from '../components/homeComponents/About';
 import Header from '../Layouts/Header';
 import Footer from '../Layouts/Footer';
+import Stats from '../components/homeComponents/Stats';
 const Home = () => {
   useEffect(() => {
     window.scrollTo(0, 0);
@@ -16,6 +17,8 @@ const Home = () => {
         <Category />
         <Advantages />
         <About />
+        <Stats />
+        <div></div>
       </div>
     </>
   );

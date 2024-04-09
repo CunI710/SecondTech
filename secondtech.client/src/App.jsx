@@ -12,6 +12,7 @@ import Order from './pages/Order';
 import SearchResult from './pages/SearchResult';
 import Login from './pages/Login';
 import Signup from './pages/Signup';
+import Succes from './components/Cart/Succes';
 function App() {
   useEffect(() => {
     const beforeUnloadHandler = (e) => {
@@ -50,6 +51,7 @@ function App() {
         <Route path="/searchresult" element={<SearchResult />} />
         <Route path="/login" element={<Login />} />
         <Route path="/signup" element={<Signup />} />
+        <Route path="/succes" element={<Succes />} />
         <Route path="*" element={<NotFound />} />
       </Routes>
       <Footer />

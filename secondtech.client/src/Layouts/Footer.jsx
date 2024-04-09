@@ -207,7 +207,7 @@ const Footer = () => {
         </div>
 
         <div className="py-8 text-center text-sm text-gray-400">
-          © 2024 - Present Flowrift. All rights reserved.
+          © 2024 - Present SecondTech. All rights reserved.
         </div>
       </footer>
     </div>

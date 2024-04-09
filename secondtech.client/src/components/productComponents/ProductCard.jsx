@@ -35,6 +35,7 @@ const ProductCard = ({ item }) => {
       <p className="text-[18px]">{price} сом</p>
       <Link
         // onClick={() => addCart(item)}
+        onClick={() => handleClick()}
         to={`${path.pathname}/${id}`}
         className="cursor-pointer text-[13px] bg-first rounded-full w-[100%] text-[#fff] font-bold py-[15px]"
       >
