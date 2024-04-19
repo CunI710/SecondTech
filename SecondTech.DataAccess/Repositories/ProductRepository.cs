@@ -70,7 +70,7 @@ namespace SecondTech.DataAccess.Repositories
                 .Include(p => p.Characteristics)
                 .Include(p => p.PackageContents)
                 .Include(p => p.ImgUrls)
-                .Where(p => p.Name.Contains(request))
+                .Where(p => p.Name.ToUpper().Contains(request.ToUpper()))
                 .Skip((page - 1) * pageSize)
                 .Take(pageSize)
                 .AsNoTracking()
