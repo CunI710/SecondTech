@@ -1,14 +1,17 @@
 import { useFormik } from 'formik';
 import React from 'react';
 import { useEffect } from 'react';
-import { useLocation } from 'react-router-dom';
+import { useLocation, useNavigate } from 'react-router-dom';
 import { ToastContainer, toast } from 'react-toastify';
 import InputMask from 'react-input-mask';
 import CartItem from '../components/Cart/CartItem';
 import { useDispatch, useSelector } from 'react-redux';
 import { orderSchema } from '../schemas/validation';
 import EmptyCart from '../components/Cart/EmptyCart';
-import { requestSale } from '../redux/slices/cartSlice';
+import { clearCart, requestSale, setCart, setLoading } from '../redux/slices/cartSlice';
+import axios from 'axios';
+import { BASE_URL } from '../utils/constants';
+import Loading from '../components/UI/Loading';
 
 const showToast = (text, status) => {
   if (status) {
@@ -38,28 +41,40 @@ const showToast = (text, status) => {
 
 const Order = () => {
   const dispatch = useDispatch();
+  const navigate = useNavigate();
 
-  const { cart, total, checkout } = useSelector((state) => state.cart);
+  const { cart, total, isLoading } = useSelector((state) => state.cart);
 
-  const { values, errors, touched, handleBlur, handleChange, handleSubmit } = useFormik({
+  const { values, errors, resetForm, touched, handleBlur, handleChange, handleSubmit } = useFormik({
     initialValues: {
-      productId: ['fe2805d1-023e-40f8-8572-45a17adce9de'],
+      productId: [],
       firstName: '',
       lastName: '',
       email: '',
       number: '',
       city: '',
       address: '',
-      // deliveryOption: 'deliveryMan',
+      deliveryOption: 'deliveryMan',
     },
     // validationSchema: orderSchema,
     onSubmit: async (values) => {
-      // await cart.forEach((element) => {
-      //   values.productId.push(element.id);
-      // });
       console.log(values);
-      dispatch(requestSale(values));
-      showToast('Успешно отправлено;)', true);
+      values.productId = [];
+      cart.forEach((element) => {
+        values.productId.push(element.id);
+      });
+      try {
+        dispatch(setLoading(false));
+        await axios.post(`${BASE_URL}/Product/requestSale`, values);
+        showToast('Успешно отправлено;)', true);
+        resetForm();
+        dispatch(setLoading(true));
+        dispatch(clearCart([]));
+        navigate('/succes');
+      } catch (error) {
+        console.log(error);
+      }
+      // dispatch(requestSale(values));
     },
   });
 
@@ -71,9 +86,9 @@ const Order = () => {
   }, [touched.number, errors.number]);
 
   return (
-    <div className="w-[100%] m-auto">
+    <div className={`w-[100%] m-auto"`}>
       {total !== 0 ? (
-        <div className="flex flex-col my-[100px] gap-5 w-[90%] m-auto ">
+        <div className={`flex relative flex-col my-[100px] gap-5 w-[90%] m-auto `}>
           <h1 className="text-center font-semibold text-[24px]">Ваш заказ</h1>
           <div className="flex gap-5">
             <form onSubmit={handleSubmit} className="flex-1 flex flex-col gap-5">
@@ -132,15 +147,15 @@ const Order = () => {
                 className="border-[#000] border py-3 px-3 "
               />
               <h3 className="text-[22px]">Способ доставки:</h3>
-              {/* <fieldset class="grid grid-cols-2 gap-4">
+              <fieldset className="grid grid-cols-2 gap-4">
                 <div>
                   <label
-                    for="deliveryMan"
-                    class="flex cursor-pointer justify-between gap-4 rounded-lg border border-gray-100 bg-white p-4 text-sm font-medium shadow-sm hover:border-gray-200 has-[:checked]:border-blue-500 has-[:checked]:ring-1 has-[:checked]:ring-blue-500"
+                    htmlFor="deliveryMan"
+                    className="flex cursor-pointer justify-between gap-4 rounded-lg border border-gray-100 bg-white p-4 text-sm font-medium shadow-sm hover:border-gray-200 has-[:checked]:border-blue-500 has-[:checked]:ring-1 has-[:checked]:ring-blue-500"
                   >
                     <div>
-                      <p class="text-gray-700">Отправка курьером</p>
-                      <p class="mt-1 text-gray-900">2 часа</p>
+                      <p className="text-gray-700">Отправка курьером</p>
+                      <p className="mt-1 text-gray-900">2 часа</p>
                     </div>
                     <input
                       type="radio"
@@ -150,18 +165,18 @@ const Order = () => {
                       checked={values.deliveryOption === 'deliveryMan'}
                       onChange={handleChange}
                       onBlur={handleBlur}
-                      class="size-5 border-gray-300 text-blue-500"
+                      className="size-5 border-gray-300 text-blue-500"
                     />
                   </label>
                 </div>
                 <div>
                   <label
-                    for="pickup"
-                    class="flex cursor-pointer justify-between gap-4 rounded-lg border border-gray-100 bg-white p-4 text-sm font-medium shadow-sm hover:border-gray-200 has-[:checked]:border-blue-500 has-[:checked]:ring-1 has-[:checked]:ring-blue-500"
+                    htmlFor="pickup"
+                    className="flex cursor-pointer justify-between gap-4 rounded-lg border border-gray-100 bg-white p-4 text-sm font-medium shadow-sm hover:border-gray-200 has-[:checked]:border-blue-500 has-[:checked]:ring-1 has-[:checked]:ring-blue-500"
                   >
                     <div>
-                      <p class="text-gray-700">Самовызов</p>
-                      <p class="mt-1 text-gray-900">24/7</p>
+                      <p className="text-gray-700">Самовызов</p>
+                      <p className="mt-1 text-gray-900">24/7</p>
                     </div>
                     <input
                       type="radio"
@@ -171,18 +186,22 @@ const Order = () => {
                       checked={values.deliveryOption === 'pickup'}
                       onChange={handleChange}
                       onBlur={handleBlur}
-                      class="size-5 border-gray-300 text-blue-500"
+                      className="size-5 border-gray-300 text-blue-500"
                     />
                   </label>
                 </div>
-              </fieldset> */}
+              </fieldset>
 
-              <button
-                type="submit"
-                className="text-center py-4 w-[100%] bg-first text-white font-medium rounded-full m-auto"
-              >
-                Оформить заказ
-              </button>
+              {isLoading ? (
+                <button
+                  type="submit"
+                  className="text-center py-4 w-[100%] bg-first text-white font-medium rounded-full m-auto"
+                >
+                  Оформить заказ
+                </button>
+              ) : (
+                <Loading />
+              )}
             </form>
             <div className="flex-1 flex flex-col">
               {cart.map((item) => (

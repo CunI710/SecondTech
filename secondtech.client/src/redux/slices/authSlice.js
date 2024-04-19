@@ -2,25 +2,47 @@ import { createAsyncThunk, createSlice } from '@reduxjs/toolkit';
 import { BASE_URL } from '../../utils/constants';
 import axios from 'axios';
 
-export const getUser = createAsyncThunk('products/getUser', async () => {
-  const { data } = await axios.get(`${BASE_URL}/User/getInfo`);
+export const getUser = createAsyncThunk('user/getUser', async () => {
+  const token = localStorage.getItem('token');
+
+  if (token) {
+    const { data } = await axios.get(`${BASE_URL}/User/getInfo`, {
+      headers: {
+        Authorization: `Bearer ${token}`,
+      },
+    });
+
+    return data;
+  }
+});
+
+export const login = createAsyncThunk('user/login', async (values) => {
+  const token = localStorage.getItem('token');
+  const { data } = await axios.post(`${BASE_URL}/User/login`, values, {
+    headers: {
+      Authorization: `Bearer ${token}`,
+    },
+  });
+  localStorage.setItem('token', data.jwt);
+  localStorage.setItem('role', data.userInfo.role);
+  localStorage.setItem('userName', data.userInfo.username);
   return data;
 });
 
-export const login = createAsyncThunk('products/login', async (values) => {
-  const { data } = await axios.post(`${BASE_URL}/User/login`, values);
+export const signup = createAsyncThunk('user/signup', async (values) => {
+  console.log(values);
+  const { data } = await axios.post(`${BASE_URL}/User/register`, values);
+  console.log(data);
+  localStorage.setItem('token', data.jwt);
+  localStorage.setItem('role', data.userInfo.role);
   return data;
 });
 
-const initialState = { user: '', loginUser: '', isLoading: true };
+const initialState = { user: '', isLoading: true };
 export const authSlice = createSlice({
   name: 'auth',
   initialState,
-  reducers: {
-    setCart: (state, action) => {
-      state.user = action.payload;
-    },
-  },
+  reducers: {},
   extraReducers: (builder) => {
     builder.addCase(getUser.pending, (state) => {
       state.isLoading = true;
@@ -44,7 +66,7 @@ export const authSlice = createSlice({
     });
 
     builder.addCase(login.fulfilled, (state, action) => {
-      state.loginUser = action.payload;
+      state.user = action.payload;
       state.isLoading = false;
       console.log('succes');
     });

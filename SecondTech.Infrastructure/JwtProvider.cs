@@ -35,7 +35,7 @@ namespace SecondTech.Infrastructure
             var token = new JwtSecurityToken(
                 signingCredentials: signingCredentials,
                 claims: claims,
-                expires: DateTime.UtcNow.AddHours(_options.ExpitesHours)
+                expires: DateTime.UtcNow.AddHours(_options.ExpiresHours)
                 );
 
 

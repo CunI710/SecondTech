@@ -1,6 +1,6 @@
 import React from 'react';
 import homeBg from '../../../assets/background/home-bg2.png';
-import { Link } from 'react-router-dom';
+
 const Second = () => {
   return (
     <div className="bg-black w-screen">

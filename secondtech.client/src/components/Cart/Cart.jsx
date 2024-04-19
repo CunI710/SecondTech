@@ -8,7 +8,7 @@ import { setOpenCart } from '../../redux/slices/cartSlice';
 const Cart = () => {
   const dispatch = useDispatch();
   const { cart, total, openCart } = useSelector((state) => state.cart);
-  console.log(cart);
+
   const handleClick = () => {
     dispatch(setOpenCart(!openCart));
   };
@@ -19,17 +19,17 @@ const Cart = () => {
         openCart ? 'right-0 ' : '-right-[100%] opacity-5'
       } transition-all duration-700  text-[#000]`}
     >
-      {total !== 0 ? (
+      <div className="flex flex-col w-[90%] gap-5 m-auto py-5">
+        <div className="flex justify-between  pb-5">
+          <h1 className="text-[20px] font-medium">Корзина</h1>
+          <img
+            src={close}
+            alt="img"
+            className="w-6 h-6 cursor-pointer"
+            onClick={() => handleClick()}
+          />
+        </div>
         <div className="flex flex-col w-[90%] gap-5 m-auto py-5">
-          <div className="flex justify-between  pb-5">
-            <h1 className="text-[20px] font-medium">Корзина</h1>
-            <img
-              src={close}
-              alt="img"
-              className="w-6 h-6 cursor-pointer"
-              onClick={() => handleClick()}
-            />
-          </div>
           <div className="border-t-2">
             {cart.map((item) => (
               <CartItem key={item.id} {...item} />
@@ -46,20 +46,7 @@ const Cart = () => {
             Оформить заказ
           </Link>
         </div>
-      ) : (
-        <div>
-          <div className="flex justify-between  pb-5">
-            <h1 className="text-[20px] font-medium">Корзина</h1>
-            <img
-              src={close}
-              alt="img"
-              className="w-6 h-6 cursor-pointer"
-              onClick={() => handleClick()}
-            />
-          </div>
-          <p>empty</p>
-        </div>
-      )}
+      </div>
     </div>
   );
 };

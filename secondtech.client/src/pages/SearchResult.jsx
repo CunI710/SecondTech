@@ -26,8 +26,8 @@ const SearchResult = () => {
             </div>
           </div>
         ) : (
-          <div class="h-screen flex justify-center px-4">
-            <h1 class="uppercase tracking-widest text-gray-500 dark:text-gray-400">
+          <div className="h-screen flex justify-center px-4">
+            <h1 className="uppercase tracking-widest text-gray-500 dark:text-gray-400">
               Ops | Not Found
             </h1>
           </div>

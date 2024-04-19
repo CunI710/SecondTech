@@ -2,6 +2,7 @@ import React, { useEffect } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import { getProducts } from '../redux/slices/productsSlice';
 import ProductCard from '../components/productComponents/ProductCard';
+import Filter from '../components/productComponents/Filter';
 
 const Product = ({ category, banner, title }) => {
   const dispatch = useDispatch();
@@ -27,7 +28,7 @@ const Product = ({ category, banner, title }) => {
             </p>
           </div>
           <div className="flex justify-between">
-            <div>filter</div>
+            <Filter />
             <div>search</div>
           </div>
           <div className="grid grid-cols-4 grid-rows-3 gap-5">

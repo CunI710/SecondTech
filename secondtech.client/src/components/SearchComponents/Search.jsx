@@ -27,11 +27,14 @@ const Search = ({ toggleSearch }) => {
   });
 
   const handleToggle = () => {
-    toggleSearch();
-    resetForm();
+    console.log(path.pathname);
     if (path.pathname === '/searchresult') {
       navigate(-1);
+      toggleSearch();
+      resetForm();
     }
+    toggleSearch();
+    resetForm();
   };
 
   return (
@@ -46,7 +49,7 @@ const Search = ({ toggleSearch }) => {
           placeholder="Iphone 15 pro ..."
           className="bg-[#f5f6ff] py-5 px-5 w-[100%] rounded-full  text-[#c3c3c5] focus:outline-none focus:ring-0"
         />
-        <div className="flex items-center cursor-pointer" onClick={handleToggle}>
+        <div className="flex items-center cursor-pointer" onClick={() => handleToggle()}>
           <img src={close} alt="icon" className="w-7" />
         </div>
       </form>

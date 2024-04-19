@@ -1,41 +1,13 @@
 import { useFormik } from 'formik';
-import React, { useEffect } from 'react';
-import { Link } from 'react-router-dom';
-import { toast } from 'react-toastify';
+import React from 'react';
+import { Input } from 'antd';
+import { useDispatch } from 'react-redux';
+import { Link, useNavigate } from 'react-router-dom';
 import { loginSchema } from '../schemas/validation';
-import axios from 'axios';
-import { BASE_URL } from '../utils/constants';
-import { useDispatch, useSelector } from 'react-redux';
-import { getUser, login } from '../redux/slices/authSlice';
-
+import { login } from '../redux/slices/authSlice';
 const Login = () => {
   const dispatch = useDispatch();
-  const { loginUser } = useSelector((state) => state.auth);
-  const showToast = (text, status) => {
-    if (status) {
-      toast.success(text, {
-        position: 'top-right',
-        autoClose: 3000,
-        hideProgressBar: false,
-        closeOnClick: true,
-        pauseOnHover: true,
-        draggable: true,
-        progress: undefined,
-        theme: 'dark',
-      });
-    } else {
-      toast.error(text, {
-        position: 'top-right',
-        autoClose: 3000,
-        hideProgressBar: false,
-        closeOnClick: true,
-        pauseOnHover: true,
-        draggable: true,
-        progress: undefined,
-        theme: 'dark',
-      });
-    }
-  };
+  const navigate = useNavigate();
 
   const { values, handleBlur, errors, touched, resetForm, handleChange, handleSubmit } = useFormik({
     initialValues: {
@@ -46,17 +18,10 @@ const Login = () => {
     onSubmit: async (values) => {
       console.log(values);
       dispatch(login(values));
-      showToast('Аккаунт успешно создан ;)', true);
+      navigate('/');
     },
   });
 
-  const fetchUser = () => {
-    dispatch(getUser());
-  };
-
-  useEffect(() => {
-    console.log('User-->', loginUser);
-  }, []);
   return (
     <div className="bg-white py-6 sm:py-8 lg:py-12 my-[80px] ">
       <div className="mx-auto max-w-screen-2xl px-4 md:px-8">
@@ -68,18 +33,18 @@ const Login = () => {
           <div className="flex flex-col gap-4 p-4 md:p-8">
             <div>
               <label
-                htmlFor="userName"
+                htmlhtmlFor="userName"
                 className="mb-2 inline-block text-sm text-gray-800 sm:text-base"
               >
                 Имя пользователья
               </label>
-              <input
+              <Input
                 type="text"
                 name="userName"
                 value={values.userName}
                 onChange={handleChange}
                 onBlur={handleBlur}
-                className="w-full rounded border bg-gray-50 px-3 py-2 text-gray-800 outline-none ring-first transition duration-100 focus:ring"
+                className="px-3 py-2"
               />
               {errors.userName && touched.userName ? (
                 <p className="text-[12px] text-first pt-2">{errors.userName}</p>
@@ -90,18 +55,18 @@ const Login = () => {
 
             <div>
               <label
-                htmlFor="password"
+                htmlhtmlFor="password"
                 className="mb-2 inline-block text-sm text-gray-800 sm:text-base"
               >
                 Пароль
               </label>
-              <input
+              <Input.Password
                 name="password"
                 type="password"
                 value={values.password}
                 onChange={handleChange}
                 onBlur={handleBlur}
-                className="w-full rounded border bg-gray-50 px-3 py-2 text-gray-800 outline-none ring-first transition duration-100 focus:ring"
+                className="px-3 py-2"
               />
               {errors.password && touched.password ? (
                 <p className="text-[12px] text-first pt-2">{errors.password}</p>
@@ -130,9 +95,6 @@ const Login = () => {
             </p>
           </div>
         </form>
-        <div onClick={() => fetchUser()} className="text-first cursor-pointer">
-          check user
-        </div>
       </div>
     </div>
   );

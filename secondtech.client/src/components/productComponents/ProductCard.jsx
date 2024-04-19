@@ -10,7 +10,7 @@ const ProductCard = ({ item }) => {
   const dispatch = useDispatch();
   const { cart } = useSelector((state) => state.cart);
   const handleClick = () => {
-    dispatch(setProductId(id));
+    // dispatch(setProductId(id));
     localStorage.setItem('productId', id);
   };
 
@@ -24,7 +24,7 @@ const ProductCard = ({ item }) => {
 
   return (
     <div className="bg-[#fff] flex transition-shadow duration-300 hover:shadow-lg  flex-col items-center border-none rounded-[10px] p-[26px] gap-3 justify-between text-center w-[265px] leading-[19.2p]">
-      <div className="flex items-center h-[200px]">
+      <div className="flex items-center h-[200px] overflow-hidden">
         <img src={imgUrls[0].url} alt="product image" className="w-[210px]" />
       </div>
       <Link to={`${path.pathname}/${id}`} onClick={() => handleClick()}>
@@ -35,6 +35,7 @@ const ProductCard = ({ item }) => {
       <p className="text-[18px]">{price} сом</p>
       <Link
         // onClick={() => addCart(item)}
+        onClick={() => handleClick()}
         to={`${path.pathname}/${id}`}
         className="cursor-pointer text-[13px] bg-first rounded-full w-[100%] text-[#fff] font-bold py-[15px]"
       >

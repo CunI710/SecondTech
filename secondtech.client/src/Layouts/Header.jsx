@@ -5,11 +5,13 @@ import logo from '../assets/icons/logo.png';
 import searchIcon from '../assets/icons/search.svg';
 import phoneIcon from '../assets/icons/phone.svg';
 import cartIcon from '../assets/icons/photo.svg';
-import login from '../assets/icons/login.png';
+import loginImage from '../assets/icons/user.png';
+import logoutImage from '../assets/icons/logout2.png';
 import Cart from '../components/Cart/Cart';
 import Search from '../components/SearchComponents/Search';
-import { getUser } from '../redux/slices/authSlice';
+
 import { setOpenCart } from '../redux/slices/cartSlice';
+import { getUser } from '../redux/slices/authSlice';
 
 const navLinks = [
   {
@@ -39,22 +41,34 @@ const navLinks = [
   },
 ];
 const Header = () => {
-  const [isSearchOpen, setIsSearchOpen] = useState(false);
-  const { count } = useSelector((state) => state.cart);
   const dispatch = useDispatch();
-  const { user } = useSelector((state) => state.auth);
-  const { openCart } = useSelector((state) => state.cart);
-
+  const [isSearchOpen, setIsSearchOpen] = useState(false);
+  const [userName, setUserName] = useState('');
+  const [userRole, setUserRole] = useState('user');
+  const { count, openCart } = useSelector((state) => state.cart);
+  const user = useSelector((state) => state.auth.user);
   const toggleSearch = () => {
     setIsSearchOpen(!isSearchOpen);
   };
 
   const toggleCart = () => {
-    dispatch(setOpenCart(!openCart));
+    if (count !== 0) {
+      dispatch(setOpenCart(!openCart));
+    }
   };
 
+  const logout = () => {
+    localStorage.clear();
+    setUserName('');
+  };
+
+  useEffect(() => {
+    setUserName(localStorage.getItem('userName'));
+    setUserRole(localStorage.getItem('role'));
+  }, [logout, user]);
+
   return (
-    <header className="bg-black mb-5 fixed top-0 right-0 w-full z-50 text-[#fff]">
+    <header className="bg-black mb-5 fixed top-0 right-0 w-full z-50  py-4 text-[#fff]">
       <div
         className={`absolute  left-0 z-50 bg-white w-full overflow-hidden text-center py-10 transition-all shadow-lg duration-700 ${
           isSearchOpen ? 'top-0' : '-top-80 opacity-5'
@@ -63,9 +77,9 @@ const Header = () => {
         <Search toggleSearch={toggleSearch} />
       </div>
 
-      <nav className="flex px-11 py-4 justify-between font-mont ">
-        <Link to="/">
-          <img src={logo} alt="logo img" className="w-[50%] " />
+      <nav className="flex px-11 items-center justify-between font-mont ">
+        <Link to="/" className="w-[10%]">
+          <img src={logo} alt="logo img" className="w-[100%] " />
         </Link>
         <ul className="flex gap-10 text-[12px]">
           {navLinks.map((item) => (
@@ -73,11 +87,30 @@ const Header = () => {
               <Link to={item.path}>{item.value}</Link>
             </li>
           ))}
+          {userRole === 'Admin' ? (
+            <li>
+              <Link to="/admin">Admin</Link>
+            </li>
+          ) : (
+            ''
+          )}
         </ul>
         <div className="flex gap-4 items-center">
-          <Link to="/login" className="w-[18px]">
-            <img src={login} alt="image" />
-          </Link>
+          <div>
+            {userName ? (
+              <div className="flex gap-4 items-center">
+                <p className="text-first">{userName}</p>
+                <div className="cursor-pointer w-[18px] ">
+                  <img src={logoutImage} onClick={logout} alt="image logout" />
+                </div>
+              </div>
+            ) : (
+              <Link to="/login" className="w-[18px] flex">
+                <img src={loginImage} alt="image" />
+              </Link>
+            )}
+          </div>
+
           <Link onClick={toggleSearch}>
             <img src={searchIcon} alt="icon" />
           </Link>

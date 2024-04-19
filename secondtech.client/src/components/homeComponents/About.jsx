@@ -8,33 +8,32 @@ import * as Yup from 'yup';
 import aboutBg from '../../assets/background/about.png.png';
 import { phoneSchema } from '../../schemas/validation';
 
+const showToast = (text, status) => {
+  if (status) {
+    toast.success(text, {
+      position: 'top-right',
+      autoClose: 3000,
+      hideProgressBar: false,
+      closeOnClick: true,
+      pauseOnHover: true,
+      draggable: true,
+      progress: undefined,
+      theme: 'dark',
+    });
+  } else {
+    toast.error(text, {
+      position: 'top-right',
+      autoClose: 3000,
+      hideProgressBar: false,
+      closeOnClick: true,
+      pauseOnHover: true,
+      draggable: true,
+      progress: undefined,
+      theme: 'dark',
+    });
+  }
+};
 const About = () => {
-  const showToast = (text, status) => {
-    if (status) {
-      toast.success(text, {
-        position: 'top-right',
-        autoClose: 3000,
-        hideProgressBar: false,
-        closeOnClick: true,
-        pauseOnHover: true,
-        draggable: true,
-        progress: undefined,
-        theme: 'dark',
-      });
-    } else {
-      toast.error(text, {
-        position: 'top-right',
-        autoClose: 3000,
-        hideProgressBar: false,
-        closeOnClick: true,
-        pauseOnHover: true,
-        draggable: true,
-        progress: undefined,
-        theme: 'dark',
-      });
-    }
-  };
-
   const { values, errors, touched, isSubmitting, handleBlur, handleChange, handleSubmit } =
     useFormik({
       initialValues: {

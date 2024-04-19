@@ -7,6 +7,26 @@ export const getProducts = createAsyncThunk('products/getProducts', async ({ cat
   return data;
 });
 
+export const createProducts = createAsyncThunk('products/createProducts', async (values) => {
+  const { data } = await axios.post(`${BASE_URL}/Product/create`, values);
+  return data;
+});
+
+export const updateProducts = createAsyncThunk('products/updateProducts', async (values) => {
+  const token = localStorage.getItem('token');
+  if (token) {
+    await axios.put(`${BASE_URL}/Product/update`, values, {
+      headers: {
+        Authorization: `Bearer ${token}`,
+      },
+    });
+  }
+});
+export const getAllProducts = createAsyncThunk('products/getAllProducts', async ({ category }) => {
+  const { data } = await axios.get(`${BASE_URL}/Product/getall`);
+  return data;
+});
+
 export const getProductById = createAsyncThunk('products/getProductById', async (id) => {
   const { data } = await axios.get(`${BASE_URL}/Product/get?id=${id}`);
   return data;
@@ -17,7 +37,7 @@ export const deleteProducts = createAsyncThunk('products/deleteProducts', async 
   return data;
 });
 
-const initialState = { products: [], isLoading: true, productId: 0, item: [] };
+const initialState = { products: [], isLoading: true, productId: 0, item: [], newProduct: [] };
 export const productsSlice = createSlice({
   name: 'products',
   initialState,
@@ -45,6 +65,36 @@ export const productsSlice = createSlice({
       state.isLoading = false;
       console.log('rejected');
     });
+    builder.addCase(updateProducts.pending, (state) => {
+      state.isLoading = true;
+      console.log('pending');
+    });
+
+    builder.addCase(updateProducts.fulfilled, (state, action) => {
+      state.isLoading = false;
+      console.log('succes');
+    });
+
+    builder.addCase(updateProducts.rejected, (state) => {
+      state.isLoading = false;
+      console.log('rejected');
+    });
+
+    builder.addCase(createProducts.pending, (state) => {
+      state.isLoading = true;
+      console.log('pending');
+    });
+
+    builder.addCase(createProducts.fulfilled, (state, action) => {
+      state.newProduct = action.payload;
+      state.isLoading = false;
+      console.log('succes');
+    });
+
+    builder.addCase(createProducts.rejected, (state) => {
+      state.isLoading = false;
+      console.log('rejected');
+    });
 
     builder.addCase(deleteProducts.pending, (state) => {
       state.isLoading = true;
@@ -54,9 +104,7 @@ export const productsSlice = createSlice({
     builder.addCase(deleteProducts.fulfilled, (state, action) => {
       state.isLoading = false;
       console.log('succes');
-      console.log(action);
       state.products = state.products.filter((product) => product.id !== action.meta.arg);
-      console.log('Filtered products:', state.products);
     });
 
     builder.addCase(deleteProducts.rejected, (state) => {
@@ -76,6 +124,22 @@ export const productsSlice = createSlice({
     });
 
     builder.addCase(getProductById.rejected, (state) => {
+      state.isLoading = false;
+      console.log('rejected');
+    });
+
+    builder.addCase(getAllProducts.pending, (state) => {
+      state.isLoading = true;
+      console.log('pending');
+    });
+
+    builder.addCase(getAllProducts.fulfilled, (state, action) => {
+      state.products = action.payload;
+      state.isLoading = false;
+      console.log('succes');
+    });
+
+    builder.addCase(getAllProducts.rejected, (state) => {
       state.isLoading = false;
       console.log('rejected');
     });

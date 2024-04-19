@@ -1,38 +1,40 @@
 import { useFormik } from 'formik';
-import React from 'react';
-import { Link } from 'react-router-dom';
-import { signupSchema } from '../schemas/validation';
+import React, { useState } from 'react';
+import { Link, useNavigate } from 'react-router-dom';
+import { Input } from 'antd';
 import axios from 'axios';
-import { BASE_URL } from '../utils/constants';
 import { ToastContainer, toast } from 'react-toastify';
 
-const Signup = () => {
-  const showToast = (text, status) => {
-    if (status) {
-      toast.success(text, {
-        position: 'top-right',
-        autoClose: 3000,
-        hideProgressBar: false,
-        closeOnClick: true,
-        pauseOnHover: true,
-        draggable: true,
-        progress: undefined,
-        theme: 'dark',
-      });
-    } else {
-      toast.error(text, {
-        position: 'top-right',
-        autoClose: 3000,
-        hideProgressBar: false,
-        closeOnClick: true,
-        pauseOnHover: true,
-        draggable: true,
-        progress: undefined,
-        theme: 'dark',
-      });
-    }
-  };
+import { signupSchema } from '../schemas/validation';
+import { BASE_URL } from '../utils/constants';
+const showToast = (text, status) => {
+  if (status) {
+    toast.success(text, {
+      position: 'top-right',
+      autoClose: 3000,
+      hideProgressBar: false,
+      closeOnClick: true,
+      pauseOnHover: true,
+      draggable: true,
+      progress: undefined,
+      theme: 'dark',
+    });
+  } else {
+    toast.error(text, {
+      position: 'top-right',
+      autoClose: 3000,
+      hideProgressBar: false,
+      closeOnClick: true,
+      pauseOnHover: true,
+      draggable: true,
+      progress: undefined,
+      theme: 'dark',
+    });
+  }
+};
 
+const Signup = () => {
+  const navigate = useNavigate();
   const { values, handleBlur, errors, touched, resetForm, handleChange, handleSubmit } = useFormik({
     initialValues: {
       userName: '',
@@ -41,17 +43,21 @@ const Signup = () => {
     validationSchema: signupSchema,
     onSubmit: async (values) => {
       try {
-        console.log(values);
         const { data } = await axios.post(`${BASE_URL}/User/register`, values);
-        console.log(data);
+
+        localStorage.setItem('token', data.jwt);
+        localStorage.setItem('role', data.userInfo.role);
+
         showToast('Аккаунт успешно создан ;)', true);
         resetForm();
+        navigate('/login');
       } catch (error) {
         console.log(error);
         showToast('Упс, какая то ошибка ;)', false);
       }
     },
   });
+
   return (
     <div className="bg-white py-6 sm:py-8 lg:py-12 my-[80px] ">
       <div className="mx-auto max-w-screen-2xl px-4 md:px-8">
@@ -63,18 +69,18 @@ const Signup = () => {
           <div className="flex flex-col gap-4 p-4 md:p-8">
             <div>
               <label
-                htmlFor="userName"
+                htmlhtmlFor="userName"
                 className="mb-2 inline-block text-sm text-gray-800 sm:text-base"
               >
                 Имя пользователья
               </label>
-              <input
+              <Input
                 type="text"
                 name="userName"
                 value={values.userName}
                 onChange={handleChange}
                 onBlur={handleBlur}
-                className="w-full rounded border bg-gray-50 px-3 py-2 text-gray-800 outline-none ring-first transition duration-100 focus:ring"
+                className="px-3 py-2"
               />
               {errors.userName && touched.userName ? (
                 <p className="text-[12px] text-first pt-2">{errors.userName}</p>
@@ -85,18 +91,18 @@ const Signup = () => {
 
             <div>
               <label
-                htmlFor="password"
+                htmlhtmlFor="password"
                 className="mb-2 inline-block text-sm text-gray-800 sm:text-base"
               >
                 Пароль
               </label>
-              <input
+              <Input.Password
                 name="password"
                 type="password"
                 value={values.password}
                 onChange={handleChange}
                 onBlur={handleBlur}
-                className="w-full rounded border bg-gray-50 px-3 py-2 text-gray-800 outline-none ring-first transition duration-100 focus:ring"
+                className="px-3 py-2 "
               />
               {errors.password && touched.password ? (
                 <p className="text-[12px] text-first pt-2">{errors.password}</p>

@@ -1,27 +1,17 @@
-import React, { useState } from 'react';
+import React, { useEffect } from 'react';
 import remove from '../../assets/icons/error.png';
-import { useDispatch } from 'react-redux';
-import { setProductId } from '../../redux/slices/productsSlice';
-import { useMatch } from 'react-router';
-import { deleteCart, setCount, setTotal } from '../../redux/slices/cartSlice';
-const CartItem = ({ imgUrls, name, color, storage, price, id }) => {
+import { useDispatch, useSelector } from 'react-redux';
+import { deleteCart, setCount, setOpenCart, setTotal } from '../../redux/slices/cartSlice';
+const CartItem = ({ imgUrls, name, color, storage, price, id, handleClick }) => {
   const dispatch = useDispatch();
-  const [link, setLink] = useState('');
-  let path = useMatch('*');
-  // useEffect(() => {
-  //   setLink(`${path.pathname}/${id}`);
-  // }, []);
-
-  const handleClick = () => {
-    setLink(`${path.pathname}/${id}`);
-    dispatch(setProductId(id));
-    localStorage.setItem('productId', id);
-  };
-
+  const { count, cart, openCart } = useSelector((state) => state.cart);
   const removeItem = (id) => {
     dispatch(deleteCart(id));
     dispatch(setTotal(-price));
     dispatch(setCount(-1));
+    if (cart.length === 1) {
+      dispatch(setOpenCart(!openCart));
+    }
   };
   return (
     <div>

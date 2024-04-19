@@ -8,8 +8,8 @@ import Characteristics from './Tabs/Characteristics';
 import Checkout from './Tabs/Checkout';
 import Payment from './Tabs/Payment';
 import Delivery from './Tabs/Delivery';
-import Header from '../../Layouts/Header';
-import Footer from '../../Layouts/Footer';
+import { ProductTab } from '../../utils/defaultData';
+import Collapses from './Tabs/Collapses';
 
 const ProductInfo = () => {
   const [active, setActive] = useState('Характеристики');
@@ -22,29 +22,6 @@ const ProductInfo = () => {
     window.scrollTo(0, 0);
   }, []);
 
-  const navLink = [
-    {
-      title: 'Характеристики',
-      link: 0,
-    },
-    {
-      title: 'Как оформить заказ',
-      link: 1,
-    },
-    {
-      title: 'Способы оплаты',
-      link: 2,
-    },
-    {
-      title: 'Доставка',
-      link: 3,
-    },
-    {
-      title: 'Часто задаваемые вопросы',
-      link: 5,
-    },
-  ];
-
   const handleClick = (title, i) => {
     setActive(title);
     setActiveTab(i);
@@ -52,7 +29,6 @@ const ProductInfo = () => {
 
   return (
     <>
-      <Header />
       <div className="w-[80%] m-auto my-[50px]">
         <div className="flex gap-5">
           <div className="flex-1">
@@ -64,7 +40,7 @@ const ProductInfo = () => {
         </div>
         <div>
           <div className="flex bg-[#FAFAFA] py-7 px-5 justify-between uppercase font-normal ">
-            {navLink.map((item, i) => (
+            {ProductTab.map((item, i) => (
               <button
                 key={i}
                 className="uppercase"
@@ -86,12 +62,11 @@ const ProductInfo = () => {
               {activeTab === 1 && <Checkout />}
               {activeTab === 2 && <Payment />}
               {activeTab === 3 && <Delivery />}
-              {activeTab === 4 && <p>4</p>}
+              {activeTab === 4 && <Collapses />}
             </div>
           </div>
         </div>
       </div>
-      <Footer />
     </>
   );
 };

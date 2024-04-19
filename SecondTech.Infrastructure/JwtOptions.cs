@@ -10,6 +10,6 @@ namespace SecondTech.Infrastructure
     {
 
         public string SecretKey { get; set; } = string.Empty;
-        public int ExpitesHours { get; set; }
+        public int ExpiresHours { get; set; }
     }
 }
