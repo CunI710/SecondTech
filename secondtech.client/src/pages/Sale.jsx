@@ -62,6 +62,7 @@ const Sale = () => {
         return () => clearTimeout(timeout);
       } catch (error) {
         console.error('Ошибка fetch:', error);
+        setLoading(false);
       }
     },
   });

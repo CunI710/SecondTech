@@ -82,3 +82,24 @@ body {
     transform: translate(24px, 0);
   }
 }
+
+/* App.css */
+.ant-pagination {
+  margin-top: 20px;
+}
+
+
+.ant-pagination-item {
+  border-radius: 5px;
+  border-color: #fff;
+}
+
+.ant-pagination-item-active {
+  background-color: #ea3f8b;
+  border-color: #1890ff;
+  color: #fff;
+}
+
+.ant-pagination-item-active a {
+  color: #fff;
+}

@@ -1,7 +1,7 @@
 import React from 'react';
 
 const Characteristics = ({ item }) => {
-  const { characteristics, processor, state, ram, packageContents } = item;
+  const { characteristics, processor, state, ram, packageContents, battery } = item;
 
   return (
     <div>
@@ -14,6 +14,10 @@ const Characteristics = ({ item }) => {
           <div className="flex justify-between  border-b-2 py-4">
             <p>Оперативная память</p>
             <p>{ram}</p>
+          </div>
+          <div className="flex justify-between  border-b-2 py-4">
+            <p>Емкость аккумулятора</p>
+            <p>{battery}</p>
           </div>
           <div className="flex justify-between  border-b-2 py-4">
             <p>Процессор</p>

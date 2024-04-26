@@ -1,18 +1,22 @@
 import React, { useEffect } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
-import { getProducts } from '../redux/slices/productsSlice';
+import { useTrail, animated } from 'react-spring';
 import ProductCard from '../components/productComponents/ProductCard';
 import Filter from '../components/productComponents/Filter';
+import EmptyProduct from '../components/UI/EmptyProduct';
+import MyPagination from '../components/UI/MyPagination';
 
-const Product = ({ category, banner, title }) => {
+const Product = ({ banner, title }) => {
   const dispatch = useDispatch();
-  const { products, isLoading } = useSelector((state) => state.products);
-
+  const { products, isLoading, currentPage } = useSelector((state) => state.products);
   useEffect(() => {
-    dispatch(getProducts(category));
     window.scrollTo(0, 0);
-  }, [category]);
-
+  }, [currentPage]);
+  const trail = useTrail(products.length, {
+    from: { opacity: 0, transform: 'translate3d(0, -60px, 0)' },
+    to: { opacity: 1, transform: 'translate3d(0, 0, 0)' },
+  });
+  console.log(products);
   return (
     <>
       <div className="bg-[#fcfcfc]">
@@ -29,14 +33,24 @@ const Product = ({ category, banner, title }) => {
           </div>
           <div className="flex justify-between">
             <Filter />
-            <div>search</div>
+            <div>
+              <input type="text" placeholder="iPhone 15 ..." />
+            </div>
           </div>
-          <div className="grid grid-cols-4 grid-rows-3 gap-5">
-            {products.map((item) => (
-              <ProductCard key={item.id} item={item} path={title} />
-            ))}
-          </div>
+
+          {products.length > 0 ? (
+            <div className="grid grid-cols-4 grid-rows-3 gap-5">
+              {trail.map((style, index) => (
+                <animated.div key={products[index].id} style={style}>
+                  <ProductCard item={products[index]} path={title} />
+                </animated.div>
+              ))}
+            </div>
+          ) : (
+            <EmptyProduct />
+          )}
         </div>
+        <MyPagination />
       </div>
     </>
   );

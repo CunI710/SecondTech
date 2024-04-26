@@ -53,6 +53,11 @@ export const addProductSchema = yup.object().shape({
   description: yup.string().required('Введите описание товара'),
   battery: yup.string().required('Введите информацию о батарее'),
   price: yup.string().required('Введите цену товара'),
+  imgUrls: yup.array().of(
+    yup.object().shape({
+      url: yup.string().url('Введите корректный URL изображения').required('Это обязательное поле'),
+    }),
+  ),
   // imgUrls: yup.array().of(yup.string()).required('Введите ссылки на картинки'),
   ram: yup.string().required('Выберите объем оперативной памяти'),
   storage: yup.string().required('Выберите объем памяти'),

@@ -1,4 +1,5 @@
 export const phoneBrands = [
+  'Бренд',
   'Apple',
   'Samsung',
   'Huawei',
@@ -21,6 +22,7 @@ export const states = [
 ];
 
 export const laptopBrands = [
+  'Бренд',
   'Lenovo',
   'HP',
   'Dell',
@@ -33,6 +35,7 @@ export const laptopBrands = [
 ];
 
 export const tabletBrands = [
+  'Бренд',
   'Apple',
   'Samsung',
   'Lenovo',
@@ -78,11 +81,7 @@ export const initialValues = {
   price: '',
   description: '',
   state: 'Новое',
-  imgUrls: [
-    {
-      url: '',
-    },
-  ],
+  imgUrls: [],
   color: {
     name: 'Черный',
   },

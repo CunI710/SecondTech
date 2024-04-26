@@ -2,14 +2,23 @@ import { createAsyncThunk, createSlice } from '@reduxjs/toolkit';
 import { BASE_URL } from '../../utils/constants';
 import axios from 'axios';
 
-export const getProducts = createAsyncThunk('products/getProducts', async ({ category }) => {
-  const { data } = await axios.get(`${BASE_URL}/Product/filtr?category=${category}`);
+export const getProducts = createAsyncThunk('products/getProducts', async (filters) => {
+  console.log(filters);
+  const brand = filters.brand && filters.brand !== 'Бренд' ? `&brand=${filters.brand}` : '';
+  const color = filters.color && filters.color !== 'Цвет' ? `&color=${filters.color}` : '';
+  const { data } = await axios.get(
+    `${BASE_URL}/Product/filtr?page=${filters.currentPage}&category=${filters.category}${brand}${color}`,
+  );
   return data;
 });
 
 export const createProducts = createAsyncThunk('products/createProducts', async (values) => {
-  const { data } = await axios.post(`${BASE_URL}/Product/create`, values);
-  return data;
+  try {
+    const { data } = await axios.post(`${BASE_URL}/Product/create`, values);
+    return data;
+  } catch (error) {
+    throw error;
+  }
 });
 
 export const updateProducts = createAsyncThunk('products/updateProducts', async (values) => {
@@ -37,7 +46,15 @@ export const deleteProducts = createAsyncThunk('products/deleteProducts', async 
   return data;
 });
 
-const initialState = { products: [], isLoading: true, productId: 0, item: [], newProduct: [] };
+const initialState = {
+  products: [],
+  isLoading: true,
+  productId: 0,
+  item: [],
+  newProduct: [],
+  currentPage: 1,
+  totalPage: 1,
+};
 export const productsSlice = createSlice({
   name: 'products',
   initialState,
@@ -47,6 +64,9 @@ export const productsSlice = createSlice({
     },
     setProductId: (state, action) => {
       state.productId = action.payload;
+    },
+    setCurrentPage: (state, action) => {
+      state.currentPage = action.payload;
     },
   },
   extraReducers: (builder) => {
@@ -79,21 +99,18 @@ export const productsSlice = createSlice({
       state.isLoading = false;
       console.log('rejected');
     });
-
     builder.addCase(createProducts.pending, (state) => {
       state.isLoading = true;
-      console.log('pending');
     });
 
     builder.addCase(createProducts.fulfilled, (state, action) => {
-      state.newProduct = action.payload;
       state.isLoading = false;
-      console.log('succes');
+      state.newProduct = action.payload;
     });
 
-    builder.addCase(createProducts.rejected, (state) => {
+    builder.addCase(createProducts.rejected, (state, action) => {
+      state.error = action.error.message; // Assuming action.error.message contains the error message
       state.isLoading = false;
-      console.log('rejected');
     });
 
     builder.addCase(deleteProducts.pending, (state) => {
@@ -146,6 +163,6 @@ export const productsSlice = createSlice({
   },
 });
 
-export const { setProducts, setProductId } = productsSlice.actions;
+export const { setProducts, setProductId, setCurrentPage } = productsSlice.actions;
 
 export default productsSlice.reducer;

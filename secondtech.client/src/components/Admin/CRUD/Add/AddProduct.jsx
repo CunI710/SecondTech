@@ -19,9 +19,10 @@ import { addProductSchema } from '../../../../schemas/validation';
 import Loading from '../../../UI/Loading';
 
 const AddProduct = () => {
-  const [list, setList] = useState([0]);
-  const [packageList, setPackageList] = useState([]);
-  const [imgLinks, setImgLinks] = useState([]);
+  const [list, setList] = useState(['']);
+  const [imageUrls, setImageUrls] = useState(['']);
+  const [packageList, setPackageList] = useState(['']);
+
   const dispatch = useDispatch();
   const { isLoading } = useSelector((state) => state.products);
   const {
@@ -33,56 +34,80 @@ const AddProduct = () => {
     handleBlur,
     handleChange,
     handleSubmit,
+    setValues,
   } = useFormik({
     initialValues: initialValues,
     validationSchema: addProductSchema,
     onSubmit: async (values) => {
       console.log(values);
+
       dispatch(createProducts(values));
-      resetForm();
+      // resetForm();
     },
   });
-  console.log(errors);
-  const isDelete = (index) => {
+  console.log(isLoading);
+  const addPackage = (e, index) => {
+    values.packageContents[index] = {
+      content: e.target.value,
+      category: { name: values.category.name },
+    };
+  };
+  const handleAddPackage = () => {
+    setPackageList([...packageList, '']);
+  };
+
+  const handleRemovePackage = (index) => {
+    if (packageList.length !== 1) {
+      const updatedValues = [...values.packageContents];
+      updatedValues.splice(index, 1);
+      setValues({
+        ...values,
+        packageContents: updatedValues,
+      });
+      console.log('val after', values.packageContents);
+      console.log('update after', updatedValues);
+      setPackageList(updatedValues);
+    }
+  };
+
+  const deleteCharacteristic = (index) => {
     if (list.length > 1) {
       setList(list.filter((_, i) => i !== index));
       values.characteristics.splice(index, 1);
     }
   };
 
-  const isAdd = (index) => {
+  const addCharacteristic = (index) => {
     const newValue = index;
     if (!list.includes(newValue)) {
       setList([...list, newValue]);
     }
   };
 
-  const addPackage = (e) => {
-    if (e.target.value !== '') {
-      setPackageList(e.target.value.trim().split(','));
-      packageList.forEach((element, index) => {
-        values.packageContents[index] = {
-          content: element,
-          category: { name: values.category.name },
-        };
-      });
-    }
-  };
-
-  const imgChange = (e) => {
-    setImgLinks(e.target.value.trim().split(','));
-    imgLinks.forEach((element, index) => {
-      values.imgUrls[index] = {
-        url: element,
-      };
-    });
-  };
-
   const reset = () => {
     resetForm();
     setList([0]);
     setPackageList([]);
-    setImgLinks([]);
+  };
+
+  const handleAddInput = () => {
+    setImageUrls([...imageUrls, '']);
+  };
+
+  const handleRemoveInput = (index) => {
+    if (imageUrls.length !== 1) {
+      // Создаем копию массива
+      const updatedValues = [...values.imgUrls];
+      // Удаляем элемент по индексу
+      updatedValues.splice(index, 1);
+      // Устанавливаем новое значение для imgUrls
+      setValues({
+        ...values,
+        imgUrls: updatedValues,
+      });
+      // Обновляем imageUrls
+      setImageUrls(updatedValues);
+    }
   };
 
   return (
@@ -187,6 +212,22 @@ const AddProduct = () => {
         </div>
 
         <div className="flex items-center gap-4">
+          <label htmlFor="model" className="flex-[2]">
+            Модель:
+          </label>
+          <input
+            type="text"
+            name="model"
+            id="model"
+            value={values.model}
+            onChange={handleChange}
+            onBlur={handleBlur}
+            className="w-[100%] border py-1 px-2 flex-[8]"
+            placeholder="iPhone"
+          />
+        </div>
+
+        <div className="flex items-center gap-4">
           <label htmlFor="processor" className="flex-[2]">
             Процессор:
           </label>
@@ -250,18 +291,45 @@ const AddProduct = () => {
         </div>
 
         <div className="flex items-center gap-4">
-          <label htmlFor="imgUrls" className="flex-[2]">
-            Ссылка на картинку:
+          <label htmlFor="img" className="flex-[2] flex items-center gap-2">
+            Ссылки на картинку:
+            <svg
+              onClick={handleAddInput}
+              xmlns="http://www.w3.org/2000/svg"
+              x="0px"
+              y="0px"
+              className="w-[40px] cursor-pointer"
+              viewBox="0 0 50 50"
+            >
+              <path d="M 25 2 C 12.309295 2 2 12.309295 2 25 C 2 37.690705 12.309295 48 25 48 C 37.690705 48 48 37.690705 48 25 C 48 12.309295 37.690705 2 25 2 z M 25 4 C 36.609824 4 46 13.390176 46 25 C 46 36.609824 36.609824 46 25 46 C 13.390176 46 4 36.609824 4 25 C 4 13.390176 13.390176 4 25 4 z M 24 13 L 24 24 L 13 24 L 13 26 L 24 26 L 24 37 L 26 37 L 26 26 L 37 26 L 37 24 L 26 24 L 26 13 L 24 13 z"></path>
+            </svg>
           </label>
-          <input
-            type="text"
-            name="imgUrls"
-            id="imgUrls"
-            value={imgLinks.url}
-            onChange={(e) => imgChange(e)}
-            onBlur={handleBlur}
-            className="w-[100%] border py-1 px-2 flex-[8]"
-          />
+
+          <div className="flex flex-col  flex-[8]">
+            {imageUrls.map((item, index) => (
+              <div className="flex items-center gap-3" key={index}>
+                <svg
+                  onClick={() => handleRemoveInput(index)}
+                  xmlns="http://www.w3.org/2000/svg"
+                  x="0px"
+                  y="0px"
+                  className="w-[20px] cursor-pointer"
+                  viewBox="0 0 50 50"
+                >
+                  <path d="M 7.71875 6.28125 L 6.28125 7.71875 L 23.5625 25 L 6.28125 42.28125 L 7.71875 43.71875 L 25 26.4375 L 42.28125 43.71875 L 43.71875 42.28125 L 26.4375 25 L 43.71875 7.71875 L 42.28125 6.28125 L 25 23.5625 Z"></path>
+                </svg>
+                <input
+                  id="img"
+                  name={`imgUrls[${index}].url`}
+                  type="text"
+                  placeholder="Наушники"
+                  value={item.url}
+                  onChange={handleChange}
+                  className="w-[100%] border py-1 px-2 "
+                />
+              </div>
+            ))}
+          </div>
         </div>
 
         <div className="flex items-center gap-4">
@@ -341,19 +409,43 @@ const AddProduct = () => {
         </div>
 
         <div className="flex items-center gap-4">
-          <label htmlFor="packageContents" className="flex-[2]">
+          <label htmlFor="packageContents" className="flex-[2] flex items-center gap-2">
             Комплектация:
+            <svg
+              onClick={handleAddPackage}
+              xmlns="http://www.w3.org/2000/svg"
+              x="0px"
+              y="0px"
+              className="w-[20px] cursor-pointer"
+              viewBox="0 0 50 50"
+            >
+              <path d="M 25 2 C 12.309295 2 2 12.309295 2 25 C 2 37.690705 12.309295 48 25 48 C 37.690705 48 48 37.690705 48 25 C 48 12.309295 37.690705 2 25 2 z M 25 4 C 36.609824 4 46 13.390176 46 25 C 46 36.609824 36.609824 46 25 46 C 13.390176 46 4 36.609824 4 25 C 4 13.390176 13.390176 4 25 4 z M 24 13 L 24 24 L 13 24 L 13 26 L 24 26 L 24 37 L 26 37 L 26 26 L 37 26 L 37 24 L 26 24 L 26 13 L 24 13 z"></path>
+            </svg>
           </label>
           <div className="flex-[8]">
-            <input
-              type="text"
-              id="packageContents"
-              name="packageContents"
-              placeholder="Наушники, чехол, ..."
-              value={packageList.content}
-              onChange={(e) => addPackage(e)}
-              className="w-[100%] border px-1 py-1 flex-[8]"
-            />
+            {packageList.map((item, index) => (
+              <div className="flex items-center gap-3" key={index}>
+                <svg
+                  onClick={() => handleRemovePackage(index)}
+                  xmlns="http://www.w3.org/2000/svg"
+                  x="0px"
+                  y="0px"
+                  className="w-[20px] cursor-pointer"
+                  viewBox="0 0 50 50"
+                >
+                  <path d="M 7.71875 6.28125 L 6.28125 7.71875 L 23.5625 25 L 6.28125 42.28125 L 7.71875 43.71875 L 25 26.4375 L 42.28125 43.71875 L 43.71875 42.28125 L 26.4375 25 L 43.71875 7.71875 L 42.28125 6.28125 L 25 23.5625 Z"></path>
+                </svg>
+                <input
+                  type="text"
+                  id="packageContents"
+                  name={`packageContents[${index}].content`}
+                  placeholder="Наушники..."
+                  value={item.content}
+                  onChange={(e) => addPackage(e, index)}
+                  className="w-[100%] border px-1 py-1 flex-[8]"
+                />
+              </div>
+            ))}
           </div>
         </div>
 
@@ -365,7 +457,7 @@ const AddProduct = () => {
             {list.map((char, index) => (
               <div className="flex items-center gap-3" key={index}>
                 <svg
-                  onClick={() => isAdd(index + 1)}
+                  onClick={() => addCharacteristic(index + 1)}
                   xmlns="http://www.w3.org/2000/svg"
                   x="0px"
                   y="0px"
@@ -375,7 +467,7 @@ const AddProduct = () => {
                   <path d="M 25 2 C 12.309295 2 2 12.309295 2 25 C 2 37.690705 12.309295 48 25 48 C 37.690705 48 48 37.690705 48 25 C 48 12.309295 37.690705 2 25 2 z M 25 4 C 36.609824 4 46 13.390176 46 25 C 46 36.609824 36.609824 46 25 46 C 13.390176 46 4 36.609824 4 25 C 4 13.390176 13.390176 4 25 4 z M 24 13 L 24 24 L 13 24 L 13 26 L 24 26 L 24 37 L 26 37 L 26 26 L 37 26 L 37 24 L 26 24 L 26 13 L 24 13 z"></path>
                 </svg>
                 <svg
-                  onClick={() => isDelete(index)}
+                  onClick={() => deleteCharacteristic(index)}
                   xmlns="http://www.w3.org/2000/svg"
                   x="0px"
                   y="0px"
@@ -405,27 +497,26 @@ const AddProduct = () => {
             ))}
           </div>
         </div>
-
-        {!isLoading ? (
-          <div className="flex items-center gap-4 justify-center text-white mt-5">
-            <Link
-              onClick={reset}
-              className="bg-black w-[20%] py-3 px-[60px] rounded-full  font-semibold "
-            >
-              Очистить
-            </Link>
-            <button
-              type="submit"
-              className="bg-first w-[25%] py-3 px-[60px] rounded-full  font-semibold "
-            >
-              Создать товар
-            </button>
-          </div>
-        ) : (
+        {/* {isLoading ? ( */}
+        <div className="flex items-center gap-4 justify-center text-white mt-5">
+          <Link
+            onClick={reset}
+            className="bg-black w-[20%] py-3 px-[60px] rounded-full  font-semibold "
+          >
+            Очистить
+          </Link>
+          <button
+            type="submit"
+            className="bg-first w-[25%] py-3 px-[60px] rounded-full  font-semibold "
+          >
+            Создать товар
+          </button>
+        </div>
+        {/* ) : (
           <div className="text-center">
             <Loading />
           </div>
-        )}
+        )} */}
       </form>
     </div>
   );

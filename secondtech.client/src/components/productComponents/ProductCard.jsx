@@ -1,7 +1,7 @@
 import React, { useEffect, useState } from 'react';
 import { Link, useMatch } from 'react-router-dom';
 import { useDispatch, useSelector } from 'react-redux';
-import { setProductId } from '../../redux/slices/productsSlice';
+
 import { setCart, setCount, setTotal } from '../../redux/slices/cartSlice';
 
 const ProductCard = ({ item }) => {
@@ -10,7 +10,6 @@ const ProductCard = ({ item }) => {
   const dispatch = useDispatch();
   const { cart } = useSelector((state) => state.cart);
   const handleClick = () => {
-    // dispatch(setProductId(id));
     localStorage.setItem('productId', id);
   };
 
@@ -23,33 +22,54 @@ const ProductCard = ({ item }) => {
   };
 
   return (
-    <div className="bg-[#fff] flex transition-shadow duration-300 hover:shadow-lg  flex-col items-center border-none rounded-[10px] p-[26px] gap-3 justify-between text-center w-[265px] leading-[19.2p]">
-      <div className="flex items-center h-[200px] overflow-hidden">
-        <img src={imgUrls[0].url} alt="product image" className="w-[210px]" />
+    <div className="bg-[#fff] flex transition-shadow duration-300 hover:shadow-2xl  flex-col items-start border-none rounded-[20px] p-[26px] gap-5 justify-between text-center w-[265px] h-[100%]">
+      <div className="flex items-center h-[250px] overflow-hidden  rounded-[10px]">
+        <img
+          src={imgUrls[0].url}
+          alt="product image"
+          className="w-[210px] transition-scale duration-300 hover:scale-105"
+        />
       </div>
-      <Link to={`${path.pathname}/${id}`} onClick={() => handleClick()}>
-        <p className="font-normal text-[14px] h-[50px]">
-          {name} {storage} {color.name}
-        </p>
-      </Link>
-      <p className="text-[18px]">{price} сом</p>
+
       <Link
-        // onClick={() => addCart(item)}
-        onClick={() => handleClick()}
         to={`${path.pathname}/${id}`}
-        className="cursor-pointer text-[13px] bg-first rounded-full w-[100%] text-[#fff] font-bold py-[15px]"
+        onClick={() => handleClick()}
+        className="flex flex-col gap-2 items-start"
       >
-        В корзину
+        <p className="font-medium text-[16px]">{name}</p>
+        <p className="text-[14px] font-light">{price} сом</p>
       </Link>
-      <button>
+
+      <div className="flex flex-col gap-2 items-start">
+        <div className="flex flex-col gap-1 items-start">
+          <p className="text-[12px] font-light">Цвет</p>
+          <p className="border-[0.5px] border-black text-[12px] py-1 px-2 font-normal">
+            {color.name}
+          </p>
+        </div>
+        <div className="flex flex-col gap-1 items-start">
+          <p className="text-[12px] font-light">Память</p>
+          <p className="border-[0.5px] border-black text-[12px] py-1 px-2 font-normal">{storage}</p>
+        </div>
+      </div>
+
+      <div className="flex flex-col gap-2 w-[100%]">
+        <Link
+          onClick={() => handleClick()}
+          to={`${path.pathname}/${id}`}
+          className="text-[13px] bg-first font-medium rounded-full w-[100%] text-[#fff] py-[15px]"
+        >
+          В корзину
+        </Link>
+
         <Link
           to="/order"
-          className="text-[13px] text-first font-normal"
+          className="text-[13px] bg-black font-medium   rounded-full w-[100%] text-[#fff] py-[15px]"
           onClick={() => addCart(item)}
         >
           Купить в один клик
         </Link>
-      </button>
+      </div>
     </div>
   );
 };
