@@ -31,10 +31,10 @@ builder.Services.AddSwaggerGen();
 builder.Services.AddCors();
 
 
-builder.Services.AddDbContext<SecondTechDBContext>(
-        options =>
+builder.Services.AddDbContext<SecondTechDBContext>( // Метод который добавляет базу данных
+        options => 
         {
-            options.UseSqlite("Data Source=helloapp.db");
+            options.UseSqlite("Data Source=helloapp.db"); // ссылка на базу данных
         }
 );
 
